@@ -5,6 +5,9 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Scenes/LoginMenu.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
@@ -15,6 +18,9 @@ EditorBuildSettings:
     path: Assets/Scenes/CreateMatchMenu.unity
     guid: 3ec467b1b2addc347a3892ae1d2f7d72
   - enabled: 1
+    path: Assets/Scenes/Game.unity
+    guid: 23cbded5bc14524468a7227d139ea6b2
+  - enabled: 1
     path: Assets/Scenes/GameSettingsMenu.unity
     guid: 145af139df44860459e5215f87c66d83
   - enabled: 1
@@ -24,9 +30,9 @@ EditorBuildSettings:
     path: Assets/Scenes/RegisterMenu.unity
     guid: 18cd8377de1fd7c41985d57ce24d53cc
   - enabled: 1
-    path: Assets/Scenes/SearchMatchMenu.unity
-    guid: d4d282a6d3c085947be6be71bb1f8a1a
-  - enabled: 1
     path: Assets/Scenes/RoomMenu.unity
     guid: ce801f490a37c4d438da1272a22abf75
+  - enabled: 1
+    path: Assets/Scenes/SearchMatchMenu.unity
+    guid: d4d282a6d3c085947be6be71bb1f8a1a
   m_configObjects: {}

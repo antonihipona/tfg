@@ -42,6 +42,14 @@ public class UIRoomManager : MonoBehaviourPunCallbacks
         }
     }
 
+    public void OnClickStartGame()
+    {
+        // Load the game for every player
+        if (PhotonNetwork.IsMasterClient)
+
+            PhotonNetwork.LoadLevel("Game");
+    }
+
     public void OnClickBack()
     {
         PhotonNetwork.LeaveRoom();

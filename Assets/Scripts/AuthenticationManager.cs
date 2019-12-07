@@ -26,6 +26,7 @@ public class AuthenticationManager : MonoBehaviour
     public void OnLoginSuccess(LoginResult result)
     {
         Debug.Log("Login success.");
+        PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.ConnectUsingSettings();
         PhotonNetwork.NickName = Username;
     }
