@@ -417,6 +417,7 @@ GameObject:
   - component: {fileID: -2124712796082429517}
   - component: {fileID: -7513677373690873522}
   - component: {fileID: -2554142675884023232}
+  - component: {fileID: 3356513534379996525}
   - component: {fileID: 6939047026142200521}
   m_Layer: 0
   m_Name: TankPrefab
@@ -490,6 +491,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f956e764b38ee147987950d5cbbb973, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerUIPrefab: {fileID: 1233208200653282928, guid: 1c0ff5fdfc3d5d84c8efe840f1903f1b,
+    type: 3}
+--- !u!114 &3356513534379996525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7018743246671986319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b83983133a9d8094b9083d147bce297f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxLife: 10
+  currentLife: 10
+  speed: 5
+  rotationSpeed: 100
+  shootDamage: 2
+  bombDamage: 5
 --- !u!54 &6939047026142200521
 Rigidbody:
   m_ObjectHideFlags: 0

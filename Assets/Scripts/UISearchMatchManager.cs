@@ -42,7 +42,7 @@ public class UISearchMatchManager : UIBase
 
             matchName.text = room.Name;
             players.text = room.PlayerCount + "/" + room.MaxPlayers;
-            mapType.text = room.CustomProperties["mapType"].ToString();
+            mapType.text = ((MapType)room.CustomProperties["mapType"]).ToString();
 
             horizontalLayoutGroup.transform.SetParent(listContent.transform, false);
             matchName.transform.SetParent(horizontalLayoutGroup.transform, false);

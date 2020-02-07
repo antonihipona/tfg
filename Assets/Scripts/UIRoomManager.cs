@@ -38,6 +38,7 @@ public class UIRoomManager : MonoBehaviourPunCallbacks
         {
             TMPro.TextMeshProUGUI username = Instantiate(textPrefab);
             username.text = player.NickName;
+            if (player.IsMasterClient) username.text += " (room owner)";
             username.transform.SetParent(playersGroup.transform, false);
         }
     }

@@ -11,8 +11,8 @@ public class CustomGameManager : MonoBehaviourPunCallbacks
     public TMPro.TextMeshProUGUI textCountdown;
     public bool gameStarted { get; private set; }
 
-
     private GameObject localPlayer;
+
     private double spawnTime;
     private bool spawned;
     void Start()

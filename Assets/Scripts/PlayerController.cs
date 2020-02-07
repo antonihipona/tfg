@@ -3,17 +3,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(PlayerStats))]
 public class PlayerController : MonoBehaviourPunCallbacks
 {
+    public GameObject PlayerUIPrefab;
 
     private Color[] myColors;
 
     private CustomGameManager gameManager;
-    // Start is called before the first frame update
+    private PlayerStats playerStats;
+
     void Start()
     {
         SetPlayerColor();
+        playerStats = GetComponent<PlayerStats>();
         gameManager = FindObjectOfType<CustomGameManager>();
+        if (PlayerUIPrefab != null)
+        {
+            GameObject _uiGo = Instantiate(PlayerUIPrefab);
+            _uiGo.GetComponent<PlayerUI>().SetTarget(this);
+        }
+        else
+        {
+            Debug.LogWarning("<Color=Red><a>Missing</a></Color> PlayerUiPrefab reference on player Prefab.", this);
+        }
     }
 
     private void SetPlayerColor()
@@ -47,15 +60,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (gameManager.gameStarted)
         {
             if (photonView.IsMine)
             {
-                float v = Input.GetAxis("Vertical") * 10 * Time.deltaTime;
-                float h = Input.GetAxis("Horizontal") * 100 * Time.deltaTime;
+                float v = Input.GetAxis("Vertical") * playerStats.speed * Time.deltaTime;
+                float h = Input.GetAxis("Horizontal") * playerStats.rotationSpeed * Time.deltaTime;
                 // Translate in the forward direction of the first child (chasis)
                 transform.Translate(transform.GetChild(0).forward * v);
                 // Rotate everything but the last child (turret)
