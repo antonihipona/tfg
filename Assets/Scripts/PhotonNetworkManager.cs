@@ -40,7 +40,6 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks, IInRoomCallbacks
         }
     }
 
-
     public override void OnJoinedLobby()
     {
         SceneManager.LoadScene("SearchMatchMenu");
@@ -85,6 +84,10 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks, IInRoomCallbacks
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         this.roomList = roomList;
+
+        UISearchMatchManager manager = FindObjectOfType<UISearchMatchManager>();
+        if (manager != null)
+            manager.UpdateUI();
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -133,4 +136,6 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks, IInRoomCallbacks
             }
         }
     }
+
+    
 }

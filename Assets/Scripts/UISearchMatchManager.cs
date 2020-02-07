@@ -12,8 +12,18 @@ public class UISearchMatchManager : UIBase
     public Button btnJoinPrefab;
     public HorizontalLayoutGroup horizontalLayoutGroupPrefab;
 
+
     public void Start()
     {
+        UpdateUI();
+    }
+
+    public void UpdateUI()
+    {
+        var filter = inputSearch.text.Trim();
+        if (filter.Length == 0)
+            filter = "";
+
         foreach (Transform child in listContent.transform)
         {
             Destroy(child.gameObject);
@@ -21,6 +31,9 @@ public class UISearchMatchManager : UIBase
         // Add content
         foreach (RoomInfo room in PhotonNetworkManager.instance.roomList)
         {
+            if (!room.Name.Contains(filter))
+                continue;
+
             TMPro.TextMeshProUGUI matchName = Instantiate(textPrefab);
             TMPro.TextMeshProUGUI players = Instantiate(textPrefab);
             TMPro.TextMeshProUGUI mapType = Instantiate(textPrefab);
@@ -36,7 +49,7 @@ public class UISearchMatchManager : UIBase
             players.transform.SetParent(horizontalLayoutGroup.transform, false);
             mapType.transform.SetParent(horizontalLayoutGroup.transform, false);
             btnJoin.onClick.AddListener(delegate { joinRoom(matchName.text); });
-            btnJoin.transform.SetParent(horizontalLayoutGroup.transform, false);      
+            btnJoin.transform.SetParent(horizontalLayoutGroup.transform, false);
         }
     }
 
@@ -46,7 +59,7 @@ public class UISearchMatchManager : UIBase
     }
     public void OnClickSearch()
     {
-        // DoSearch(inputSearch.text);
+        UpdateUI();
     }
 
     public void OnClickBack()
