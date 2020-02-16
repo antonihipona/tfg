@@ -16,8 +16,12 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks, IInRoomCallbacks
     void Awake()
     {
         if (instance != null)
+        {
             Destroy(this.gameObject);
+            return;
+        }
         instance = this;
+        instance.roomList = new List<RoomInfo>();
         DontDestroyOnLoad(this.gameObject);
     }
 
@@ -66,6 +70,9 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
+        UICreateMatch uiLoginManager = FindObjectOfType<UICreateMatch>();
+        if (uiLoginManager != null)
+            uiLoginManager.textError.text = message;
         Debug.LogError("PUN: OnCreateRoomFailed() called by PUN. " + message);
     }
 
@@ -83,8 +90,7 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-        this.roomList = roomList;
-
+        UpdateCachedRoomList(roomList);
         UISearchMatchManager manager = FindObjectOfType<UISearchMatchManager>();
         if (manager != null)
             manager.UpdateUI();
@@ -137,5 +143,22 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks, IInRoomCallbacks
         }
     }
 
-    
+    private void UpdateCachedRoomList(List<RoomInfo> roomList) // Source https://forum.photonengine.com/discussion/12782/pun-2-problem
+    {
+        foreach (RoomInfo room in roomList)
+        {
+            // Remove room from cached room list if it got closed, became invisible or was marked as removed
+            if (!room.IsOpen || !room.IsVisible || room.RemovedFromList)
+            {
+                if (instance.roomList.Contains(room))
+                {
+                    instance.roomList.Remove(room);
+                }
+                continue;
+            }
+            if (instance.roomList.Contains(room))
+                instance.roomList.Remove(room);
+            instance.roomList.Add(room);
+        }
+    }
 }

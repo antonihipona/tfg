@@ -33,6 +33,7 @@ public class UISearchMatchManager : UIBase
         {
             if (!room.Name.Contains(filter))
                 continue;
+            if (room.PlayerCount == room.MaxPlayers) continue; // We don't want to display full rooms
 
             TMPro.TextMeshProUGUI matchName = Instantiate(textPrefab);
             TMPro.TextMeshProUGUI players = Instantiate(textPrefab);

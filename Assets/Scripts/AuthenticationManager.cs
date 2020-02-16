@@ -12,6 +12,9 @@ public class AuthenticationManager : MonoBehaviour
 
     public string Username { get; set; }
     public bool InRoom { get; set; }
+
+    public string loginErrorMessage;
+
     void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
@@ -34,6 +37,14 @@ public class AuthenticationManager : MonoBehaviour
     public void OnLoginFailure(PlayFabError error)
     {
         Debug.LogError(error.GenerateErrorReport());
+        loginErrorMessage = "";
+        var details = error.ErrorDetails;
+        if (details != null)
+            foreach (var list in details.Values)
+                loginErrorMessage += list[0];
+        else
+            loginErrorMessage = error.ErrorMessage;
         SceneManager.LoadScene("LoginMenu");
     }
+
 }

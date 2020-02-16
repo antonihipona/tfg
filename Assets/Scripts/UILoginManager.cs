@@ -3,6 +3,7 @@ using Photon.Pun;
 using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class UILoginManager : UIBase
@@ -10,7 +11,12 @@ public class UILoginManager : UIBase
 
     public TMPro.TMP_InputField inputUsername;
     public TMPro.TMP_InputField inputPassword;
+    public Text errorText;
 
+    private void Start()
+    {
+        DisplayErrors(AuthenticationManager.instance.loginErrorMessage);
+    }
 
 
     public void OnClickLogin()
@@ -33,5 +39,8 @@ public class UILoginManager : UIBase
         SceneManager.LoadScene("RegisterMenu");
     }
 
-
+    public void DisplayErrors(string errors)
+    {
+        errorText.text = errors;
+    }
 }

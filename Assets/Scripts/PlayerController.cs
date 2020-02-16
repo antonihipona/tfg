@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerStats))]
-public class PlayerController : MonoBehaviourPunCallbacks
+public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 {
     public GameObject PlayerUIPrefab;
 
@@ -13,19 +13,21 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private CustomGameManager gameManager;
     private PlayerStats playerStats;
 
+    private Vector3 movement;
+    private Vector3 networkPosition;
+    private Quaternion networkRotationChasis;
     void Start()
     {
         SetPlayerColor();
         playerStats = GetComponent<PlayerStats>();
         gameManager = FindObjectOfType<CustomGameManager>();
+        transform.GetChild(0).rotation = transform.rotation;
+        transform.GetChild(1).rotation = transform.rotation;
+
         if (PlayerUIPrefab != null)
         {
             GameObject _uiGo = Instantiate(PlayerUIPrefab);
             _uiGo.GetComponent<PlayerUI>().SetTarget(this);
-        }
-        else
-        {
-            Debug.LogWarning("<Color=Red><a>Missing</a></Color> PlayerUiPrefab reference on player Prefab.", this);
         }
     }
 
@@ -62,38 +64,38 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     void Update()
     {
+        if (!photonView.IsMine)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, networkPosition, Time.deltaTime * playerStats.speed);
+            transform.GetChild(0).rotation = Quaternion.RotateTowards(transform.GetChild(0).rotation, networkRotationChasis, Time.deltaTime * playerStats.rotationSpeed);
+        }
         if (gameManager.gameStarted)
         {
+
             if (photonView.IsMine)
             {
+                Vector3 oldPosition = transform.position;
                 float v = Input.GetAxis("Vertical") * playerStats.speed * Time.deltaTime;
                 float h = Input.GetAxis("Horizontal") * playerStats.rotationSpeed * Time.deltaTime;
+
                 // Translate in the forward direction of the first child (chasis)
-                transform.Translate(transform.GetChild(0).forward * v);
-                // Rotate everything but the last child (turret)
-                for (int i = 0; i < transform.childCount - 1; i++)
-                {
-                    transform.GetChild(i).Rotate(0, h, 0);
-                }
+                if (v >= 0)
+                    transform.Translate(transform.GetChild(0).forward * v);
+                movement = transform.position - oldPosition;
+
+                // Rotate the firt child (chasis)
+                transform.GetChild(0).Rotate(0, h, 0);
+
             }
+
         }
-#if false
-        float v2 = Input.GetAxis("Vertical") * 10 * Time.deltaTime;
-        float h2 = Input.GetAxis("Horizontal") * 100 * Time.deltaTime;
-        // Translate in the forward direction of the first child (chasis)
-        transform.Translate(transform.GetChild(0).forward * v2);
-        // Rotate everything but the last child (turret)
-        for (int i = 0; i < transform.childCount - 1; i++)
-        {
-            transform.GetChild(i).Rotate(0, h2, 0);
-        }
-#endif
     }
 
     [PunRPC]
     void ChangeColor(Vector3[] colors, PhotonMessageInfo info)
     {
-        if (photonView.Owner.Equals(info.Sender)){
+        if (photonView.Owner.Equals(info.Sender))
+        {
             Renderer[] renderers = gameObject.GetComponentsInChildren<Renderer>();
             for (int i = 0; i < renderers.Length; i++)
             {
@@ -102,15 +104,25 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     mat.color = new Color(colors[i].x, colors[i].y, colors[i].z, 1.0f);
                 }
             }
+        }
+    }
 
-            //Renderer[] renderers = gameObject.GetComponentsInChildren<Renderer>();
-            //foreach (Renderer r in renderers)
-            //{
-            //    foreach (Material mat in r.materials)
-            //    {
-            //        mat.color = new Color(color.x, color.y, color.z, 1.0f);
-            //    }
-            //}
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.GetChild(0).rotation); // Chasis
+            stream.SendNext(movement);
+        }
+        else
+        {
+            networkPosition = (Vector3)stream.ReceiveNext();
+            networkRotationChasis = (Quaternion)stream.ReceiveNext(); // Chasis
+            movement = (Vector3)stream.ReceiveNext();
+
+            float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
+            networkPosition += (movement * lag);
         }
     }
 }

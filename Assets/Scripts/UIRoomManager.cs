@@ -54,7 +54,7 @@ public class UIRoomManager : MonoBehaviourPunCallbacks
     public void OnClickBack()
     {
         PhotonNetwork.LeaveRoom();
-        SceneManager.LoadScene("CreateMatchMenu");
+        SceneManager.LoadScene("MainMenu");
     }
 
 
