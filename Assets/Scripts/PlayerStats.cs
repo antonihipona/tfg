@@ -12,11 +12,15 @@ public class PlayerStats : MonoBehaviour
     public float rotationSpeed = 100;
     public float shootDamage = 2;
     public float bombDamage = 5;
+    public float turretRotationSpeed = 100;
+    public float bulletSpeed = 5;
+    public float shootCooldown = 2;
 
-
+    private float cooldownTimer;
     private void Start()
     {
         currentLife = maxLife;
+        cooldownTimer = 0;
     }
 
     public void Damage(float damage)
@@ -27,5 +31,20 @@ public class PlayerStats : MonoBehaviour
     public bool IsDead()
     {
         return currentLife <= 0f;
+    }
+
+    public bool CanShoot()
+    {
+        return cooldownTimer <= 0;
+    }
+
+    public void ResetShootCooldown()
+    {
+        cooldownTimer = shootCooldown;
+    }
+
+    private void LateUpdate()
+    {
+        cooldownTimer -= Time.deltaTime;
     }
 }

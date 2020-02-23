@@ -7,22 +7,32 @@ using UnityEngine;
 public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 {
     public GameObject PlayerUIPrefab;
+    public GameObject bulletPrefab;
 
     private Color[] myColors;
 
     private CustomGameManager gameManager;
     private PlayerStats playerStats;
 
-    private Vector3 movement;
     private Vector3 networkPosition;
+    private Vector3 oldPosition;
     private Quaternion networkRotationChasis;
+    private Quaternion networkRotationTurret;
+    private Vector3 turretRotationPoint;
+    new private Rigidbody rigidbody;
+    private void Awake()
+    {
+        rigidbody = GetComponent<Rigidbody>();
+        transform.GetChild(0).rotation = transform.rotation;
+        transform.GetChild(1).rotation = transform.rotation;
+    }
+
     void Start()
     {
         SetPlayerColor();
         playerStats = GetComponent<PlayerStats>();
         gameManager = FindObjectOfType<CustomGameManager>();
-        transform.GetChild(0).rotation = transform.rotation;
-        transform.GetChild(1).rotation = transform.rotation;
+
 
         if (PlayerUIPrefab != null)
         {
@@ -64,30 +74,71 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
     void Update()
     {
-        if (!photonView.IsMine)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, networkPosition, Time.deltaTime * playerStats.speed);
-            transform.GetChild(0).rotation = Quaternion.RotateTowards(transform.GetChild(0).rotation, networkRotationChasis, Time.deltaTime * playerStats.rotationSpeed);
-        }
         if (gameManager.gameStarted)
         {
-
             if (photonView.IsMine)
             {
-                Vector3 oldPosition = transform.position;
-                float v = Input.GetAxis("Vertical") * playerStats.speed * Time.deltaTime;
-                float h = Input.GetAxis("Horizontal") * playerStats.rotationSpeed * Time.deltaTime;
-
-                // Translate in the forward direction of the first child (chasis)
-                if (v >= 0)
-                    transform.Translate(transform.GetChild(0).forward * v);
-                movement = transform.position - oldPosition;
-
-                // Rotate the firt child (chasis)
-                transform.GetChild(0).Rotate(0, h, 0);
-
+                MovementAndRotation();
+                Shoot();
             }
+        }
+    }
 
+    private void FixedUpdate()
+    {
+        if (!photonView.IsMine)
+        {
+            rigidbody.position = Vector3.Lerp(rigidbody.position, networkPosition, 0.1f);
+            transform.GetChild(0).rotation = Quaternion.RotateTowards(transform.GetChild(0).rotation, networkRotationChasis, Time.fixedDeltaTime * playerStats.rotationSpeed);
+            transform.GetChild(1).rotation = Quaternion.RotateTowards(transform.GetChild(1).rotation, networkRotationTurret, Time.fixedDeltaTime * playerStats.turretRotationSpeed);
+        }
+    }
+
+    private void MovementAndRotation()
+    {
+        oldPosition = transform.position;
+        float v = Input.GetAxis("Vertical") * playerStats.speed * Time.deltaTime;
+        float h = Input.GetAxis("Horizontal") * playerStats.rotationSpeed * Time.deltaTime;
+
+        // Translate in the forward direction of the first child (chasis)
+        if (v >= 0)
+        {
+            rigidbody.MovePosition(rigidbody.position + transform.GetChild(0).forward * v);
+        }
+        // Rotate the firt child (chasis)
+        var chasisRot = transform.GetChild(0).rotation;
+        chasisRot *= Quaternion.Euler(0, h, 0);
+        transform.GetChild(0).rotation = chasisRot;
+        rigidbody.rotation = Quaternion.Euler(0, 0, 0);
+
+
+        // Rotate the second child (turret)
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            turretRotationPoint = hit.point;
+        }
+
+        Vector3 targetDirection = turretRotationPoint - transform.position;
+        float singleStep = playerStats.turretRotationSpeed * Time.deltaTime;
+
+        targetDirection.y = 0f;
+        Vector3 newDirection = Vector3.RotateTowards(transform.GetChild(1).forward, targetDirection, singleStep, 0.0f);
+        transform.GetChild(1).rotation = Quaternion.RotateTowards(transform.GetChild(1).rotation, Quaternion.LookRotation(newDirection), Time.deltaTime * playerStats.turretRotationSpeed);
+    }
+
+    private void Shoot()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (playerStats.CanShoot())
+            {
+                var bullet = PhotonNetwork.Instantiate(this.bulletPrefab.name, transform.GetChild(1).GetChild(0).position, Quaternion.identity, 0);
+                bullet.GetComponent<MyBullet>().InitializeBullet(transform.GetChild(1).rotation, playerStats.bulletSpeed);
+                playerStats.ResetShootCooldown();
+            }
         }
     }
 
@@ -111,18 +162,22 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (stream.IsWriting)
         {
-            stream.SendNext(transform.position);
+            stream.SendNext(rigidbody.position);
+            stream.SendNext(rigidbody.velocity);
+
             stream.SendNext(transform.GetChild(0).rotation); // Chasis
-            stream.SendNext(movement);
+            stream.SendNext(transform.GetChild(1).rotation); // Turret
         }
         else
         {
             networkPosition = (Vector3)stream.ReceiveNext();
+            rigidbody.velocity = (Vector3)stream.ReceiveNext();
+
             networkRotationChasis = (Quaternion)stream.ReceiveNext(); // Chasis
-            movement = (Vector3)stream.ReceiveNext();
+            networkRotationTurret = (Quaternion)stream.ReceiveNext(); // Turret
 
             float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
-            networkPosition += (movement * lag);
+            networkPosition += rigidbody.velocity * lag;
         }
     }
 }
