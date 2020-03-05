@@ -31,10 +31,11 @@ MonoBehaviour:
   RpcList:
   - ChangeColor
   - ClickRpc
+  - DestroyInstant
   - DestroyRpc
   - DestroySpaceship
   - Fire
   - RespawnSpaceship
-  - DestroyInstant
+  - TakeDamage
   DisableAutoOpenWizard: 1
-  ShowSettings: 0
+  ShowSettings: 1

@@ -27,6 +27,11 @@ public class PlayerUI : MonoBehaviour
 
     void Update()
     {
+        if (playerStats != null && playerStats.IsDead())
+        {
+            Destroy(this.gameObject);
+            return;
+        }
         // Reflect the Player Health
         if (playerHealthSlider != null)
         {
@@ -68,6 +73,7 @@ public class PlayerUI : MonoBehaviour
         }
         // Cache references for efficiency
         target = _target;
+        playerStats = target.gameObject.GetComponent<PlayerStats>();
         if (playerNameText != null)
         {
             var playerName = target.photonView.Owner.NickName;

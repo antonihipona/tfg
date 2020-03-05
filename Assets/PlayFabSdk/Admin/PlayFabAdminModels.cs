@@ -1060,6 +1060,35 @@ namespace PlayFab.AdminModels
         public string Schedule;
     }
 
+    /// <summary>
+    /// Task name is unique within a title. Using a task name that's already taken will cause a name conflict error. Too many
+    /// create-task requests within a short time will cause a create conflict error.
+    /// </summary>
+    [Serializable]
+    public class CreateInsightsScheduledScalingTaskRequest : PlayFabRequestCommon
+    {
+        /// <summary>
+        /// Description the task
+        /// </summary>
+        public string Description;
+        /// <summary>
+        /// Whether the schedule is active. Inactive schedule will not trigger task execution.
+        /// </summary>
+        public bool IsActive;
+        /// <summary>
+        /// Name of the task. This is a unique identifier for tasks in the title.
+        /// </summary>
+        public string Name;
+        /// <summary>
+        /// Task details related to Insights Scaling
+        /// </summary>
+        public InsightsScalingTaskParameter Parameter;
+        /// <summary>
+        /// Cron expression for the run schedule of the task. The expression should be in UTC.
+        /// </summary>
+        public string Schedule;
+    }
+
     [Serializable]
     public class CreateOpenIdConnectionRequest : PlayFabRequestCommon
     {
@@ -2098,6 +2127,20 @@ namespace PlayFab.AdminModels
         InsightsManagementSetStorageRetentionInvalidParameter,
         InsightsManagementGetStorageUsageInvalidParameter,
         InsightsManagementGetOperationStatusInvalidParameter,
+        DuplicatePurchaseTransactionId,
+        EvaluationModePlayerCountExceeded,
+        GetPlayersInSegmentRateLimitExceeded,
+        CloudScriptFunctionNameSizeExceeded,
+        InsightsManagementTitleInEvaluationMode,
+        CloudScriptAzureFunctionsQueueRequestError,
+        EvaluationModeTitleCountExceeded,
+        InsightsManagementTitleNotInFlight,
+        LimitNotFound,
+        LimitNotAvailableViaAPI,
+        InsightsManagementSetStorageRetentionBelowMinimum,
+        InsightsManagementSetStorageRetentionAboveMaximum,
+        AppleNotEnabledForTitle,
+        InsightsManagementNewActiveEventArchiveLimitInvalid,
         MatchmakingEntityInvalid,
         MatchmakingPlayerAttributesInvalid,
         MatchmakingQueueNotFound,
@@ -2134,6 +2177,8 @@ namespace PlayFab.AdminModels
         CatalogConfigInvalid,
         CatalogUnauthorized,
         CatalogItemTypeInvalid,
+        CatalogBadRequest,
+        CatalogTooManyRequests,
         ExportInvalidStatusUpdate,
         ExportInvalidPrefix,
         ExportBlobContainerDoesNotExist,
@@ -2148,6 +2193,10 @@ namespace PlayFab.AdminModels
         ExportCantEditPendingExport,
         ExportLimitExports,
         ExportLimitEvents,
+        ExportInvalidPartitionStatusModification,
+        ExportCouldNotCreate,
+        ExportNoBackingDatabaseFound,
+        ExportCouldNotDelete,
         TitleNotEnabledForParty,
         PartyVersionNotFound,
         MultiplayerServerBuildReferencedByMatchmakingQueue,
@@ -2157,9 +2206,14 @@ namespace PlayFab.AdminModels
         ExperimentationExperimentNeverStarted,
         ExperimentationExperimentDeleted,
         ExperimentationClientTimeout,
-        ExperimentationExceededVariantNameLength,
-        ExperimentationExceededMaxVariantLength,
+        ExperimentationInvalidVariantConfiguration,
+        ExperimentationInvalidVariableConfiguration,
         ExperimentInvalidId,
+        ExperimentationNoScorecard,
+        ExperimentationTreatmentAssignmentFailed,
+        ExperimentationTreatmentAssignmentDisabled,
+        ExperimentationInvalidDuration,
+        ExperimentationMaxExperimentsReached,
         MaxActionDepthExceeded,
         SnapshotNotFound
     }
@@ -3264,6 +3318,15 @@ namespace PlayFab.AdminModels
     }
 
     [Serializable]
+    public class InsightsScalingTaskParameter : PlayFabBaseModel
+    {
+        /// <summary>
+        /// Insights Performance Level to scale to.
+        /// </summary>
+        public int Level;
+    }
+
+    [Serializable]
     public class ItemGrant : PlayFabBaseModel
     {
         /// <summary>
@@ -3476,7 +3539,8 @@ namespace PlayFab.AdminModels
         CustomServer,
         NintendoSwitch,
         FacebookInstantGames,
-        OpenIdConnect
+        OpenIdConnect,
+        Apple
     }
 
     [Serializable]
@@ -3943,6 +4007,10 @@ namespace PlayFab.AdminModels
         /// </summary>
         public string DisplayName;
         /// <summary>
+        /// List of experiment variants for the player.
+        /// </summary>
+        public List<string> ExperimentVariants;
+        /// <summary>
         /// UTC time when the player most recently logged in to the title
         /// </summary>
         public DateTime? LastLogin;
@@ -4024,6 +4092,10 @@ namespace PlayFab.AdminModels
         /// Whether to show the display name. Defaults to false
         /// </summary>
         public bool ShowDisplayName;
+        /// <summary>
+        /// Whether to show player's experiment variants. Defaults to false
+        /// </summary>
+        public bool ShowExperimentVariants;
         /// <summary>
         /// Whether to show the last login time. Defaults to false
         /// </summary>
@@ -4618,7 +4690,8 @@ namespace PlayFab.AdminModels
     {
         CloudScript,
         ActionsOnPlayerSegment,
-        CloudScriptAzureFunctions
+        CloudScriptAzureFunctions,
+        InsightsScheduledScaling
     }
 
     [Serializable]

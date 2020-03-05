@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class MyBullet : MonoBehaviourPunCallbacks
 {
+    public PlayerStats myPlayerStats;
     public GameObject explosionPrefab;
     private float speed;
     void Start()
@@ -20,17 +21,9 @@ public class MyBullet : MonoBehaviourPunCallbacks
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.transform.CompareTag("Player"))
-        {
-            photonView.RPC("DestroyInstant", RpcTarget.AllBuffered);
-            return;
-        }
-        else
-        {
-            var hitNormal = collision.GetContact(0).normal;
-            Vector3 r = Vector3.Reflect(transform.forward, hitNormal);
-            transform.rotation = Quaternion.LookRotation(r);
-        }
+        var hitNormal = collision.GetContact(0).normal;
+        Vector3 r = Vector3.Reflect(transform.forward, hitNormal);
+        transform.rotation = Quaternion.LookRotation(r);
     }
 
     private void FixedUpdate()
@@ -44,9 +37,16 @@ public class MyBullet : MonoBehaviourPunCallbacks
         particle.transform.SetParent(null);
     }
 
+    public void Explode()
+    {
+        photonView.RPC("DestroyInstant", RpcTarget.AllBuffered);
+    }
+
     [PunRPC]
     void DestroyInstant()
     {
         Destroy(gameObject);
     }
+
+
 }

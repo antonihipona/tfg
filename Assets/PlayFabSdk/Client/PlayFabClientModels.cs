@@ -180,7 +180,8 @@ namespace PlayFab.ClientModels
     /// <summary>
     /// More information can be found on configuring your game for the Google Cloud Messaging service in the Google developer
     /// documentation, here: http://developer.android.com/google/gcm/client.html. The steps to configure and send Push
-    /// Notifications is described in the PlayFab tutorials, here: https://api.playfab.com/docs/pushCrashCourse/.
+    /// Notifications is described in the PlayFab tutorials, here:
+    /// https://docs.microsoft.com/gaming/playfab/features/engagement/push-notifications/quickstart.
     /// </summary>
     [Serializable]
     public class AndroidDevicePushNotificationRegistrationRequest : PlayFabRequestCommon
@@ -2998,7 +2999,7 @@ namespace PlayFab.ClientModels
         /// </summary>
         public string CatalogVersion;
         /// <summary>
-        /// Non-unique display name of the character being granted (1-20 characters in length).
+        /// Non-unique display name of the character being granted (1-40 characters in length).
         /// </summary>
         public string CharacterName;
         /// <summary>
@@ -3157,6 +3158,20 @@ namespace PlayFab.ClientModels
     [Serializable]
     public class LinkAndroidDeviceIDResult : PlayFabResultCommon
     {
+    }
+
+    [Serializable]
+    public class LinkAppleRequest : PlayFabRequestCommon
+    {
+        /// <summary>
+        /// If another user is already linked to a specific Apple account, unlink the other user and re-link.
+        /// </summary>
+        public bool? ForceLink;
+        /// <summary>
+        /// The JSON Web token (JWT) returned by Apple after login. Represented as the identityToken field in the authorization
+        /// credential payload. Used to validate the request and find the user ID (Apple subject) to link with.
+        /// </summary>
+        public string IdentityToken;
     }
 
     [Serializable]
@@ -3568,7 +3583,8 @@ namespace PlayFab.ClientModels
         CustomServer,
         NintendoSwitch,
         FacebookInstantGames,
-        OpenIdConnect
+        OpenIdConnect,
+        Apple
     }
 
     [Serializable]
@@ -3603,6 +3619,10 @@ namespace PlayFab.ClientModels
         /// Settings specific to this user.
         /// </summary>
         public UserSettings SettingsForUser;
+        /// <summary>
+        /// The experimentation treatments for this user at the time of login.
+        /// </summary>
+        public TreatmentAssignment TreatmentAssignment;
     }
 
     /// <summary>
@@ -3644,6 +3664,37 @@ namespace PlayFab.ClientModels
         /// Specific Operating System version for the user's device.
         /// </summary>
         public string OS;
+        /// <summary>
+        /// Player secret that is used to verify API request signatures (Enterprise Only).
+        /// </summary>
+        public string PlayerSecret;
+        /// <summary>
+        /// Unique identifier for the title, found in the Settings > Game Properties section of the PlayFab developer site when a
+        /// title has been selected.
+        /// </summary>
+        public string TitleId;
+    }
+
+    [Serializable]
+    public class LoginWithAppleRequest : PlayFabRequestCommon
+    {
+        /// <summary>
+        /// Automatically create a PlayFab account if one is not currently linked to this ID.
+        /// </summary>
+        public bool? CreateAccount;
+        /// <summary>
+        /// Base64 encoded body that is encrypted with the Title's public RSA key (Enterprise Only).
+        /// </summary>
+        public string EncryptedRequest;
+        /// <summary>
+        /// The JSON Web token (JWT) returned by Apple after login. Represented as the identityToken field in the authorization
+        /// credential payload.
+        /// </summary>
+        public string IdentityToken;
+        /// <summary>
+        /// Flags for which pieces of info to return for the user.
+        /// </summary>
+        public GetPlayerCombinedInfoRequestParams InfoRequestParameters;
         /// <summary>
         /// Player secret that is used to verify API request signatures (Enterprise Only).
         /// </summary>
@@ -4606,6 +4657,10 @@ namespace PlayFab.ClientModels
         /// </summary>
         public string DisplayName;
         /// <summary>
+        /// List of experiment variants for the player.
+        /// </summary>
+        public List<string> ExperimentVariants;
+        /// <summary>
         /// UTC time when the player most recently logged in to the title
         /// </summary>
         public DateTime? LastLogin;
@@ -4687,6 +4742,10 @@ namespace PlayFab.ClientModels
         /// Whether to show the display name. Defaults to false
         /// </summary>
         public bool ShowDisplayName;
+        /// <summary>
+        /// Whether to show player's experiment variants. Defaults to false
+        /// </summary>
+        public bool ShowExperimentVariants;
         /// <summary>
         /// Whether to show the last login time. Defaults to false
         /// </summary>
@@ -4938,7 +4997,7 @@ namespace PlayFab.ClientModels
 
     /// <summary>
     /// The steps to configure and send Push Notifications is described in the PlayFab tutorials, here:
-    /// https://api.playfab.com/docs/pushCrashCourse/
+    /// https://docs.microsoft.com/gaming/playfab/features/engagement/push-notifications/quickstart
     /// </summary>
     [Serializable]
     public class RegisterForIOSPushNotificationRequest : PlayFabRequestCommon
@@ -5749,6 +5808,19 @@ namespace PlayFab.ClientModels
     }
 
     [Serializable]
+    public class TreatmentAssignment : PlayFabBaseModel
+    {
+        /// <summary>
+        /// List of the experiment variables.
+        /// </summary>
+        public List<Variable> Variables;
+        /// <summary>
+        /// List of the experiment variants.
+        /// </summary>
+        public List<string> Variants;
+    }
+
+    [Serializable]
     public class TwitchPlayFabIdPair : PlayFabBaseModel
     {
         /// <summary>
@@ -5782,6 +5854,11 @@ namespace PlayFab.ClientModels
 
     [Serializable]
     public class UnlinkAndroidDeviceIDResult : PlayFabResultCommon
+    {
+    }
+
+    [Serializable]
+    public class UnlinkAppleRequest : PlayFabRequestCommon
     {
     }
 
@@ -5936,6 +6013,7 @@ namespace PlayFab.ClientModels
         /// <summary>
         /// Token provided by the Xbox Live SDK/XDK method GetTokenAndSignatureAsync("POST", "https://playfabapi.com/", "").
         /// </summary>
+        [Obsolete("No longer available", false)]
         public string XboxToken;
     }
 
@@ -6777,6 +6855,19 @@ namespace PlayFab.ClientModels
     }
 
     [Serializable]
+    public class Variable : PlayFabBaseModel
+    {
+        /// <summary>
+        /// Name of the variable.
+        /// </summary>
+        public string Name;
+        /// <summary>
+        /// Value of the variable.
+        /// </summary>
+        public string Value;
+    }
+
+    [Serializable]
     public class VirtualCurrencyRechargeTime : PlayFabBaseModel
     {
         /// <summary>
@@ -6817,7 +6908,7 @@ namespace PlayFab.ClientModels
         /// </summary>
         public string EventName;
         /// <summary>
-        /// The time (in UTC) associated with this event. The value dafaults to the current time.
+        /// The time (in UTC) associated with this event. The value defaults to the current time.
         /// </summary>
         public DateTime? Timestamp;
     }
@@ -6840,7 +6931,7 @@ namespace PlayFab.ClientModels
         /// </summary>
         public string EventName;
         /// <summary>
-        /// The time (in UTC) associated with this event. The value dafaults to the current time.
+        /// The time (in UTC) associated with this event. The value defaults to the current time.
         /// </summary>
         public DateTime? Timestamp;
     }
@@ -6873,7 +6964,7 @@ namespace PlayFab.ClientModels
         /// </summary>
         public string EventName;
         /// <summary>
-        /// The time (in UTC) associated with this event. The value dafaults to the current time.
+        /// The time (in UTC) associated with this event. The value defaults to the current time.
         /// </summary>
         public DateTime? Timestamp;
     }

@@ -19,12 +19,17 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     private Quaternion networkRotationChasis;
     private Quaternion networkRotationTurret;
     private Vector3 turretRotationPoint;
+    private Transform chasis;
+    private Transform turret;
+
     new private Rigidbody rigidbody;
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
-        transform.GetChild(0).rotation = transform.rotation;
-        transform.GetChild(1).rotation = transform.rotation;
+        chasis = transform.GetChild(0);
+        turret = transform.GetChild(1);
+        chasis.rotation = transform.rotation;
+        turret.rotation = transform.rotation;
     }
 
     void Start()
@@ -32,7 +37,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         SetPlayerColor();
         playerStats = GetComponent<PlayerStats>();
         gameManager = FindObjectOfType<CustomGameManager>();
-
 
         if (PlayerUIPrefab != null)
         {
@@ -68,15 +72,13 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             }
         }
         Renderer[] renderers2 = gameObject.GetComponentsInChildren<Renderer>();
-        Debug.Log(renderers2.Length);
-
     }
 
     void Update()
     {
         if (gameManager.gameStarted)
         {
-            if (photonView.IsMine)
+            if (photonView.IsMine && !playerStats.IsDead())
             {
                 MovementAndRotation();
                 Shoot();
@@ -88,9 +90,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (!photonView.IsMine)
         {
-            rigidbody.position = Vector3.Lerp(rigidbody.position, networkPosition, 0.1f);
-            transform.GetChild(0).rotation = Quaternion.RotateTowards(transform.GetChild(0).rotation, networkRotationChasis, Time.fixedDeltaTime * playerStats.rotationSpeed);
-            transform.GetChild(1).rotation = Quaternion.RotateTowards(transform.GetChild(1).rotation, networkRotationTurret, Time.fixedDeltaTime * playerStats.turretRotationSpeed);
+            rigidbody.position = Vector3.Lerp(rigidbody.position, networkPosition, 0.5f);
+            chasis.rotation = Quaternion.RotateTowards(chasis.rotation, networkRotationChasis, Time.fixedDeltaTime * playerStats.rotationSpeed);
+            turret.rotation = Quaternion.RotateTowards(turret.rotation, networkRotationTurret, Time.fixedDeltaTime * playerStats.turretRotationSpeed);
         }
     }
 
@@ -100,19 +102,15 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         float v = Input.GetAxis("Vertical") * playerStats.speed * Time.deltaTime;
         float h = Input.GetAxis("Horizontal") * playerStats.rotationSpeed * Time.deltaTime;
 
-        // Translate in the forward direction of the first child (chasis)
         if (v >= 0)
         {
-            rigidbody.MovePosition(rigidbody.position + transform.GetChild(0).forward * v);
+            rigidbody.MovePosition(rigidbody.position + chasis.forward * v);
         }
-        // Rotate the firt child (chasis)
-        var chasisRot = transform.GetChild(0).rotation;
+        var chasisRot = chasis.rotation;
         chasisRot *= Quaternion.Euler(0, h, 0);
-        transform.GetChild(0).rotation = chasisRot;
+        chasis.rotation = chasisRot;
         rigidbody.rotation = Quaternion.Euler(0, 0, 0);
 
-
-        // Rotate the second child (turret)
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -125,8 +123,8 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         float singleStep = playerStats.turretRotationSpeed * Time.deltaTime;
 
         targetDirection.y = 0f;
-        Vector3 newDirection = Vector3.RotateTowards(transform.GetChild(1).forward, targetDirection, singleStep, 0.0f);
-        transform.GetChild(1).rotation = Quaternion.RotateTowards(transform.GetChild(1).rotation, Quaternion.LookRotation(newDirection), Time.deltaTime * playerStats.turretRotationSpeed);
+        Vector3 newDirection = Vector3.RotateTowards(turret.forward, targetDirection, singleStep, 0.0f);
+        turret.rotation = Quaternion.RotateTowards(turret.rotation, Quaternion.LookRotation(newDirection), Time.deltaTime * playerStats.turretRotationSpeed);
     }
 
     private void Shoot()
@@ -135,8 +133,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         {
             if (playerStats.CanShoot())
             {
-                var bullet = PhotonNetwork.Instantiate(this.bulletPrefab.name, transform.GetChild(1).GetChild(0).position, Quaternion.identity, 0);
-                bullet.GetComponent<MyBullet>().InitializeBullet(transform.GetChild(1).rotation, playerStats.bulletSpeed);
+                var bullet = PhotonNetwork.Instantiate(this.bulletPrefab.name, turret.GetChild(0).position, Quaternion.identity, 0);
+                bullet.GetComponent<MyBullet>().myPlayerStats = playerStats;
+                bullet.GetComponent<MyBullet>().InitializeBullet(turret.rotation, playerStats.bulletSpeed);
                 playerStats.ResetShootCooldown();
             }
         }
@@ -160,24 +159,49 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
+        if (playerStats != null && playerStats.IsDead())
+            return;
         if (stream.IsWriting)
         {
             stream.SendNext(rigidbody.position);
             stream.SendNext(rigidbody.velocity);
 
-            stream.SendNext(transform.GetChild(0).rotation); // Chasis
-            stream.SendNext(transform.GetChild(1).rotation); // Turret
+            stream.SendNext(chasis.rotation);
+            stream.SendNext(turret.rotation);
         }
         else
         {
             networkPosition = (Vector3)stream.ReceiveNext();
             rigidbody.velocity = (Vector3)stream.ReceiveNext();
 
-            networkRotationChasis = (Quaternion)stream.ReceiveNext(); // Chasis
-            networkRotationTurret = (Quaternion)stream.ReceiveNext(); // Turret
+            networkRotationChasis = (Quaternion)stream.ReceiveNext();
+            networkRotationTurret = (Quaternion)stream.ReceiveNext();
 
             float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
             networkPosition += rigidbody.velocity * lag;
         }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        float shootDamage = 0;
+        Vector3 point = Vector3.zero;
+        if (collision.transform.CompareTag("Bullet"))
+        {
+            MyBullet bullet = collision.transform.GetComponent<MyBullet>();
+            if (bullet != null)
+            {
+                shootDamage = bullet.myPlayerStats.shootDamage;
+                point = collision.GetContact(0).point;
+            }
+            photonView.RPC("TakeDamage", RpcTarget.AllBuffered, shootDamage, point);
+            bullet.Explode();
+        }
+    }
+
+    [PunRPC]
+    void TakeDamage(float damage, Vector3 point, PhotonMessageInfo info)
+    {
+        playerStats.TakeDamage(damage, point);
     }
 }

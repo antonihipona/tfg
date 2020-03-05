@@ -143,6 +143,10 @@ namespace PlayFab.MultiplayerModels
         /// </summary>
         public CurrentServerStats CurrentServerStats;
         /// <summary>
+        /// Optional settings to control dynamic adjustment of standby target
+        /// </summary>
+        public DynamicStandbySettings DynamicStandbySettings;
+        /// <summary>
         /// The maximum number of multiplayer servers for the region.
         /// </summary>
         public int MaxServers;
@@ -151,7 +155,7 @@ namespace PlayFab.MultiplayerModels
         /// </summary>
         public string Region;
         /// <summary>
-        /// The number of standby multiplayer servers for the region.
+        /// The target number of standby multiplayer servers for the region.
         /// </summary>
         public int StandbyServers;
         /// <summary>
@@ -164,6 +168,10 @@ namespace PlayFab.MultiplayerModels
     [Serializable]
     public class BuildRegionParams : PlayFabBaseModel
     {
+        /// <summary>
+        /// Optional settings to control dynamic adjustment of standby target. If not specified, dynamic standby is disabled
+        /// </summary>
+        public DynamicStandbySettings DynamicStandbySettings;
         /// <summary>
         /// The maximum number of multiplayer servers for the region.
         /// </summary>
@@ -236,6 +244,29 @@ namespace PlayFab.MultiplayerModels
     {
     }
 
+    /// <summary>
+    /// Cancels all backfill tickets of which the player is a member in a given queue that are not cancelled or matched. This
+    /// API is useful if you lose track of what tickets the player is a member of (if the server crashes for instance) and want
+    /// to "reset".
+    /// </summary>
+    [Serializable]
+    public class CancelAllServerBackfillTicketsForPlayerRequest : PlayFabRequestCommon
+    {
+        /// <summary>
+        /// The entity key of the player whose backfill tickets should be canceled.
+        /// </summary>
+        public EntityKey Entity;
+        /// <summary>
+        /// The name of the queue from which a player's backfill tickets should be canceled.
+        /// </summary>
+        public string QueueName;
+    }
+
+    [Serializable]
+    public class CancelAllServerBackfillTicketsForPlayerResult : PlayFabResultCommon
+    {
+    }
+
     public enum CancellationReason
     {
         Requested,
@@ -269,6 +300,32 @@ namespace PlayFab.MultiplayerModels
 
     [Serializable]
     public class CancelMatchmakingTicketResult : PlayFabResultCommon
+    {
+    }
+
+    /// <summary>
+    /// Only servers can cancel a backfill ticket. The ticket can be in three different states when it is cancelled. 1: the
+    /// ticket is matching. If the ticket is cancelled, it will stop matching. 2: the ticket is matched. A matched ticket cannot
+    /// be cancelled. 3: the ticket is already cancelled and nothing happens. There may be race conditions between the ticket
+    /// getting matched and the server making a cancellation request. The server must handle the possibility that the cancel
+    /// request fails if a match is found before the cancellation request is processed. We do not allow resubmitting a cancelled
+    /// ticket. Create a new ticket instead.
+    /// </summary>
+    [Serializable]
+    public class CancelServerBackfillTicketRequest : PlayFabRequestCommon
+    {
+        /// <summary>
+        /// The name of the queue the ticket is in.
+        /// </summary>
+        public string QueueName;
+        /// <summary>
+        /// The Id of the ticket to find a match for.
+        /// </summary>
+        public string TicketId;
+    }
+
+    [Serializable]
+    public class CancelServerBackfillTicketResult : PlayFabResultCommon
     {
     }
 
@@ -669,6 +726,39 @@ namespace PlayFab.MultiplayerModels
     }
 
     /// <summary>
+    /// The server specifies all the members, their teams and their attributes, and the server details if applicable.
+    /// </summary>
+    [Serializable]
+    public class CreateServerBackfillTicketRequest : PlayFabRequestCommon
+    {
+        /// <summary>
+        /// How long to attempt matching this ticket in seconds.
+        /// </summary>
+        public int GiveUpAfterSeconds;
+        /// <summary>
+        /// The users who will be part of this ticket, along with their team assignments.
+        /// </summary>
+        public List<MatchmakingPlayerWithTeamAssignment> Members;
+        /// <summary>
+        /// The Id of a match queue.
+        /// </summary>
+        public string QueueName;
+        /// <summary>
+        /// The details of the server the members are connected to.
+        /// </summary>
+        public ServerDetails ServerDetails;
+    }
+
+    [Serializable]
+    public class CreateServerBackfillTicketResult : PlayFabResultCommon
+    {
+        /// <summary>
+        /// The Id of the ticket to find a match for.
+        /// </summary>
+        public string TicketId;
+    }
+
+    /// <summary>
     /// The server specifies all the members and their attributes.
     /// </summary>
     [Serializable]
@@ -780,6 +870,37 @@ namespace PlayFab.MultiplayerModels
         /// The virtual machine ID the multiplayer server is located on.
         /// </summary>
         public string VmId;
+    }
+
+    [Serializable]
+    public class DynamicStandbySettings : PlayFabBaseModel
+    {
+        /// <summary>
+        /// List of auto standing by trigger values and corresponding standing by multiplier. Defaults to 1.5X at 50%, 3X at 25%,
+        /// and 4X at 5%
+        /// </summary>
+        public List<DynamicStandbyThreshold> DynamicFloorMultiplierThresholds;
+        /// <summary>
+        /// When true, dynamic standby will be enabled
+        /// </summary>
+        public bool IsEnabled;
+        /// <summary>
+        /// The time it takes to reduce target standing by to configured floor value after an increase. Defaults to 30 minutes
+        /// </summary>
+        public int? RampDownSeconds;
+    }
+
+    [Serializable]
+    public class DynamicStandbyThreshold : PlayFabBaseModel
+    {
+        /// <summary>
+        /// When the trigger threshold is reached, multiply by this value
+        /// </summary>
+        public double Multiplier;
+        /// <summary>
+        /// The multiplier will be applied when the actual standby divided by target standby floor is less than this value
+        /// </summary>
+        public double TriggerThresholdPercentage;
     }
 
     [Serializable]
@@ -1029,11 +1150,6 @@ namespace PlayFab.MultiplayerModels
         /// <summary>
         /// The reason why the current ticket was canceled. This field is only set if the ticket is in canceled state.
         /// </summary>
-        [Obsolete("Use 'CancellationReasonString' instead", false)]
-        public CancellationReason? CancellationReason;
-        /// <summary>
-        /// The reason why the current ticket was canceled. This field is only set if the ticket is in canceled state.
-        /// </summary>
         public string CancellationReasonString;
         /// <summary>
         /// The server date and time at which ticket was created.
@@ -1190,6 +1306,46 @@ namespace PlayFab.MultiplayerModels
     }
 
     /// <summary>
+    /// Gets multiplayer server logs for a specific server id in a region. The logs are available only after a server has
+    /// terminated.
+    /// </summary>
+    [Serializable]
+    public class GetMultiplayerServerLogsRequest : PlayFabRequestCommon
+    {
+        /// <summary>
+        /// The region of the multiplayer server to get logs for.
+        /// </summary>
+        [Obsolete("No longer available", false)]
+        public string Region;
+        /// <summary>
+        /// The server ID of multiplayer server to get logs for.
+        /// </summary>
+        public string ServerId;
+    }
+
+    [Serializable]
+    public class GetMultiplayerServerLogsResponse : PlayFabResultCommon
+    {
+        /// <summary>
+        /// URL for logs download.
+        /// </summary>
+        public string LogDownloadUrl;
+    }
+
+    /// <summary>
+    /// Gets multiplayer server logs for a specific server id in a region. The logs are available only after a server has
+    /// terminated.
+    /// </summary>
+    [Serializable]
+    public class GetMultiplayerSessionLogsBySessionIdRequest : PlayFabRequestCommon
+    {
+        /// <summary>
+        /// The server ID of multiplayer server to get logs for.
+        /// </summary>
+        public string SessionId;
+    }
+
+    /// <summary>
     /// Returns the matchmaking statistics for a queue. These include the number of players matching and the statistics related
     /// to the time to match statistics in seconds (average and percentiles). Statistics are refreshed once every 5 minutes.
     /// Servers can access all statistics no matter what the ClientStatisticsVisibility is configured to. Clients can access
@@ -1249,6 +1405,69 @@ namespace PlayFab.MultiplayerModels
         /// The remote login port of multiplayer server.
         /// </summary>
         public int Port;
+    }
+
+    /// <summary>
+    /// The ticket includes the players, their attributes, their teams, the ticket status, the match Id and the server details
+    /// when applicable, etc. Only servers can get the ticket.
+    /// </summary>
+    [Serializable]
+    public class GetServerBackfillTicketRequest : PlayFabRequestCommon
+    {
+        /// <summary>
+        /// Determines whether the matchmaking attributes will be returned as an escaped JSON string or as an un-escaped JSON
+        /// object.
+        /// </summary>
+        public bool EscapeObject;
+        /// <summary>
+        /// The name of the queue to find a match for.
+        /// </summary>
+        public string QueueName;
+        /// <summary>
+        /// The Id of the ticket to find a match for.
+        /// </summary>
+        public string TicketId;
+    }
+
+    [Serializable]
+    public class GetServerBackfillTicketResult : PlayFabResultCommon
+    {
+        /// <summary>
+        /// The reason why the current ticket was canceled. This field is only set if the ticket is in canceled state.
+        /// </summary>
+        public string CancellationReasonString;
+        /// <summary>
+        /// The server date and time at which ticket was created.
+        /// </summary>
+        public DateTime Created;
+        /// <summary>
+        /// How long to attempt matching this ticket in seconds.
+        /// </summary>
+        public int GiveUpAfterSeconds;
+        /// <summary>
+        /// The Id of a match.
+        /// </summary>
+        public string MatchId;
+        /// <summary>
+        /// A list of Users that are part of this ticket, along with their team assignments.
+        /// </summary>
+        public List<MatchmakingPlayerWithTeamAssignment> Members;
+        /// <summary>
+        /// The Id of a match queue.
+        /// </summary>
+        public string QueueName;
+        /// <summary>
+        /// The details of the server the members are connected to.
+        /// </summary>
+        public ServerDetails ServerDetails;
+        /// <summary>
+        /// The current ticket status. Possible values are: WaitingForMatch, Canceled and Matched.
+        /// </summary>
+        public string Status;
+        /// <summary>
+        /// The Id of the ticket to find a match for.
+        /// </summary>
+        public string TicketId;
     }
 
     /// <summary>
@@ -1634,6 +1853,31 @@ namespace PlayFab.MultiplayerModels
     }
 
     /// <summary>
+    /// List all server backfill ticket Ids the user is a member of.
+    /// </summary>
+    [Serializable]
+    public class ListServerBackfillTicketsForPlayerRequest : PlayFabRequestCommon
+    {
+        /// <summary>
+        /// The entity key for which to find the ticket Ids.
+        /// </summary>
+        public EntityKey Entity;
+        /// <summary>
+        /// The name of the queue the tickets are in.
+        /// </summary>
+        public string QueueName;
+    }
+
+    [Serializable]
+    public class ListServerBackfillTicketsForPlayerResult : PlayFabResultCommon
+    {
+        /// <summary>
+        /// The list of backfill ticket Ids the user is a member of.
+        /// </summary>
+        public List<string> TicketIds;
+    }
+
+    /// <summary>
     /// Returns a list of virtual machines for a title.
     /// </summary>
     [Serializable]
@@ -1984,6 +2228,23 @@ namespace PlayFab.MultiplayerModels
         /// The core capacity for the various regions and VM Family
         /// </summary>
         public List<CoreCapacity> CoreCapacities;
+    }
+
+    /// <summary>
+    /// Removes the specified tag from the image. After this operation, a 'docker pull' will fail for the specified image and
+    /// tag combination. Morever, ListContainerImageTags will not return the specified tag.
+    /// </summary>
+    [Serializable]
+    public class UntagContainerImageRequest : PlayFabRequestCommon
+    {
+        /// <summary>
+        /// The container image which tag we want to remove.
+        /// </summary>
+        public string ImageName;
+        /// <summary>
+        /// The tag we want to remove.
+        /// </summary>
+        public string Tag;
     }
 
     /// <summary>

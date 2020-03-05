@@ -490,6 +490,20 @@ namespace PlayFab
         InsightsManagementSetStorageRetentionInvalidParameter = 1486,
         InsightsManagementGetStorageUsageInvalidParameter = 1487,
         InsightsManagementGetOperationStatusInvalidParameter = 1488,
+        DuplicatePurchaseTransactionId = 1489,
+        EvaluationModePlayerCountExceeded = 1490,
+        GetPlayersInSegmentRateLimitExceeded = 1491,
+        CloudScriptFunctionNameSizeExceeded = 1492,
+        InsightsManagementTitleInEvaluationMode = 1493,
+        CloudScriptAzureFunctionsQueueRequestError = 1494,
+        EvaluationModeTitleCountExceeded = 1495,
+        InsightsManagementTitleNotInFlight = 1496,
+        LimitNotFound = 1497,
+        LimitNotAvailableViaAPI = 1498,
+        InsightsManagementSetStorageRetentionBelowMinimum = 1499,
+        InsightsManagementSetStorageRetentionAboveMaximum = 1500,
+        AppleNotEnabledForTitle = 1501,
+        InsightsManagementNewActiveEventArchiveLimitInvalid = 1502,
         MatchmakingEntityInvalid = 2001,
         MatchmakingPlayerAttributesInvalid = 2002,
         MatchmakingQueueNotFound = 2016,
@@ -526,6 +540,8 @@ namespace PlayFab
         CatalogConfigInvalid = 4010,
         CatalogUnauthorized = 4011,
         CatalogItemTypeInvalid = 4012,
+        CatalogBadRequest = 4013,
+        CatalogTooManyRequests = 4014,
         ExportInvalidStatusUpdate = 5000,
         ExportInvalidPrefix = 5001,
         ExportBlobContainerDoesNotExist = 5002,
@@ -540,6 +556,10 @@ namespace PlayFab
         ExportCantEditPendingExport = 5014,
         ExportLimitExports = 5015,
         ExportLimitEvents = 5016,
+        ExportInvalidPartitionStatusModification = 5017,
+        ExportCouldNotCreate = 5018,
+        ExportNoBackingDatabaseFound = 5019,
+        ExportCouldNotDelete = 5020,
         TitleNotEnabledForParty = 6000,
         PartyVersionNotFound = 6001,
         MultiplayerServerBuildReferencedByMatchmakingQueue = 6002,
@@ -549,9 +569,14 @@ namespace PlayFab
         ExperimentationExperimentNeverStarted = 7003,
         ExperimentationExperimentDeleted = 7004,
         ExperimentationClientTimeout = 7005,
-        ExperimentationExceededVariantNameLength = 7006,
-        ExperimentationExceededMaxVariantLength = 7007,
+        ExperimentationInvalidVariantConfiguration = 7006,
+        ExperimentationInvalidVariableConfiguration = 7007,
         ExperimentInvalidId = 7008,
+        ExperimentationNoScorecard = 7009,
+        ExperimentationTreatmentAssignmentFailed = 7010,
+        ExperimentationTreatmentAssignmentDisabled = 7011,
+        ExperimentationInvalidDuration = 7012,
+        ExperimentationMaxExperimentsReached = 7013,
         MaxActionDepthExceeded = 8000,
         SnapshotNotFound = 11000
     }
@@ -563,25 +588,17 @@ namespace PlayFab
         public string HttpStatus;
         public PlayFabErrorCode Error;
         public string ErrorMessage;
-        public Dictionary<string, List<string> > ErrorDetails;
+        public Dictionary<string, List<string>> ErrorDetails;
         public object CustomData;
 
-        public override string ToString() {
-            var sb = new System.Text.StringBuilder();
-            if (ErrorDetails != null) {
-                foreach (var kv in ErrorDetails) {
-                    sb.Append(kv.Key);
-                    sb.Append(": ");
-                    sb.Append(string.Join(", ", kv.Value.ToArray()));
-                    sb.Append(" | ");
-                }
-            }
-            return string.Format("{0} PlayFabError({1}, {2}, {3} {4}", ApiEndpoint, Error, ErrorMessage, HttpCode, HttpStatus) + (sb.Length > 0 ? " - Details: " + sb.ToString() + ")" : ")");
+        public override string ToString()
+        {
+            return GenerateErrorReport();
         }
 
         [ThreadStatic]
         private static StringBuilder _tempSb;
-         /// <summary>
+        /// <summary>
         /// This converts the PlayFabError into a human readable string describing the error.
         /// If error is not found, it will return the http code, status, and error
         /// </summary>

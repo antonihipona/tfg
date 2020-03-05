@@ -1874,6 +1874,20 @@ namespace PlayFab.ServerModels
         InsightsManagementSetStorageRetentionInvalidParameter,
         InsightsManagementGetStorageUsageInvalidParameter,
         InsightsManagementGetOperationStatusInvalidParameter,
+        DuplicatePurchaseTransactionId,
+        EvaluationModePlayerCountExceeded,
+        GetPlayersInSegmentRateLimitExceeded,
+        CloudScriptFunctionNameSizeExceeded,
+        InsightsManagementTitleInEvaluationMode,
+        CloudScriptAzureFunctionsQueueRequestError,
+        EvaluationModeTitleCountExceeded,
+        InsightsManagementTitleNotInFlight,
+        LimitNotFound,
+        LimitNotAvailableViaAPI,
+        InsightsManagementSetStorageRetentionBelowMinimum,
+        InsightsManagementSetStorageRetentionAboveMaximum,
+        AppleNotEnabledForTitle,
+        InsightsManagementNewActiveEventArchiveLimitInvalid,
         MatchmakingEntityInvalid,
         MatchmakingPlayerAttributesInvalid,
         MatchmakingQueueNotFound,
@@ -1910,6 +1924,8 @@ namespace PlayFab.ServerModels
         CatalogConfigInvalid,
         CatalogUnauthorized,
         CatalogItemTypeInvalid,
+        CatalogBadRequest,
+        CatalogTooManyRequests,
         ExportInvalidStatusUpdate,
         ExportInvalidPrefix,
         ExportBlobContainerDoesNotExist,
@@ -1924,6 +1940,10 @@ namespace PlayFab.ServerModels
         ExportCantEditPendingExport,
         ExportLimitExports,
         ExportLimitEvents,
+        ExportInvalidPartitionStatusModification,
+        ExportCouldNotCreate,
+        ExportNoBackingDatabaseFound,
+        ExportCouldNotDelete,
         TitleNotEnabledForParty,
         PartyVersionNotFound,
         MultiplayerServerBuildReferencedByMatchmakingQueue,
@@ -1933,9 +1953,14 @@ namespace PlayFab.ServerModels
         ExperimentationExperimentNeverStarted,
         ExperimentationExperimentDeleted,
         ExperimentationClientTimeout,
-        ExperimentationExceededVariantNameLength,
-        ExperimentationExceededMaxVariantLength,
+        ExperimentationInvalidVariantConfiguration,
+        ExperimentationInvalidVariableConfiguration,
         ExperimentInvalidId,
+        ExperimentationNoScorecard,
+        ExperimentationTreatmentAssignmentFailed,
+        ExperimentationTreatmentAssignmentDisabled,
+        ExperimentationInvalidDuration,
+        ExperimentationMaxExperimentsReached,
         MaxActionDepthExceeded,
         SnapshotNotFound
     }
@@ -3291,7 +3316,7 @@ namespace PlayFab.ServerModels
     public class GrantCharacterToUserRequest : PlayFabRequestCommon
     {
         /// <summary>
-        /// Non-unique display name of the character being granted (1-20 characters in length).
+        /// Non-unique display name of the character being granted (1-40 characters in length).
         /// </summary>
         public string CharacterName;
         /// <summary>
@@ -3636,6 +3661,36 @@ namespace PlayFab.ServerModels
     }
 
     [Serializable]
+    public class LinkPSNAccountRequest : PlayFabRequestCommon
+    {
+        /// <summary>
+        /// Authentication code provided by the PlayStation Network.
+        /// </summary>
+        public string AuthCode;
+        /// <summary>
+        /// If another user is already linked to the account, unlink the other user and re-link.
+        /// </summary>
+        public bool? ForceLink;
+        /// <summary>
+        /// Id of the PSN issuer environment. If null, defaults to 256 (production)
+        /// </summary>
+        public int? IssuerId;
+        /// <summary>
+        /// Unique PlayFab assigned ID of the user on whom the operation will be performed.
+        /// </summary>
+        public string PlayFabId;
+        /// <summary>
+        /// Redirect URI supplied to PSN when requesting an auth code
+        /// </summary>
+        public string RedirectUri;
+    }
+
+    [Serializable]
+    public class LinkPSNAccountResult : PlayFabResultCommon
+    {
+    }
+
+    [Serializable]
     public class LinkServerCustomIdRequest : PlayFabRequestCommon
     {
         /// <summary>
@@ -3761,7 +3816,8 @@ namespace PlayFab.ServerModels
         CustomServer,
         NintendoSwitch,
         FacebookInstantGames,
-        OpenIdConnect
+        OpenIdConnect,
+        Apple
     }
 
     [Serializable]
@@ -4258,6 +4314,10 @@ namespace PlayFab.ServerModels
         /// </summary>
         public string DisplayName;
         /// <summary>
+        /// List of experiment variants for the player.
+        /// </summary>
+        public List<string> ExperimentVariants;
+        /// <summary>
         /// UTC time when the player most recently logged in to the title
         /// </summary>
         public DateTime? LastLogin;
@@ -4339,6 +4399,10 @@ namespace PlayFab.ServerModels
         /// Whether to show the display name. Defaults to false
         /// </summary>
         public bool ShowDisplayName;
+        /// <summary>
+        /// Whether to show player's experiment variants. Defaults to false
+        /// </summary>
+        public bool ShowExperimentVariants;
         /// <summary>
         /// Whether to show the last login time. Defaults to false
         /// </summary>
@@ -5118,6 +5182,10 @@ namespace PlayFab.ServerModels
         /// Settings specific to this user.
         /// </summary>
         public UserSettings SettingsForUser;
+        /// <summary>
+        /// The experimentation treatments for this user at the time of login.
+        /// </summary>
+        public TreatmentAssignment TreatmentAssignment;
     }
 
     /// <summary>
@@ -5557,6 +5625,33 @@ namespace PlayFab.ServerModels
     }
 
     [Serializable]
+    public class TreatmentAssignment : PlayFabBaseModel
+    {
+        /// <summary>
+        /// List of the experiment variables.
+        /// </summary>
+        public List<Variable> Variables;
+        /// <summary>
+        /// List of the experiment variants.
+        /// </summary>
+        public List<string> Variants;
+    }
+
+    [Serializable]
+    public class UnlinkPSNAccountRequest : PlayFabRequestCommon
+    {
+        /// <summary>
+        /// Unique PlayFab assigned ID of the user on whom the operation will be performed.
+        /// </summary>
+        public string PlayFabId;
+    }
+
+    [Serializable]
+    public class UnlinkPSNAccountResult : PlayFabResultCommon
+    {
+    }
+
+    [Serializable]
     public class UnlinkServerCustomIdRequest : PlayFabRequestCommon
     {
         /// <summary>
@@ -5584,6 +5679,7 @@ namespace PlayFab.ServerModels
         /// <summary>
         /// Token provided by the Xbox Live SDK/XDK method GetTokenAndSignatureAsync("POST", "https://playfabapi.com/", "").
         /// </summary>
+        [Obsolete("No longer available", false)]
         public string XboxToken;
     }
 
@@ -6386,6 +6482,19 @@ namespace PlayFab.ServerModels
     }
 
     [Serializable]
+    public class Variable : PlayFabBaseModel
+    {
+        /// <summary>
+        /// Name of the variable.
+        /// </summary>
+        public string Name;
+        /// <summary>
+        /// Value of the variable.
+        /// </summary>
+        public string Value;
+    }
+
+    [Serializable]
     public class VirtualCurrencyRechargeTime : PlayFabBaseModel
     {
         /// <summary>
@@ -6440,7 +6549,7 @@ namespace PlayFab.ServerModels
         /// </summary>
         public string PlayFabId;
         /// <summary>
-        /// The time (in UTC) associated with this event. The value dafaults to the current time.
+        /// The time (in UTC) associated with this event. The value defaults to the current time.
         /// </summary>
         public DateTime? Timestamp;
     }
@@ -6467,7 +6576,7 @@ namespace PlayFab.ServerModels
         /// </summary>
         public string PlayFabId;
         /// <summary>
-        /// The time (in UTC) associated with this event. The value dafaults to the current time.
+        /// The time (in UTC) associated with this event. The value defaults to the current time.
         /// </summary>
         public DateTime? Timestamp;
     }
@@ -6490,7 +6599,7 @@ namespace PlayFab.ServerModels
         /// </summary>
         public string EventName;
         /// <summary>
-        /// The time (in UTC) associated with this event. The value dafaults to the current time.
+        /// The time (in UTC) associated with this event. The value defaults to the current time.
         /// </summary>
         public DateTime? Timestamp;
     }
