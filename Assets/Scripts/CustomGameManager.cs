@@ -10,16 +10,18 @@ public class CustomGameManager : MonoBehaviourPunCallbacks
     public GameObject[] spawnPoints;
     public TMPro.TextMeshProUGUI textCountdown;
     public bool gameStarted { get; private set; }
-
-    private GameObject localPlayer;
+    public bool gameEnded { get; private set; }
+    public GameObject localPlayer;
 
     private double spawnTime;
     private bool spawned;
+    private int deadPlayerNumber = 0;
     void Start()
     {
         spawnTime = PhotonNetwork.Time + 5;
         spawned = false;
         gameStarted = false;
+        gameEnded = false;
     }
 
     // Update is called once per frame
@@ -55,6 +57,16 @@ public class CustomGameManager : MonoBehaviourPunCallbacks
         else
         {
             textCountdown.text = Mathf.RoundToInt((float)timeleft).ToString();
+        }
+    }
+
+    public void IncreaseDeadPlayers()
+    {
+        deadPlayerNumber += 1;
+        if (deadPlayerNumber == (int)PhotonNetwork.CurrentRoom.PlayerCount - 1)
+        {
+            localPlayer.GetComponent<PlayerStats>().EndGame();
+            gameEnded = true;
         }
     }
 }

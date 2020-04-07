@@ -1,37 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine;
+using UnityEngine.UI;
+using Photon.Pun;
 
 public class UIGameManager : UIBase
 {
-    public GameObject playerUIPrefab;
+    public GameObject panel;
+    public Text endText;
 
-    private PlayerStats playerStats;
-    private GameObject playerUI;
-    void Start()
-    {
-        playerStats = FindObjectOfType<CustomGameManager>().playerPrefab.GetComponent<PlayerStats>();
-        // Instantiate UI
-        SetupUI();
-    }
 
     // Update is called once per frame
     void Update()
     {
-        UpdateUI();
+        if (Input.GetKeyDown(KeyCode.Escape))
+            panel.SetActive(!panel.activeSelf);
     }
 
-    void SetupUI()
+    public void OnClickBack()
     {
-        var playerStatsPos = Camera.main.WorldToScreenPoint(transform.position) + Vector3.forward * 5;
-        playerUI = Instantiate(playerUIPrefab, playerStatsPos, Quaternion.identity);
-        playerUI.transform.SetParent(GameObject.Find("Canvas").GetComponent<Transform>(), false);
+        if (PhotonNetwork.IsConnectedAndReady)
+            PhotonNetwork.LeaveRoom();
     }
 
-    void UpdateUI()
-    {
-        var playerStatsPos = Camera.main.WorldToScreenPoint(transform.position) + Vector3.forward * 5;
-        playerUI.transform.position = playerStatsPos;
-    }
 }

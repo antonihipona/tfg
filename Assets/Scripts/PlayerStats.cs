@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using System;
 
-public class PlayerStats : MonoBehaviour
+public class PlayerStats : MonoBehaviourPunCallbacks
 {
     public float maxLife = 10;
     public float currentLife;
@@ -16,9 +16,13 @@ public class PlayerStats : MonoBehaviour
     public float bulletSpeed = 5;
     public float shootCooldown = 2;
 
+    private CustomGameManager gameManager;
+    private UIGameManager uiGameManager;
     private float cooldownTimer;
     private void Start()
     {
+        gameManager = FindObjectOfType<CustomGameManager>();
+        uiGameManager = FindObjectOfType<UIGameManager>();
         currentLife = maxLife;
         cooldownTimer = 0;
     }
@@ -53,7 +57,6 @@ public class PlayerStats : MonoBehaviour
 
     private void Die(Vector3 point)
     {
-        Debug.LogWarning("local execution");
         var rb = GetComponent<Rigidbody>();
         rb.constraints = 0;
         var colliders = GetComponentsInChildren<Collider>();
@@ -75,6 +78,27 @@ public class PlayerStats : MonoBehaviour
             child.GetComponent<Rigidbody>().AddForce(force * 5, ForceMode.Impulse);
             Destroy(child.gameObject, 4);
         }
+        float r = 1f, g = 0.4f, b = 0.4f; // Red color
+        uiGameManager.endText.color = new Color(r, g, b);
+        uiGameManager.endText.text = "DEFEAT";
+        photonView.RPC("DieMessage", RpcTarget.AllBuffered);
         Destroy(gameObject, 4);
+    }
+
+    internal void EndGame()
+    {
+        if (!IsDead())
+        {
+            float r = 0.4f, g = 1f, b = 0.4f; // Green color
+            uiGameManager.endText.color = new Color(r, g, b);
+            uiGameManager.endText.text = "VICTORY";
+        }
+        uiGameManager.panel.SetActive(true);
+    }
+
+    [PunRPC]
+    void DieMessage(PhotonMessageInfo info)
+    {
+        gameManager.IncreaseDeadPlayers();
     }
 }

@@ -27,7 +27,7 @@ public class PlayerUI : MonoBehaviour
 
     void Update()
     {
-        if (playerStats != null && playerStats.IsDead())
+        if (target == null || playerStats.IsDead())
         {
             Destroy(this.gameObject);
             return;
@@ -35,13 +35,7 @@ public class PlayerUI : MonoBehaviour
         // Reflect the Player Health
         if (playerHealthSlider != null)
         {
-            var stats = target.GetComponent<PlayerStats>();
-            playerHealthSlider.value = stats.currentLife / stats.maxLife;
-        }
-        if (target == null)
-        {
-            Destroy(this.gameObject);
-            return;
+            playerHealthSlider.value = playerStats.currentLife / playerStats.maxLife;
         }
     }
 
@@ -68,7 +62,7 @@ public class PlayerUI : MonoBehaviour
     {
         if (_target == null)
         {
-            Debug.LogError("<Color=Red><a>Missing</a></Color> PlayMakerManager target for PlayerUI.SetTarget.", this);
+            Destroy(this);
             return;
         }
         // Cache references for efficiency

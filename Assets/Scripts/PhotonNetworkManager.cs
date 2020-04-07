@@ -78,6 +78,7 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     public override void OnJoinedRoom()
     {
+        roomList.Clear();
         AuthenticationManager.instance.InRoom = true;
         Debug.Log("PUN: OnJoinedRoom() called by PUN. Now this client is in a room.");
         SceneManager.LoadScene("RoomMenu");
@@ -85,7 +86,9 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     public override void OnLeftRoom()
     {
+        AuthenticationManager.instance.InRoom = false;
         Debug.Log("PUN: Room left");
+        SceneManager.LoadScene("MainMenu");
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
@@ -148,7 +151,7 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks, IInRoomCallbacks
         foreach (RoomInfo room in roomList)
         {
             // Remove room from cached room list if it got closed, became invisible or was marked as removed
-            if (!room.IsOpen || !room.IsVisible || room.RemovedFromList)
+            if (!room.IsOpen || !room.IsVisible || room.RemovedFromList || room.PlayerCount == 0)
             {
                 if (instance.roomList.Contains(room))
                 {

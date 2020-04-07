@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(PlayerStats))]
 public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
@@ -91,7 +92,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             chasis.rotation = Quaternion.Lerp(networkRotationChasisAtLastPacket, networkRotationChasis, (float)(currentTime / timeToReachGoal));
             turret.rotation = Quaternion.Lerp(networkRotationTurretAtLastPacket, networkRotationTurret, (float)(currentTime / timeToReachGoal));
         }
-        if (gameManager.gameStarted)
+        if (gameManager.gameStarted && !gameManager.gameEnded)
         {
             if (photonView.IsMine && !playerStats.IsDead())
             {
