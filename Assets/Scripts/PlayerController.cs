@@ -15,7 +15,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     private PlayerStats playerStats;
 
     private Vector3 networkPosition;
-    private Vector3 oldPosition;
     private Quaternion networkRotationChasis;
     private Quaternion networkRotationTurret;
     private Vector3 turretRotationPoint;
@@ -23,6 +22,14 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     private Transform turret;
 
     new private Rigidbody rigidbody;
+
+    float currentTime = 0;
+    double currentPacketTime = 0;
+    double lastPacketTime = 0;
+    Vector3 positionAtLastPacket = Vector3.zero;
+    Quaternion networkRotationChasisAtLastPacket = Quaternion.identity;
+    Quaternion networkRotationTurretAtLastPacket = Quaternion.identity;
+
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
@@ -76,6 +83,14 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
     void Update()
     {
+        if (!photonView.IsMine)
+        {
+            double timeToReachGoal = currentPacketTime - lastPacketTime;
+            currentTime += Time.deltaTime;
+            rigidbody.position = Vector3.Lerp(positionAtLastPacket, networkPosition, (float)(currentTime / timeToReachGoal));
+            chasis.rotation = Quaternion.Lerp(networkRotationChasisAtLastPacket, networkRotationChasis, (float)(currentTime / timeToReachGoal));
+            turret.rotation = Quaternion.Lerp(networkRotationTurretAtLastPacket, networkRotationTurret, (float)(currentTime / timeToReachGoal));
+        }
         if (gameManager.gameStarted)
         {
             if (photonView.IsMine && !playerStats.IsDead())
@@ -86,26 +101,14 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
-    private void FixedUpdate()
-    {
-        if (!photonView.IsMine)
-        {
-            rigidbody.position = Vector3.Lerp(rigidbody.position, networkPosition, 0.5f);
-            chasis.rotation = Quaternion.RotateTowards(chasis.rotation, networkRotationChasis, Time.fixedDeltaTime * playerStats.rotationSpeed);
-            turret.rotation = Quaternion.RotateTowards(turret.rotation, networkRotationTurret, Time.fixedDeltaTime * playerStats.turretRotationSpeed);
-        }
-    }
-
     private void MovementAndRotation()
     {
-        oldPosition = transform.position;
         float v = Input.GetAxis("Vertical") * playerStats.speed * Time.deltaTime;
         float h = Input.GetAxis("Horizontal") * playerStats.rotationSpeed * Time.deltaTime;
 
-        if (v >= 0)
-        {
-            rigidbody.MovePosition(rigidbody.position + chasis.forward * v);
-        }
+        
+        rigidbody.MovePosition(rigidbody.position + chasis.forward * v);
+
         var chasisRot = chasis.rotation;
         chasisRot *= Quaternion.Euler(0, h, 0);
         chasis.rotation = chasisRot;
@@ -164,21 +167,22 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         if (stream.IsWriting)
         {
             stream.SendNext(rigidbody.position);
-            stream.SendNext(rigidbody.velocity);
-
             stream.SendNext(chasis.rotation);
             stream.SendNext(turret.rotation);
         }
         else
         {
             networkPosition = (Vector3)stream.ReceiveNext();
-            rigidbody.velocity = (Vector3)stream.ReceiveNext();
-
             networkRotationChasis = (Quaternion)stream.ReceiveNext();
             networkRotationTurret = (Quaternion)stream.ReceiveNext();
 
-            float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
-            networkPosition += rigidbody.velocity * lag;
+            //Lag compensation
+            currentTime = 0.0f;
+            lastPacketTime = currentPacketTime;
+            currentPacketTime = info.SentServerTime;
+            positionAtLastPacket = rigidbody.position;
+            networkRotationChasisAtLastPacket = chasis.rotation;
+            networkRotationTurretAtLastPacket = turret.rotation;
         }
     }
 
@@ -189,7 +193,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         if (collision.transform.CompareTag("Bullet"))
         {
             MyBullet bullet = collision.transform.GetComponent<MyBullet>();
-            if (bullet != null)
+            if (bullet != null && bullet.myPlayerStats != null)
             {
                 shootDamage = bullet.myPlayerStats.shootDamage;
                 point = collision.GetContact(0).point;
