@@ -14,6 +14,7 @@ public class UICreateMatch : UIBase
 
     public void OnClickCreateMatch()
     {
+        inputRoomName.enabled = false;
         string errors = CheckInputs(inputRoomName.text);
         textError.text = errors;
         if (errors.Equals(""))
@@ -30,6 +31,7 @@ public class UICreateMatch : UIBase
 
     public void OnClickBack()
     {
+        inputRoomName.enabled = false;
         SceneManager.LoadScene("MainMenu");
     }
 

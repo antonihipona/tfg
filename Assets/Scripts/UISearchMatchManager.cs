@@ -56,6 +56,7 @@ public class UISearchMatchManager : UIBase
 
     public void joinRoom(string name)
     {
+        inputSearch.enabled = false;
         PhotonNetwork.JoinRoom(name);
     }
     public void OnClickSearch()

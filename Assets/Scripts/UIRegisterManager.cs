@@ -12,6 +12,8 @@ public class UIRegisterManager : UIBase
 
     public void OnClickRegister()
     {
+        inputUsername.enabled = false;
+        inputPassword.enabled = false;
         var request = new RegisterPlayFabUserRequest
         {
             Username = inputUsername.text,
@@ -24,6 +26,8 @@ public class UIRegisterManager : UIBase
 
     private void OnRegisterFailure(PlayFabError error)
     {
+        inputUsername.enabled = true;
+        inputPassword.enabled = true;
         float r = 1f, g = 0.4f, b = 0.4f; // Red color
         textMessage.color = new Color(r, g, b);
         textMessage.text = "";

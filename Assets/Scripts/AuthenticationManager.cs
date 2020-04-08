@@ -36,7 +36,7 @@ public class AuthenticationManager : MonoBehaviour
 
     public void OnLoginFailure(PlayFabError error)
     {
-        Debug.LogError(error.GenerateErrorReport());
+        Debug.Log(error.GenerateErrorReport());
         loginErrorMessage = "";
         var details = error.ErrorDetails;
         if (details != null)

@@ -36,6 +36,8 @@ public class UILoginManager : UIBase
 
     public void OnClickRegister()
     {
+        inputUsername.enabled = false;
+        inputPassword.enabled = false;
         SceneManager.LoadScene("RegisterMenu");
     }
 
