@@ -13,7 +13,7 @@ public class PlayerStats : MonoBehaviourPunCallbacks
     public float shootDamage = 2;
     public float bombDamage = 5;
     public float turretRotationSpeed = 100;
-    public float bulletSpeed = 5;
+    public float bulletSpeed = 10;
     public float shootCooldown = 2;
 
     private CustomGameManager gameManager;

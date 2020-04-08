@@ -458,8 +458,8 @@ MonoBehaviour:
   rotationSpeed: 100
   shootDamage: 2
   bombDamage: 5
-  turretRotationSpeed: 100
-  bulletSpeed: 5
+  turretRotationSpeed: 160
+  bulletSpeed: 10
   shootCooldown: 2
 --- !u!54 &6939047026142200521
 Rigidbody:

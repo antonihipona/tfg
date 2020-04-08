@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
+        networkPosition = rigidbody.position;
         chasis = transform.GetChild(0);
         turret = transform.GetChild(1);
         chasis.rotation = transform.rotation;
@@ -88,6 +89,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         {
             double timeToReachGoal = currentPacketTime - lastPacketTime;
             currentTime += Time.deltaTime;
+            // We can try to add some motion to compensate lag
             rigidbody.position = Vector3.Lerp(positionAtLastPacket, networkPosition, (float)(currentTime / timeToReachGoal));
             chasis.rotation = Quaternion.Lerp(networkRotationChasisAtLastPacket, networkRotationChasis, (float)(currentTime / timeToReachGoal));
             turret.rotation = Quaternion.Lerp(networkRotationTurretAtLastPacket, networkRotationTurret, (float)(currentTime / timeToReachGoal));
@@ -107,7 +109,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         float v = Input.GetAxis("Vertical") * playerStats.speed * Time.deltaTime;
         float h = Input.GetAxis("Horizontal") * playerStats.rotationSpeed * Time.deltaTime;
 
-        
+
         rigidbody.MovePosition(rigidbody.position + chasis.forward * v);
 
         var chasisRot = chasis.rotation;
@@ -189,6 +191,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
     private void OnCollisionEnter(Collision collision)
     {
+
+        if (gameManager == null || !gameManager.gameStarted || gameManager.gameEnded || playerStats.IsDead())
+            return;
         float shootDamage = 0;
         Vector3 point = Vector3.zero;
         if (collision.transform.CompareTag("Bullet"))
@@ -198,9 +203,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             {
                 shootDamage = bullet.myPlayerStats.shootDamage;
                 point = collision.GetContact(0).point;
+                photonView.RPC("TakeDamage", RpcTarget.AllBuffered, shootDamage, point);
+                bullet.Explode();
             }
-            photonView.RPC("TakeDamage", RpcTarget.AllBuffered, shootDamage, point);
-            bullet.Explode();
         }
     }
 

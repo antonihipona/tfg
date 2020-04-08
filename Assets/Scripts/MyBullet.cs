@@ -3,11 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MyBullet : MonoBehaviourPunCallbacks
+public class MyBullet : MonoBehaviourPunCallbacks, IPunObservable
 {
     public PlayerStats myPlayerStats;
     public GameObject explosionPrefab;
+
     private float speed;
+
+
+    private Vector3 networkPosition;
+    private Quaternion networkRotation;
+
+    float currentTime = 0;
+    double currentPacketTime = 0;
+    double lastPacketTime = 0;
+    Vector3 positionAtLastPacket = Vector3.zero;
+    Quaternion networkRotationAtLastPacket = Quaternion.identity;
     void Start()
     {
         Destroy(gameObject, 10f);
@@ -28,6 +39,13 @@ public class MyBullet : MonoBehaviourPunCallbacks
 
     private void FixedUpdate()
     {
+        if (!photonView.IsMine)
+        {
+            double timeToReachGoal = currentPacketTime - lastPacketTime;
+            currentTime += Time.deltaTime;
+            transform.position = Vector3.Lerp(positionAtLastPacket, networkPosition, (float)(currentTime / timeToReachGoal));
+            transform.rotation = networkRotation;
+        }
         transform.position += transform.forward * speed * Time.deltaTime;
     }
 
@@ -48,5 +66,24 @@ public class MyBullet : MonoBehaviourPunCallbacks
         Destroy(gameObject);
     }
 
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
+        }
+        else
+        {
+            networkPosition = (Vector3)stream.ReceiveNext();
+            networkRotation = (Quaternion)stream.ReceiveNext();
 
+            //Lag compensation
+            currentTime = 0.0f;
+            lastPacketTime = currentPacketTime;
+            currentPacketTime = info.SentServerTime;
+            positionAtLastPacket = transform.position;
+            networkRotationAtLastPacket = transform.rotation;
+        }
+    }
 }
