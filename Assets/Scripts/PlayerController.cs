@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 {
     public GameObject PlayerUIPrefab;
     public GameObject bulletPrefab;
+    public GameObject bombPrefab;
 
     private Color[] myColors;
 
@@ -21,6 +22,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     private Vector3 turretRotationPoint;
     private Transform chasis;
     private Transform turret;
+    private Transform bombSpawn;
 
     new private Rigidbody rigidbody;
 
@@ -37,8 +39,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         networkPosition = rigidbody.position;
         chasis = transform.GetChild(0);
         turret = transform.GetChild(1);
+        bombSpawn = chasis.GetChild(3);
         chasis.rotation = transform.rotation;
         turret.rotation = transform.rotation;
+        bombSpawn.rotation = transform.rotation;
     }
 
     void Start()
@@ -100,6 +104,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             {
                 MovementAndRotation();
                 Shoot();
+                PlaceBomb();
             }
         }
     }
@@ -143,6 +148,19 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                 bullet.GetComponent<MyBullet>().myPlayerStats = playerStats;
                 bullet.GetComponent<MyBullet>().InitializeBullet(turret.rotation, playerStats.bulletSpeed);
                 playerStats.ResetShootCooldown();
+            }
+        }
+    }
+
+    private void PlaceBomb()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (playerStats.CanPlaceBomb())
+            {
+                var bomb = PhotonNetwork.Instantiate(this.bombPrefab.name, bombSpawn.position, Quaternion.identity, 0);
+                bomb.GetComponent<MyBomb>().myPlayerStats = playerStats;
+                playerStats.ResetBombCooldown();
             }
         }
     }
@@ -194,10 +212,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
         if (gameManager == null || !gameManager.gameStarted || gameManager.gameEnded || playerStats.IsDead())
             return;
-        float shootDamage = 0;
         Vector3 point = Vector3.zero;
         if (collision.transform.CompareTag("Bullet"))
         {
+            float shootDamage = 0;
             MyBullet bullet = collision.transform.GetComponent<MyBullet>();
             if (bullet != null && bullet.myPlayerStats != null)
             {
@@ -205,6 +223,17 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                 point = collision.GetContact(0).point;
                 photonView.RPC("TakeDamage", RpcTarget.AllBuffered, shootDamage, point);
                 bullet.Explode();
+            }
+        }else if (collision.transform.CompareTag("Land Mine"))
+        {
+            float bombDamage = 0;
+            MyBomb bomb = collision.transform.GetComponent<MyBomb>();
+            if (bomb != null && bomb.myPlayerStats != null)
+            {
+                bombDamage = bomb.myPlayerStats.bombDamage;
+                point = collision.GetContact(0).point;
+                photonView.RPC("TakeDamage", RpcTarget.AllBuffered, bombDamage, point);
+                bomb.Explode();
             }
         }
     }

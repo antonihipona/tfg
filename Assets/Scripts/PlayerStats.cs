@@ -15,17 +15,20 @@ public class PlayerStats : MonoBehaviourPunCallbacks
     public float turretRotationSpeed = 100;
     public float bulletSpeed = 10;
     public float shootCooldown = 2;
+    public float bombCooldown = 10;
 
 
     private CustomGameManager gameManager;
     private UIGameManager uiGameManager;
     private float cooldownTimer;
+    private float cooldownBombTimer;
     private void Start()
     {
         gameManager = FindObjectOfType<CustomGameManager>();
         uiGameManager = FindObjectOfType<UIGameManager>();
         currentLife = maxLife;
         cooldownTimer = 0;
+        cooldownBombTimer = 0;
     }
 
     public bool IsDead()
@@ -38,6 +41,11 @@ public class PlayerStats : MonoBehaviourPunCallbacks
         return cooldownTimer <= 0;
     }
 
+    public bool CanPlaceBomb()
+    {
+        return cooldownBombTimer <= 0;
+    }
+
     public void ResetShootCooldown()
     {
         cooldownTimer = shootCooldown;
@@ -46,6 +54,7 @@ public class PlayerStats : MonoBehaviourPunCallbacks
     private void LateUpdate()
     {
         cooldownTimer -= Time.deltaTime;
+        cooldownBombTimer -= Time.deltaTime;
     }
 
     public void TakeDamage(float damage, Vector3 direction)
@@ -90,5 +99,10 @@ public class PlayerStats : MonoBehaviourPunCallbacks
         uiGameManager.endText.text = "DEFEAT";
         Destroy(gameObject);
         gameManager.IncreaseDeadPlayers();
+    }
+
+    internal void ResetBombCooldown()
+    {
+        cooldownBombTimer = bombCooldown;
     }
 }
