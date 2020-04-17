@@ -209,7 +209,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
     private void OnCollisionEnter(Collision collision)
     {
-
         if (gameManager == null || !gameManager.gameStarted || gameManager.gameEnded || playerStats.IsDead())
             return;
         Vector3 point = Vector3.zero;
@@ -222,7 +221,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                 shootDamage = bullet.myPlayerStats.shootDamage;
                 point = collision.GetContact(0).point;
                 photonView.RPC("TakeDamage", RpcTarget.AllBuffered, shootDamage, point);
-                bullet.Explode();
+                PhotonNetwork.Destroy(bullet.photonView);
             }
         }else if (collision.transform.CompareTag("Land Mine"))
         {
@@ -233,7 +232,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                 bombDamage = bomb.myPlayerStats.bombDamage;
                 point = collision.GetContact(0).point;
                 photonView.RPC("TakeDamage", RpcTarget.AllBuffered, bombDamage, point);
-                bomb.Explode();
+                PhotonNetwork.Destroy(bomb.photonView);
             }
         }
     }

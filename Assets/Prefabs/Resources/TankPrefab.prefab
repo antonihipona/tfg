@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3179084337076940686}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1.657}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 681301865022565252}
@@ -153,7 +153,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.2912412, y: 0.78913045, z: 1.4334531}
+  m_Size: {x: 1.5082222, y: 0.78913045, z: 1.8198688}
   m_Center: {x: 0, y: 0.39989913, z: 0.0046789646}
 --- !u!1 &7018743246671986313
 GameObject:
@@ -520,8 +520,6 @@ GameObject:
   m_Component:
   - component: {fileID: 681301865022565252}
   - component: {fileID: 1366406062860722387}
-  - component: {fileID: 7060335533327689525}
-  - component: {fileID: 5879533255164018094}
   m_Layer: 0
   m_Name: Chasis
   m_TagString: Untagged
@@ -558,33 +556,5 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.1188538, z: 1.5441508}
-  m_Center: {x: 0, y: 0.5313457, z: -0.03611636}
---- !u!136 &7060335533327689525
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7266160734843707246}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 1.5288621
-  m_Direction: 0
-  m_Center: {x: 0.0068982244, y: 0.47, z: 0.57}
---- !u!136 &5879533255164018094
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7266160734843707246}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 1.5288621
-  m_Direction: 0
-  m_Center: {x: 0.0068982244, y: 0.47, z: -0.58}
+  m_Size: {x: 1.5341079, y: 1.1188538, z: 2.074629}
+  m_Center: {x: 0, y: 0.5313457, z: -0.011519313}

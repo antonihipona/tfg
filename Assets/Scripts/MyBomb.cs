@@ -3,14 +3,46 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class MyBomb : MonoBehaviourPunCallbacks
+public class MyBomb : MonoBehaviourPunCallbacks, IPunObservable
 {
     public PlayerStats myPlayerStats;
     public GameObject explosionPrefab;
 
+    private float activateCooldown = 2f;
+    private Collider bombCollider;
+    private Material[] mats;
+    private bool activated;
     void Start()
     {
-        Destroy(gameObject, 4f);
+        activated = false;
+        mats = gameObject.GetComponentInChildren<MeshRenderer>().materials;
+        foreach (Material mat in mats)
+        {
+            Color color = mat.color;
+            color.a = 0.5f;
+            mat.color = color;
+        }
+
+        bombCollider = GetComponent<Collider>();
+        bombCollider.enabled = false;
+        Destroy(gameObject, 10f);
+    }
+
+    private void Update()
+    {
+        activateCooldown -= Time.deltaTime;
+
+        if (activateCooldown <= 0 && !activated)
+        {
+            activated = true;
+            bombCollider.enabled = true;
+            foreach (Material mat in mats)
+            {
+                Color color = mat.color;
+                color.a = 1f;
+                mat.color = color;
+            }
+        }
     }
 
     private void OnDestroy()
@@ -19,14 +51,15 @@ public class MyBomb : MonoBehaviourPunCallbacks
         particle.transform.SetParent(null);
     }
 
-    public void Explode()
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        photonView.RPC("DestroyInstant", RpcTarget.AllBuffered);
-    }
-
-    [PunRPC]
-    void DestroyInstant()
-    {
-        Destroy(gameObject);
+        if (stream.IsWriting)
+        {
+            stream.SendNext(transform.position);
+        }
+        else
+        {
+            transform.position = (Vector3)stream.ReceiveNext();
+        }
     }
 }

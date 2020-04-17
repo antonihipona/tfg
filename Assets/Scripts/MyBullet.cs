@@ -21,7 +21,7 @@ public class MyBullet : MonoBehaviourPunCallbacks, IPunObservable
     Quaternion networkRotationAtLastPacket = Quaternion.identity;
     void Start()
     {
-        Destroy(gameObject, 4f);
+        Destroy(gameObject, 2f);
     }
 
     public void InitializeBullet(Quaternion rotation, float speed)
@@ -53,17 +53,6 @@ public class MyBullet : MonoBehaviourPunCallbacks, IPunObservable
     {
         var particle = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
         particle.transform.SetParent(null);
-    }
-
-    public void Explode()
-    {
-        photonView.RPC("DestroyInstant", RpcTarget.AllBuffered);
-    }
-
-    [PunRPC]
-    void DestroyInstant()
-    {
-        Destroy(gameObject);
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
