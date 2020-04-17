@@ -6,9 +6,8 @@ public class UIGameManager : UIBase
 {
     public GameObject panel;
     public Text endText;
+    public Text messageText;
 
-
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))

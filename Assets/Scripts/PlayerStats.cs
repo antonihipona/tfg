@@ -16,6 +16,7 @@ public class PlayerStats : MonoBehaviourPunCallbacks
     public float bulletSpeed = 10;
     public float shootCooldown = 2;
 
+
     private CustomGameManager gameManager;
     private UIGameManager uiGameManager;
     private float cooldownTimer;
@@ -50,11 +51,17 @@ public class PlayerStats : MonoBehaviourPunCallbacks
     public void TakeDamage(float damage, Vector3 direction)
     {
         if (!this.IsDead())
-            this.currentLife -= damage;
+        {
+            this.RemoveHealth(damage);
+            UIDamageManager.instance.InstantiateDamage(damage, this.transform.position);
+        }
         if (this.IsDead())
             this.Die(direction);
     }
-
+    private void RemoveHealth(float damage)
+    {
+        this.currentLife -= damage;
+    }
     private void Die(Vector3 point)
     {
         var rb = GetComponent<Rigidbody>();
@@ -73,32 +80,15 @@ public class PlayerStats : MonoBehaviourPunCallbacks
         {
             child.SetParent(null);
             point.y = -0.5f;
-            var force = child.position - point;
+            var force = (child.position - point).normalized;
             child.gameObject.AddComponent<Rigidbody>();
-            child.GetComponent<Rigidbody>().AddForce(force * 5, ForceMode.Impulse);
+            child.GetComponent<Rigidbody>().AddForceAtPosition(force * 5, point, ForceMode.Impulse);
             Destroy(child.gameObject, 4);
         }
         float r = 1f, g = 0.4f, b = 0.4f; // Red color
         uiGameManager.endText.color = new Color(r, g, b);
         uiGameManager.endText.text = "DEFEAT";
-        photonView.RPC("DieMessage", RpcTarget.AllBuffered);
-        Destroy(gameObject, 4);
-    }
-
-    internal void EndGame()
-    {
-        if (!IsDead())
-        {
-            float r = 0.4f, g = 1f, b = 0.4f; // Green color
-            uiGameManager.endText.color = new Color(r, g, b);
-            uiGameManager.endText.text = "VICTORY";
-        }
-        uiGameManager.panel.SetActive(true);
-    }
-
-    [PunRPC]
-    void DieMessage(PhotonMessageInfo info)
-    {
+        Destroy(gameObject);
         gameManager.IncreaseDeadPlayers();
     }
 }

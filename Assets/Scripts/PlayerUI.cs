@@ -33,7 +33,7 @@ public class PlayerUI : MonoBehaviour
             return;
         }
         // Reflect the Player Health
-        if (playerHealthSlider != null)
+        if (playerHealthSlider != null && playerStats != null)
         {
             playerHealthSlider.value = playerStats.currentLife / playerStats.maxLife;
         }

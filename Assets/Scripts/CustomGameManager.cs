@@ -16,8 +16,10 @@ public class CustomGameManager : MonoBehaviourPunCallbacks
     private double spawnTime;
     private bool spawned;
     private int deadPlayerNumber = 0;
+    private UIGameManager uiGameManager;
     void Start()
     {
+        uiGameManager = FindObjectOfType<UIGameManager>();
         spawnTime = PhotonNetwork.Time + 5;
         spawned = false;
         gameStarted = false;
@@ -63,10 +65,24 @@ public class CustomGameManager : MonoBehaviourPunCallbacks
     public void IncreaseDeadPlayers()
     {
         deadPlayerNumber += 1;
+        Debug.Log("Dead players: " + deadPlayerNumber + " / " + PhotonNetwork.CurrentRoom.PlayerCount);
         if (deadPlayerNumber == (int)PhotonNetwork.CurrentRoom.PlayerCount - 1)
         {
-            localPlayer.GetComponent<PlayerStats>().EndGame();
             gameEnded = true;
+
+            if (localPlayer != null)
+            {
+                PlayerStats playerStats = localPlayer.GetComponent<PlayerStats>();
+                if (!playerStats.IsDead())
+                {
+                    AuthenticationManager.instance.AddSBCurrency(50);
+                    float r = 0.4f, g = 1f, b = 0.4f; // Green color
+                    uiGameManager.endText.color = new Color(r, g, b);
+                    uiGameManager.endText.text = "VICTORY";
+                    uiGameManager.messageText.text = "You won 50 SB";
+                }
+            }
+            uiGameManager.panel.SetActive(true);
         }
     }
 }

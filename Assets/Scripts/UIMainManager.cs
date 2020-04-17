@@ -1,10 +1,16 @@
-﻿using Photon.Pun;
+﻿using UnityEngine.UI;
+using Photon.Pun;
 using UnityEngine.SceneManagement;
 
 
 public class UIMainManager : UIBase
 {
+    public Text sbAmount;
 
+    private void Start()
+    {
+        sbAmount.text = AuthenticationManager.instance.virtualCurrency["SB"].ToString();
+    }
     public void OnClickSearchMatch()
     {
         // We need to join the lobby
@@ -25,5 +31,4 @@ public class UIMainManager : UIBase
     {
         SceneManager.LoadScene("GameSettingsMenu");
     }
-
 }

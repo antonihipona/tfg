@@ -293,6 +293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd8a047cd894f1c419987af88881e636, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerInventory: []
   loginErrorMessage: 
 --- !u!4 &210206618
 Transform:

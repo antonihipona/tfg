@@ -21,7 +21,7 @@ public class MyBullet : MonoBehaviourPunCallbacks, IPunObservable
     Quaternion networkRotationAtLastPacket = Quaternion.identity;
     void Start()
     {
-        Destroy(gameObject, 10f);
+        Destroy(gameObject, 4f);
     }
 
     public void InitializeBullet(Quaternion rotation, float speed)

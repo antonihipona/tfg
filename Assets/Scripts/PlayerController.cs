@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
     void Update()
     {
-        if (!photonView.IsMine)
+        if (!photonView.IsMine && !playerStats.IsDead())
         {
             double timeToReachGoal = currentPacketTime - lastPacketTime;
             currentTime += Time.deltaTime;
