@@ -211,9 +211,9 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (gameManager == null || !gameManager.gameStarted || gameManager.gameEnded || playerStats.IsDead())
             return;
-        Vector3 point = Vector3.zero;
         if (collision.transform.CompareTag("Bullet"))
         {
+            Vector3 point = Vector3.zero;
             float shootDamage = 0;
             MyBullet bullet = collision.transform.GetComponent<MyBullet>();
             if (bullet != null && bullet.myPlayerStats != null)
@@ -223,14 +223,22 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
                 photonView.RPC("TakeDamage", RpcTarget.AllBuffered, shootDamage, point);
                 PhotonNetwork.Destroy(bullet.photonView);
             }
-        }else if (collision.transform.CompareTag("Land Mine"))
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (gameManager == null || !gameManager.gameStarted || gameManager.gameEnded || playerStats.IsDead())
+            return;
+        if (other.transform.CompareTag("Land Mine"))
         {
+            Vector3 point = Vector3.zero;
             float bombDamage = 0;
-            MyBomb bomb = collision.transform.GetComponent<MyBomb>();
+            MyBomb bomb = other.transform.GetComponent<MyBomb>();
             if (bomb != null && bomb.myPlayerStats != null)
             {
                 bombDamage = bomb.myPlayerStats.bombDamage;
-                point = collision.GetContact(0).point;
+                point = other.transform.position;
                 photonView.RPC("TakeDamage", RpcTarget.AllBuffered, bombDamage, point);
                 PhotonNetwork.Destroy(bomb.photonView);
             }

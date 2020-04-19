@@ -55,6 +55,12 @@ public class PlayerStats : MonoBehaviourPunCallbacks
     {
         cooldownTimer -= Time.deltaTime;
         cooldownBombTimer -= Time.deltaTime;
+
+        if (uiGameManager != null && photonView.IsMine)
+        {
+            uiGameManager.shootCooldown.fillAmount = 1 - Mathf.Max(0, cooldownTimer / shootCooldown);
+            uiGameManager.bombCooldown.fillAmount = 1 - Mathf.Max(0, cooldownBombTimer / bombCooldown);
+        }
     }
 
     public void TakeDamage(float damage, Vector3 direction)

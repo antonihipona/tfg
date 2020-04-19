@@ -8,6 +8,9 @@ public class UIGameManager : UIBase
     public Text endText;
     public Text messageText;
 
+    public Image shootCooldown;
+    public Image bombCooldown;
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
