@@ -38,5 +38,6 @@ MonoBehaviour:
   - RespawnSpaceship
   - TakeDamage
   - DieMessage
+  - SpawnPowerUp
   DisableAutoOpenWizard: 1
   ShowSettings: 1

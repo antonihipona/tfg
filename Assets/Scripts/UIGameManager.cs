@@ -8,8 +8,15 @@ public class UIGameManager : UIBase
     public Text endText;
     public Text messageText;
 
+    [Header("Cooldown")]
     public Image shootCooldown;
     public Image bombCooldown;
+
+    [Header("Power-ups")]
+    public Image speedPowerUp;
+    public Image fireRatePowerUp;
+    public Image shootSpeedPowerUp;
+    public Image invisibilityPowerUp;
 
     void Update()
     {
