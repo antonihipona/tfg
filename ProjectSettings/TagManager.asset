@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Bullet
   - Land Mine
+  - PowerUp
   layers:
   - Default
   - TransparentFX

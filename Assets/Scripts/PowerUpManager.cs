@@ -52,7 +52,6 @@ public class PowerUpManager : MonoBehaviourPunCallbacks
     void SpawnPowerUp(int index, int typeIndex, PhotonMessageInfo info)
     {
         PowerUp p = powerUps[index];
-        p.isActive = true;
 
         var values = Enum.GetValues(typeof(PowerUpType));
         PowerUpType powerUp = (PowerUpType)values.GetValue(typeIndex);

@@ -13,10 +13,10 @@ public class UIGameManager : UIBase
     public Image bombCooldown;
 
     [Header("Power-ups")]
-    public Image speedPowerUp;
-    public Image fireRatePowerUp;
-    public Image shootSpeedPowerUp;
-    public Image invisibilityPowerUp;
+    public GameObject speedPowerUp;
+    public GameObject fireRatePowerUp;
+    public GameObject shootSpeedPowerUp;
+    public GameObject invisibilityPowerUp;
 
     void Update()
     {

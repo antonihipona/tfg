@@ -298,7 +298,7 @@ GameObject:
   - component: {fileID: 47514445}
   m_Layer: 0
   m_Name: SpawnPoint (3)
-  m_TagString: Untagged
+  m_TagString: PowerUp
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4761,7 +4761,7 @@ GameObject:
   - component: {fileID: 948475975}
   m_Layer: 0
   m_Name: SpawnPoint (2)
-  m_TagString: Untagged
+  m_TagString: PowerUp
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5561,7 +5561,7 @@ GameObject:
   - component: {fileID: 1099426788}
   m_Layer: 0
   m_Name: SpawnPoint
-  m_TagString: Untagged
+  m_TagString: PowerUp
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7097,7 +7097,7 @@ GameObject:
   - component: {fileID: 1429539686}
   m_Layer: 0
   m_Name: SpawnPoint (5)
-  m_TagString: Untagged
+  m_TagString: PowerUp
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7304,10 +7304,10 @@ MonoBehaviour:
   messageText: {fileID: 1474727217}
   shootCooldown: {fileID: 965796484}
   bombCooldown: {fileID: 67694799}
-  speedPowerUp: {fileID: 1383349913}
-  fireRatePowerUp: {fileID: 1924892112}
-  shootSpeedPowerUp: {fileID: 2063154920}
-  invisibilityPowerUp: {fileID: 1093911215}
+  speedPowerUp: {fileID: 1383349911}
+  fireRatePowerUp: {fileID: 1924892110}
+  shootSpeedPowerUp: {fileID: 2063154918}
+  invisibilityPowerUp: {fileID: 1093911213}
 --- !u!4 &1553704564
 Transform:
   m_ObjectHideFlags: 0
@@ -7350,7 +7350,7 @@ GameObject:
   - component: {fileID: 1583981681}
   m_Layer: 0
   m_Name: SpawnPoint (1)
-  m_TagString: Untagged
+  m_TagString: PowerUp
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9735,7 +9735,7 @@ GameObject:
   - component: {fileID: 2053846513}
   m_Layer: 0
   m_Name: SpawnPoint (4)
-  m_TagString: Untagged
+  m_TagString: PowerUp
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

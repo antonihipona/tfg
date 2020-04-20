@@ -11,14 +11,18 @@ public class PowerUp : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
     private PowerUpManager powerUpManager;
+    private Collider powerUpCollider;
     private void Start()
     {
         powerUpManager = FindObjectOfType<PowerUpManager>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        powerUpCollider = GetComponent<Collider>();
     }
 
     public void Spawn(PowerUpType type)
     {
+        isActive = true;
+        this.powerUpCollider.enabled = true;
         this.type = type;
         switch (type)
         {
@@ -39,4 +43,9 @@ public class PowerUp : MonoBehaviour
         }
     }
 
+    public void Deactivate(){
+        isActive = false;
+        this.powerUpCollider.enabled = false;
+        this.spriteRenderer.sprite = null;
+    }
 }

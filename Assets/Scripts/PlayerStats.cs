@@ -1,13 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 using System;
 
 public class PlayerStats : MonoBehaviourPunCallbacks
 {
+    #region Public Stats
     public float maxLife = 10;
-    public float currentLife;
+    public float currentLife = 10;
     public float speed = 5;
     public float rotationSpeed = 100;
     public float shootDamage = 2;
@@ -16,18 +18,47 @@ public class PlayerStats : MonoBehaviourPunCallbacks
     public float bulletSpeed = 10;
     public float shootCooldown = 2;
     public float bombCooldown = 10;
+    #endregion
 
+    #region Back-Up Stats
+    private float originalSpeed;
+    private float originalRotationSpeed;
+    #endregion
 
     private CustomGameManager gameManager;
     private UIGameManager uiGameManager;
-    private float cooldownTimer;
+
+    #region Power Ups Multipliers
+    private float speedMultiplier = 1.4f;
+    private float rotationSpeedMultiplier = 1.4f;
+    #endregion
+
+    #region Power Ups Duration
+    private float speedPowerUpDuration = 10;
+    private float fireRatePowerUpDuration = 10;
+    private float shootSpeedPowerUpDuration = 10;
+    private float invisibilityPowerUpDuration = 10;
+    #endregion
+
+    #region Timers
+    private float cooldownShootTimer;
     private float cooldownBombTimer;
+    private float speedPowerUpTimer;
+    private float fireRatePowerUpTimer;
+    private float shootSpeedPowerUpTimer;
+    private float invisibilityPowerUpTimer;
+    #endregion
+
     private void Start()
     {
+        // Back-up stats
+        originalSpeed = speed;
+        originalRotationSpeed = rotationSpeed;
+
         gameManager = FindObjectOfType<CustomGameManager>();
         uiGameManager = FindObjectOfType<UIGameManager>();
         currentLife = maxLife;
-        cooldownTimer = 0;
+        cooldownShootTimer = 0;
         cooldownBombTimer = 0;
     }
 
@@ -38,7 +69,7 @@ public class PlayerStats : MonoBehaviourPunCallbacks
 
     public bool CanShoot()
     {
-        return cooldownTimer <= 0;
+        return cooldownShootTimer <= 0;
     }
 
     public bool CanPlaceBomb()
@@ -48,18 +79,30 @@ public class PlayerStats : MonoBehaviourPunCallbacks
 
     public void ResetShootCooldown()
     {
-        cooldownTimer = shootCooldown;
+        cooldownShootTimer = shootCooldown;
     }
 
     private void LateUpdate()
     {
-        cooldownTimer -= Time.deltaTime;
+        cooldownShootTimer -= Time.deltaTime;
         cooldownBombTimer -= Time.deltaTime;
+        speedPowerUpTimer -= Time.deltaTime;
+
 
         if (uiGameManager != null && photonView.IsMine)
         {
-            uiGameManager.shootCooldown.fillAmount = 1 - Mathf.Max(0, cooldownTimer / shootCooldown);
+            if(!SpeedPowerUpActive() && uiGameManager.speedPowerUp.activeSelf){
+                uiGameManager.speedPowerUp.SetActive(false);
+                speed = originalSpeed;
+                rotationSpeed = originalRotationSpeed;
+            }
+
+            uiGameManager.shootCooldown.fillAmount = 1 - Mathf.Max(0, cooldownShootTimer / shootCooldown);
             uiGameManager.bombCooldown.fillAmount = 1 - Mathf.Max(0, cooldownBombTimer / bombCooldown);
+            if (SpeedPowerUpActive() && !uiGameManager.speedPowerUp.activeSelf){
+                uiGameManager.speedPowerUp.SetActive(true);
+            }
+            uiGameManager.speedPowerUp.GetComponent<Image>().fillAmount = Mathf.Max(0, speedPowerUpTimer / speedPowerUpDuration);
         }
     }
 
@@ -107,8 +150,48 @@ public class PlayerStats : MonoBehaviourPunCallbacks
         gameManager.IncreaseDeadPlayers();
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.transform.CompareTag("PowerUp"))
+        {
+            PowerUp powerUp = other.transform.GetComponent<PowerUp>();
+            if (powerUp != null)
+            {
+                powerUp.Deactivate();
+                BoostStats(powerUp.type);
+            }
+        }
+    }
+
     internal void ResetBombCooldown()
     {
         cooldownBombTimer = bombCooldown;
+    }
+
+    private void BoostStats(PowerUpType type)
+    {
+        switch (type)
+        {
+            case PowerUpType.Speed:
+                speedPowerUpTimer = speedPowerUpDuration;
+                if(!SpeedPowerUpActive()){
+                    speed *= speedMultiplier;
+                    rotationSpeed *= rotationSpeedMultiplier;
+                }
+                break;
+            case PowerUpType.ShootSpeed:
+                break;
+            case PowerUpType.FireRate:
+                break;
+            case PowerUpType.Invisibility:
+                break;
+            default:
+                break;
+        }
+    }
+
+    public bool SpeedPowerUpActive()
+    {
+        return originalSpeed != speed && speedPowerUpTimer > 0;
     }
 }
