@@ -140,7 +140,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
     private void Shoot()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
             if (playerStats.CanShoot())
             {
@@ -154,7 +154,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
     private void PlaceBomb()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space))
         {
             if (playerStats.CanPlaceBomb())
             {

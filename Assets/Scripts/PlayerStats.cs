@@ -23,6 +23,8 @@ public class PlayerStats : MonoBehaviourPunCallbacks
     #region Back-Up Stats
     private float originalSpeed;
     private float originalRotationSpeed;
+    private float originalFireRate;
+    private float originalShootSpeed;
     #endregion
 
     private CustomGameManager gameManager;
@@ -31,6 +33,8 @@ public class PlayerStats : MonoBehaviourPunCallbacks
     #region Power Ups Multipliers
     private float speedMultiplier = 1.4f;
     private float rotationSpeedMultiplier = 1.4f;
+    private float fireRateMultiplier = 2f;
+    private float shootSpeedMultiplier = 1.2f;
     #endregion
 
     #region Power Ups Duration
@@ -54,12 +58,13 @@ public class PlayerStats : MonoBehaviourPunCallbacks
         // Back-up stats
         originalSpeed = speed;
         originalRotationSpeed = rotationSpeed;
+        originalFireRate = shootCooldown;
+        originalShootSpeed = bulletSpeed;
+        // -----------
 
         gameManager = FindObjectOfType<CustomGameManager>();
         uiGameManager = FindObjectOfType<UIGameManager>();
         currentLife = maxLife;
-        cooldownShootTimer = 0;
-        cooldownBombTimer = 0;
     }
 
     public bool IsDead()
@@ -84,25 +89,57 @@ public class PlayerStats : MonoBehaviourPunCallbacks
 
     private void LateUpdate()
     {
-        cooldownShootTimer -= Time.deltaTime;
-        cooldownBombTimer -= Time.deltaTime;
-        speedPowerUpTimer -= Time.deltaTime;
-
+        // Decrease timers
+        float dt = Time.deltaTime;
+        cooldownShootTimer -= dt;
+        cooldownBombTimer -= dt;
+        speedPowerUpTimer -= dt;
+        fireRatePowerUpTimer -= dt;
+        shootSpeedPowerUpTimer -= dt;
+        // ------------
 
         if (uiGameManager != null && photonView.IsMine)
         {
-            if(!SpeedPowerUpActive() && uiGameManager.speedPowerUp.activeSelf){
+            // Deactivate powerups
+            if (!SpeedPowerUpActive() && uiGameManager.speedPowerUp.activeSelf)
+            {
                 uiGameManager.speedPowerUp.SetActive(false);
                 speed = originalSpeed;
                 rotationSpeed = originalRotationSpeed;
             }
+            if (!FireRatePowerUpActive() && uiGameManager.fireRatePowerUp.activeSelf)
+            {
+                uiGameManager.fireRatePowerUp.SetActive(false);
+                shootCooldown = originalFireRate;
+            }
+            if (!ShootSpeedPowerUpActive() && uiGameManager.shootSpeedPowerUp.activeSelf)
+            {
+                uiGameManager.shootSpeedPowerUp.SetActive(false);
+                bulletSpeed = originalShootSpeed;
+            }
+            // ---------------------
 
-            uiGameManager.shootCooldown.fillAmount = 1 - Mathf.Max(0, cooldownShootTimer / shootCooldown);
-            uiGameManager.bombCooldown.fillAmount = 1 - Mathf.Max(0, cooldownBombTimer / bombCooldown);
-            if (SpeedPowerUpActive() && !uiGameManager.speedPowerUp.activeSelf){
+            // Activate powerups
+            if (SpeedPowerUpActive() && !uiGameManager.speedPowerUp.activeSelf)
+            {
                 uiGameManager.speedPowerUp.SetActive(true);
             }
+            if (FireRatePowerUpActive() && !uiGameManager.fireRatePowerUp.activeSelf)
+            {
+                uiGameManager.fireRatePowerUp.SetActive(true);
+            }
+            if (ShootSpeedPowerUpActive() && !uiGameManager.shootSpeedPowerUp.activeSelf)
+            {
+                uiGameManager.shootSpeedPowerUp.SetActive(true);
+            }
+            // ------------------
+            // Update images
+            uiGameManager.shootCooldown.fillAmount = 1 - Mathf.Max(0, cooldownShootTimer / shootCooldown);
+            uiGameManager.bombCooldown.fillAmount = 1 - Mathf.Max(0, cooldownBombTimer / bombCooldown);
             uiGameManager.speedPowerUp.GetComponent<Image>().fillAmount = Mathf.Max(0, speedPowerUpTimer / speedPowerUpDuration);
+            uiGameManager.fireRatePowerUp.GetComponent<Image>().fillAmount = Mathf.Max(0, fireRatePowerUpTimer / fireRatePowerUpDuration);
+            uiGameManager.shootSpeedPowerUp.GetComponent<Image>().fillAmount = Mathf.Max(0, shootSpeedPowerUpTimer / shootSpeedPowerUpDuration);
+            // -------
         }
     }
 
@@ -174,14 +211,25 @@ public class PlayerStats : MonoBehaviourPunCallbacks
         {
             case PowerUpType.Speed:
                 speedPowerUpTimer = speedPowerUpDuration;
-                if(!SpeedPowerUpActive()){
+                if (!SpeedPowerUpActive())
+                {
                     speed *= speedMultiplier;
                     rotationSpeed *= rotationSpeedMultiplier;
                 }
                 break;
             case PowerUpType.ShootSpeed:
+                shootSpeedPowerUpTimer = shootSpeedPowerUpDuration;
+                if (!ShootSpeedPowerUpActive())
+                {
+                    bulletSpeed *= shootSpeedMultiplier;
+                }
                 break;
             case PowerUpType.FireRate:
+                fireRatePowerUpTimer = fireRatePowerUpDuration;
+                if (!FireRatePowerUpActive())
+                {
+                    shootCooldown /= fireRateMultiplier;
+                }
                 break;
             case PowerUpType.Invisibility:
                 break;
@@ -190,8 +238,18 @@ public class PlayerStats : MonoBehaviourPunCallbacks
         }
     }
 
-    public bool SpeedPowerUpActive()
+    private bool SpeedPowerUpActive()
     {
         return originalSpeed != speed && speedPowerUpTimer > 0;
+    }
+
+    private bool FireRatePowerUpActive()
+    {
+        return originalFireRate != shootCooldown && fireRatePowerUpTimer > 0;
+    }
+
+    private bool ShootSpeedPowerUpActive()
+    {
+        return originalShootSpeed != bulletSpeed && shootSpeedPowerUpTimer > 0;
     }
 }
