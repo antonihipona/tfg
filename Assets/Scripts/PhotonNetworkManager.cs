@@ -78,7 +78,6 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     public override void OnJoinedRoom()
     {
-        roomList.Clear();
         AuthenticationManager.instance.InRoom = true;
         Debug.Log("PUN: OnJoinedRoom() called by PUN. Now this client is in a room.");
         SceneManager.LoadScene("RoomMenu");
@@ -86,6 +85,7 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     public override void OnLeftRoom()
     {
+        roomList.Clear();
         AuthenticationManager.instance.InRoom = false;
         Debug.Log("PUN: Room left");
         SceneManager.LoadScene("MainMenu");

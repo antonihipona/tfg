@@ -145,12 +145,29 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         {
             if (playerStats.CanShoot())
             {
-                var bullet = PhotonNetwork.Instantiate(this.bulletPrefab.name, turret.GetChild(0).position, Quaternion.identity, 0);
-                bullet.GetComponent<MyBullet>().myPlayerStats = playerStats;
-                bullet.GetComponent<MyBullet>().InitializeBullet(turret.rotation, playerStats.bulletSpeed);
-                playerStats.ResetShootCooldown();
+                // Check if we are too close to a wall
+                if (!TooCloseToAWall()){
+                    var bullet = PhotonNetwork.Instantiate(this.bulletPrefab.name, turret.GetChild(0).position, Quaternion.identity, 0);
+                    bullet.GetComponent<MyBullet>().myPlayerStats = playerStats;
+                    bullet.GetComponent<MyBullet>().InitializeBullet(turret.rotation, playerStats.bulletSpeed);
+                    playerStats.ResetShootCooldown();
+                }
             }
         }
+    }
+
+    private bool TooCloseToAWall()
+    {
+        Vector3 startPos = turret.position;
+        Vector3 dir = turret.forward;
+        float len = 1.7f;
+        RaycastHit hit;
+        if (Physics.Raycast(startPos, dir, out hit, len))
+        {
+            if (hit.collider.CompareTag("Level"))
+                return true;
+        }
+        return false;
     }
 
     private void PlaceBomb()
@@ -250,5 +267,17 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     void TakeDamage(float damage, Vector3 point, PhotonMessageInfo info)
     {
         playerStats.TakeDamage(damage, point);
+    }
+
+    public void Leave()
+    {
+        photonView.RPC("LeaveGame", RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    void LeaveGame(PhotonMessageInfo info)
+    {
+        if (!photonView.IsMine)
+            gameManager.CheckGameEnded(true);
     }
 }

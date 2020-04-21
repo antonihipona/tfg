@@ -9,6 +9,7 @@ public class UIMainManager : UIBase
 
     private void Start()
     {
+        PhotonNetwork.ConnectUsingSettings();
         sbAmount.text = AuthenticationManager.instance.virtualCurrency["SB"].ToString();
     }
     public void OnClickSearchMatch()

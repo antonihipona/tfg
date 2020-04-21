@@ -65,8 +65,15 @@ public class CustomGameManager : MonoBehaviourPunCallbacks
     public void IncreaseDeadPlayers()
     {
         deadPlayerNumber += 1;
-        Debug.Log("Dead players: " + deadPlayerNumber + " / " + PhotonNetwork.CurrentRoom.PlayerCount);
-        if (deadPlayerNumber == (int)PhotonNetwork.CurrentRoom.PlayerCount - 1)
+        CheckGameEnded(false);
+    }
+
+    public void CheckGameEnded(bool isLeaving)
+    {
+        int playersInRoom = (int)PhotonNetwork.CurrentRoom.PlayerCount;
+        if (isLeaving)
+            playersInRoom -= 1;
+        if (deadPlayerNumber == playersInRoom - 1)
         {
             gameEnded = true;
 

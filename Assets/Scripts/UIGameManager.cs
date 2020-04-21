@@ -18,6 +18,12 @@ public class UIGameManager : UIBase
     public GameObject shootSpeedPowerUp;
     public GameObject invisibilityPowerUp;
 
+    private CustomGameManager gameManager;
+    private PlayerController playerController;
+    private void Start() {
+        gameManager = FindObjectOfType<CustomGameManager>();
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -26,8 +32,14 @@ public class UIGameManager : UIBase
 
     public void OnClickBack()
     {
-        if (PhotonNetwork.IsConnectedAndReady)
+        if (PhotonNetwork.IsConnectedAndReady){
+            GameObject localPlayer = gameManager.localPlayer;
+            if (localPlayer != null){
+                playerController = localPlayer.GetComponent<PlayerController>();
+                playerController.Leave();
+            }
             PhotonNetwork.LeaveRoom();
+        }
     }
 
 }

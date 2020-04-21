@@ -71,7 +71,7 @@ GameObject:
   - component: {fileID: 7018743246671684455}
   - component: {fileID: 7018743246675108669}
   - component: {fileID: 7018743246673977853}
-  - component: {fileID: 2234804233343751033}
+  - component: {fileID: 6676708406542257113}
   m_Layer: 0
   m_Name: TankTurret
   m_TagString: Untagged
@@ -142,8 +142,8 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &2234804233343751033
-BoxCollider:
+--- !u!136 &6676708406542257113
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -152,9 +152,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.5082222, y: 0.78913045, z: 1.8198688}
-  m_Center: {x: 0, y: 0.39989913, z: 0.0046789646}
+  m_Radius: 0.7213788
+  m_Height: 1.8668733
+  m_Direction: 2
+  m_Center: {x: 0.00000011920929, y: 0.66348743, z: 0.008618832}
 --- !u!1 &7018743246671986313
 GameObject:
   m_ObjectHideFlags: 0
