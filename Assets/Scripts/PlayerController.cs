@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     Quaternion networkRotationChasisAtLastPacket = Quaternion.identity;
     Quaternion networkRotationTurretAtLastPacket = Quaternion.identity;
 
+    public GameObject _uiGo;
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
@@ -53,7 +54,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
         if (PlayerUIPrefab != null)
         {
-            GameObject _uiGo = Instantiate(PlayerUIPrefab);
+            _uiGo = Instantiate(PlayerUIPrefab);
             _uiGo.GetComponent<PlayerUI>().SetTarget(this);
         }
     }

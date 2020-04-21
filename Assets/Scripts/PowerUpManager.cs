@@ -29,7 +29,7 @@ public class PowerUpManager : MonoBehaviourPunCallbacks
 
     IEnumerator SpawnRandomPowerUp()
     {
-        yield return new WaitForSeconds(15);
+        yield return new WaitForSeconds(10f);
         List<int> availableIndices = new List<int>();
         for (int i = 0; i < powerUps.Length; i++)
         {

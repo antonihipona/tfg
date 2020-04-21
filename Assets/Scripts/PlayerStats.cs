@@ -27,14 +27,11 @@ public class PlayerStats : MonoBehaviourPunCallbacks
     private float originalShootSpeed;
     #endregion
 
-    private CustomGameManager gameManager;
-    private UIGameManager uiGameManager;
-
     #region Power Ups Multipliers
     private float speedMultiplier = 1.4f;
     private float rotationSpeedMultiplier = 1.4f;
     private float fireRateMultiplier = 2f;
-    private float shootSpeedMultiplier = 1.2f;
+    private float shootSpeedMultiplier = 1.4f;
     #endregion
 
     #region Power Ups Duration
@@ -53,6 +50,10 @@ public class PlayerStats : MonoBehaviourPunCallbacks
     private float invisibilityPowerUpTimer;
     #endregion
 
+    private CustomGameManager gameManager;
+    private UIGameManager uiGameManager;
+    private MeshRenderer[] meshes;
+
     private void Start()
     {
         // Back-up stats
@@ -64,6 +65,7 @@ public class PlayerStats : MonoBehaviourPunCallbacks
 
         gameManager = FindObjectOfType<CustomGameManager>();
         uiGameManager = FindObjectOfType<UIGameManager>();
+        meshes = GetComponentsInChildren<MeshRenderer>();
         currentLife = maxLife;
     }
 
@@ -96,8 +98,14 @@ public class PlayerStats : MonoBehaviourPunCallbacks
         speedPowerUpTimer -= dt;
         fireRatePowerUpTimer -= dt;
         shootSpeedPowerUpTimer -= dt;
+        invisibilityPowerUpTimer -= dt;
         // ------------
 
+        if (!InvisibilityPowerUpActive())
+        {
+            SetMeshAlpha(1f);
+            GetComponent<PlayerController>()._uiGo.SetActive(true);
+        }
         if (uiGameManager != null && photonView.IsMine)
         {
             // Deactivate powerups
@@ -117,6 +125,10 @@ public class PlayerStats : MonoBehaviourPunCallbacks
                 uiGameManager.shootSpeedPowerUp.SetActive(false);
                 bulletSpeed = originalShootSpeed;
             }
+            if (!InvisibilityPowerUpActive() && uiGameManager.invisibilityPowerUp.activeSelf)
+            {
+                uiGameManager.invisibilityPowerUp.SetActive(false);
+            }
             // ---------------------
 
             // Activate powerups
@@ -132,6 +144,10 @@ public class PlayerStats : MonoBehaviourPunCallbacks
             {
                 uiGameManager.shootSpeedPowerUp.SetActive(true);
             }
+            if (InvisibilityPowerUpActive() && !uiGameManager.invisibilityPowerUp.activeSelf)
+            {
+                uiGameManager.invisibilityPowerUp.SetActive(true);
+            }
             // ------------------
             // Update images
             uiGameManager.shootCooldown.fillAmount = 1 - Mathf.Max(0, cooldownShootTimer / shootCooldown);
@@ -139,6 +155,7 @@ public class PlayerStats : MonoBehaviourPunCallbacks
             uiGameManager.speedPowerUp.GetComponent<Image>().fillAmount = Mathf.Max(0, speedPowerUpTimer / speedPowerUpDuration);
             uiGameManager.fireRatePowerUp.GetComponent<Image>().fillAmount = Mathf.Max(0, fireRatePowerUpTimer / fireRatePowerUpDuration);
             uiGameManager.shootSpeedPowerUp.GetComponent<Image>().fillAmount = Mathf.Max(0, shootSpeedPowerUpTimer / shootSpeedPowerUpDuration);
+            uiGameManager.invisibilityPowerUp.GetComponent<Image>().fillAmount = Mathf.Max(0, invisibilityPowerUpTimer / invisibilityPowerUpDuration);
             // -------
         }
     }
@@ -232,9 +249,33 @@ public class PlayerStats : MonoBehaviourPunCallbacks
                 }
                 break;
             case PowerUpType.Invisibility:
+                invisibilityPowerUpTimer = invisibilityPowerUpDuration;
+                if (!photonView.IsMine)
+                {
+                    SetMeshAlpha(0f);
+                    GetComponent<PlayerController>()._uiGo.SetActive(false);
+                }
+                else
+                {
+                    SetMeshAlpha(0.5f);
+                }
+
                 break;
             default:
                 break;
+        }
+    }
+
+    private void SetMeshAlpha(float alpha)
+    {
+        foreach (MeshRenderer mesh in meshes)
+        {
+            foreach (Material mat in mesh.materials)
+            {
+                Color c = mat.color;
+                c.a = alpha;
+                mat.color = c;
+            }
         }
     }
 
@@ -251,5 +292,10 @@ public class PlayerStats : MonoBehaviourPunCallbacks
     private bool ShootSpeedPowerUpActive()
     {
         return originalShootSpeed != bulletSpeed && shootSpeedPowerUpTimer > 0;
+    }
+
+    private bool InvisibilityPowerUpActive()
+    {
+        return invisibilityPowerUpTimer > 0;
     }
 }
