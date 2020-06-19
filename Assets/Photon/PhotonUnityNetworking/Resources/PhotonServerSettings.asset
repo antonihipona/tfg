@@ -16,7 +16,7 @@ MonoBehaviour:
     AppIdRealtime: b7eb227b-1a54-44ad-90ba-4002b5e4a99b
     AppIdChat: 
     AppIdVoice: 
-    AppVersion: 1.5
+    AppVersion: 0.5
     UseNameServer: 1
     FixedRegion: 
     Server: 
@@ -31,14 +31,9 @@ MonoBehaviour:
   RpcList:
   - ChangeColor
   - ClickRpc
-  - DestroyInstant
   - DestroyRpc
-  - DestroySpaceship
-  - Fire
-  - RespawnSpaceship
-  - TakeDamage
-  - DieMessage
-  - SpawnPowerUp
   - LeaveGame
+  - SpawnPowerUp
+  - TakeDamage
   DisableAutoOpenWizard: 1
   ShowSettings: 1

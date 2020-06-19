@@ -59,6 +59,7 @@ public class AuthenticationManager : MonoBehaviour
         instance.virtualCurrency = res.VirtualCurrency;
         foreach (var eachItem in res.Inventory)
         {
+            Debug.Log(eachItem.ItemId);
             instance.playerInventory.Add(eachItem);
         }
     }
