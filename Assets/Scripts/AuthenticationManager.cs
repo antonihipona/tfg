@@ -13,7 +13,6 @@ public class AuthenticationManager : MonoBehaviour
 
     public string Username { get; set; }
     public bool InRoom { get; set; }
-    public List<ItemInstance> playerInventory;
     public Dictionary<string, int> virtualCurrency;
 
     public string loginErrorMessage;
@@ -26,7 +25,6 @@ public class AuthenticationManager : MonoBehaviour
         {
             instance = this;
             instance.InRoom = false;
-            instance.playerInventory = new List<ItemInstance>();
             instance.virtualCurrency = new Dictionary<string, int>();
         }
     }
@@ -55,13 +53,11 @@ public class AuthenticationManager : MonoBehaviour
 
     private void GetUserInventory(GetUserInventoryResult res)
     {
-        instance.playerInventory.Clear();
         instance.virtualCurrency = res.VirtualCurrency;
-        foreach (var eachItem in res.Inventory)
-        {
-            Debug.Log(eachItem.ItemId);
-            instance.playerInventory.Add(eachItem);
-        }
+    }
+
+    public void LoadUserInventory()
+    {
     }
 
     private void GetUserInventoryError(PlayFabError error)

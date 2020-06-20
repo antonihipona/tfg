@@ -25,7 +25,7 @@ public class UIMainManager : UIBase
 
     public void OnClickCustomize()
     {
-        // SceneManager.LoadScene("CustomizeMenu");
+        SceneManager.LoadScene("CustomizationScreen");
     }
 
     public void OnClickGameSettings()

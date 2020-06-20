@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 6587132393667944448}
   - component: {fileID: 6587132393667944511}
   - component: {fileID: 6587132393667944510}
-  - component: {fileID: 4229088004170712602}
+  - component: {fileID: -430512805694473985}
   m_Layer: 5
-  m_Name: ColorPrefab
+  m_Name: BuyColorPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -120,7 +120,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &4229088004170712602
+--- !u!114 &-430512805694473985
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -129,10 +129,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6587132393667944508}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b19885c33d2fc93439001bffeb06c57d, type: 3}
+  m_Script: {fileID: 11500000, guid: ef783b62524cd3140b88a50ec82bd186, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: {r: 1, g: 1, b: 1, a: 1}
+  color: {r: 0, g: 0, b: 0, a: 0}
   tick: {fileID: 6587132394826538947}
   target: {fileID: 0}
 --- !u!1 &6587132394370672869

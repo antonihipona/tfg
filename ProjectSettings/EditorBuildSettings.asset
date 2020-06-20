@@ -32,4 +32,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SearchMatchMenu.unity
     guid: d4d282a6d3c085947be6be71bb1f8a1a
+  - enabled: 1
+    path: Assets/Scenes/CustomizationScreen.unity
+    guid: e710088a32b6657478f178cd7c620214
   m_configObjects: {}

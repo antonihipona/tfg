@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UICustomizationManager : MonoBehaviour
 {
@@ -53,5 +54,10 @@ public class UICustomizationManager : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    public void GoToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }

@@ -1,21 +1,24 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEditor.ShaderGraph.Internal;
+using UnityEngine;
 using UnityEngine.UI;
 
-public class CustomizableColor : MonoBehaviour
+public class BuyableColor : MonoBehaviour
 {
     public Color color;
     public GameObject tick;
     public GameObject target;
 
     private Button _button;
-    private ColorSection _colorSection;
+    private BuyColorSection _colorSection;
 
     private void Start()
     {
         SetSelected(false);
         _button = GetComponent<Button>();
         GetComponent<Image>().color = color;
-        _colorSection = GetComponentInParent<ColorSection>();
+        _colorSection = GetComponentInParent<BuyColorSection>();
         _button.onClick.AddListener(() => _colorSection.ChangeSelected(this));
     }
 
