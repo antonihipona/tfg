@@ -1,17 +1,25 @@
-﻿using PlayFab;
+﻿using Boo.Lang;
+using PlayFab;
 using PlayFab.ClientModels;
+using System.Globalization;
+using TMPro;
 using UnityEngine;
 
 public class BuyColorSection : MonoBehaviour
 {
+    public TextMeshProUGUI text;
+
     public GameObject colorPrefab;
     public GameObject target;
 
     private BuyableColor _currentSelectedColor;
+    private UICustomizationManager _uiCustomizationManager;
 
-    private void Start()
+    private void OnEnable()
     {
-        ClearChildren();
+        if (_currentSelectedColor != null)
+            text.text = "Price: " + _currentSelectedColor.sbPrice + " SB";
+        _uiCustomizationManager = FindObjectOfType<UICustomizationManager>();
         PlayFabClientAPI.GetCatalogItems(new GetCatalogItemsRequest(), AddColors, GetCatalogItemsError);
     }
 
@@ -21,22 +29,21 @@ public class BuyColorSection : MonoBehaviour
             _currentSelectedColor.SetSelected(false);
         _color.SetSelected(true);
         _currentSelectedColor = _color;
+        text.text = "Price: " + _color.sbPrice + " SB";
     }
 
     private void AddColors(GetCatalogItemsResult res)
     {
-        // Add default (white)
-        var colorGameObject = colorPrefab;
-        colorGameObject.GetComponent<BuyableColor>().color = Color.white;
-        colorPrefab.GetComponent<BuyableColor>().target = target;
-
-        Instantiate(colorGameObject, transform);
+        ClearChildren();
 
         for (int i = 0; i < res.Catalog.Count; i++)
         {
             var item = res.Catalog[i];
-
-            colorGameObject = colorPrefab;
+            if (_uiCustomizationManager.inventoryItemsIds.Contains(item.ItemId))
+                continue;
+            var colorGameObject = colorPrefab;
+            colorGameObject.GetComponent<BuyableColor>().target = target;
+            colorGameObject.GetComponent<BuyableColor>().sbPrice = item.VirtualCurrencyPrices["SB"];
             switch (item.ItemId)
             {
                 case "color_red":
@@ -44,6 +51,9 @@ public class BuyColorSection : MonoBehaviour
                     break;
                 case "color_blue":
                     colorGameObject.GetComponent<BuyableColor>().color = Color.blue;
+                    break;
+                case "color_green":
+                    colorGameObject.GetComponent<BuyableColor>().color = Color.green;
                     break;
                 default:
                     break;

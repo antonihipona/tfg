@@ -11,10 +11,11 @@ public class ColorSection : MonoBehaviour
     public GameObject target;
 
     private CustomizableColor _currentSelectedColor;
+    private UICustomizationManager _uiCustomizationManager;
 
-    private void Start()
+    private void OnEnable()
     {
-        ClearChildren();
+        _uiCustomizationManager = FindObjectOfType<UICustomizationManager>();
         PlayFabClientAPI.GetUserInventory(new GetUserInventoryRequest(), AddColors, GetUserInventoryError);
     }
 
@@ -28,6 +29,8 @@ public class ColorSection : MonoBehaviour
 
     private void AddColors(GetUserInventoryResult res)
     {
+        ClearChildren();
+
         // Add default (white)
         var colorGameObject = colorPrefab;
         colorGameObject.GetComponent<CustomizableColor>().target = target;
@@ -37,17 +40,27 @@ public class ColorSection : MonoBehaviour
         for (int i = 0; i < res.Inventory.Count; i++)
         {
             var item = res.Inventory[i];
-
+            _uiCustomizationManager.inventoryItemsIds.Add(item.ItemId);
+            
+            colorGameObject = colorPrefab;
+            colorGameObject.GetComponent<CustomizableColor>().target = target;
             switch (item.ItemId)
             {
                 case "color_red":
-                    colorGameObject = colorPrefab;
                     colorGameObject.GetComponent<CustomizableColor>().color = Color.red;
-                    Instantiate(colorGameObject, transform);
+                    break;
+                case "color_blue":
+                    colorGameObject.GetComponent<CustomizableColor>().color = Color.blue;
+                    break;
+                case "color_green":
+                    colorGameObject.GetComponent<CustomizableColor>().color = Color.green;
                     break;
                 default:
                     break;
             }
+            Instantiate(colorGameObject, transform);
+
+
         }
     }
     

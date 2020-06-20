@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Boo.Lang;
+using System.Collections.Generic;
 
 public class UICustomizationManager : MonoBehaviour
 {
@@ -15,8 +17,11 @@ public class UICustomizationManager : MonoBehaviour
     public GameObject customizeStatsContent;
     public GameObject buyColorsContent;
 
+    public HashSet<string> inventoryItemsIds;
+
     private void Awake()
     {
+        inventoryItemsIds = new HashSet<string>();
         ToggleCustomizeColors(ContentType.CustomizeColor);
     }
 

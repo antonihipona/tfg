@@ -14,6 +14,7 @@ public class AuthenticationManager : MonoBehaviour
     public string Username { get; set; }
     public bool InRoom { get; set; }
     public Dictionary<string, int> virtualCurrency;
+    public List<ItemInstance> inventoryItems;
 
     public string loginErrorMessage;
 
@@ -26,6 +27,10 @@ public class AuthenticationManager : MonoBehaviour
             instance = this;
             instance.InRoom = false;
             instance.virtualCurrency = new Dictionary<string, int>();
+            instance.inventoryItems = new List<ItemInstance>();
+        } else if (instance != this)
+        {
+            Destroy(this);
         }
     }
 
@@ -53,7 +58,12 @@ public class AuthenticationManager : MonoBehaviour
 
     private void GetUserInventory(GetUserInventoryResult res)
     {
+        inventoryItems.Clear();
         instance.virtualCurrency = res.VirtualCurrency;
+        foreach (var item in res.Inventory)
+        {
+            inventoryItems.Add(item);
+        }
     }
 
     public void LoadUserInventory()

@@ -10,7 +10,7 @@ public class CustomizableColor : MonoBehaviour
     private Button _button;
     private ColorSection _colorSection;
 
-    private void Start()
+    private void OnEnable()
     {
         SetSelected(false);
         _button = GetComponent<Button>();

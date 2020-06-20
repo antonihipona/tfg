@@ -10,10 +10,12 @@ public class BuyableColor : MonoBehaviour
     public GameObject tick;
     public GameObject target;
 
+    public uint sbPrice;
+    
     private Button _button;
     private BuyColorSection _colorSection;
 
-    private void Start()
+    private void OnEnable()
     {
         SetSelected(false);
         _button = GetComponent<Button>();
