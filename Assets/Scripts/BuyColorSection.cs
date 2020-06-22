@@ -1,7 +1,5 @@
-﻿using Boo.Lang;
-using PlayFab;
+﻿using PlayFab;
 using PlayFab.ClientModels;
-using System;
 using TMPro;
 using UnityEngine;
 

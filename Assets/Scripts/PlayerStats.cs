@@ -4,12 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using System;
+using PlayFab;
+using PlayFab.ClientModels;
 
 public class PlayerStats : MonoBehaviourPunCallbacks
 {
     #region Public Stats
     public float maxLife = 10;
-    public float currentLife = 10;
+    public float currentLife;
     public float speed = 5;
     public float rotationSpeed = 100;
     public float shootDamage = 2;
@@ -56,6 +58,8 @@ public class PlayerStats : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        // Update stats
+        GetUserData();
         // Back-up stats
         originalSpeed = speed;
         originalRotationSpeed = rotationSpeed;
@@ -297,5 +301,24 @@ public class PlayerStats : MonoBehaviourPunCallbacks
     private bool InvisibilityPowerUpActive()
     {
         return invisibilityPowerUpTimer > 0;
+    }
+
+    // From playfab https://docs.microsoft.com/en-us/gaming/playfab/features/data/playerdata/quickstart
+    void GetUserData()
+    {
+        PlayFabClientAPI.GetUserData(new GetUserDataRequest()
+        {
+            PlayFabId = AuthenticationManager.instance.playFabPlayerId,
+            Keys = null
+        }, result => {
+            speed = float.Parse(result.Data["speed"].Value);
+            shootDamage = float.Parse(result.Data["damage"].Value);
+            bombDamage = float.Parse(result.Data["damage"].Value);
+            maxLife = float.Parse(result.Data["life"].Value);
+            currentLife = float.Parse(result.Data["life"].Value);
+        }, (error) => {
+            Debug.Log("Got error retrieving user data:");
+            Debug.Log(error.GenerateErrorReport());
+        });
     }
 }

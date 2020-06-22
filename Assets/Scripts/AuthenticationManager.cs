@@ -9,7 +9,7 @@ public class AuthenticationManager : MonoBehaviour
 {
     public static AuthenticationManager instance;
 
-    //private string _playFabPlayerIdCache;
+    public string playFabPlayerId;
 
     public delegate void UpdateInventoryAction();
     public static event UpdateInventoryAction OnInventoryUpdate;
@@ -31,7 +31,8 @@ public class AuthenticationManager : MonoBehaviour
             instance.InRoom = false;
             instance.virtualCurrency = new Dictionary<string, int>();
             instance.inventoryItems = new List<ItemInstance>();
-        } else if (instance != this)
+        }
+        else if (instance != this)
         {
             Destroy(this);
         }
@@ -39,6 +40,7 @@ public class AuthenticationManager : MonoBehaviour
 
     public void OnLoginSuccess(LoginResult result)
     {
+        instance.playFabPlayerId = result.PlayFabId;
         Debug.Log("Login success.");
         PlayFabClientAPI.GetUserInventory(new GetUserInventoryRequest(), GetUserInventory, GetUserInventoryError);
         PhotonNetwork.AutomaticallySyncScene = true;
@@ -103,4 +105,5 @@ public class AuthenticationManager : MonoBehaviour
     {
         Debug.LogError("Could not add player currency" + error.ErrorMessage);
     }
+
 }

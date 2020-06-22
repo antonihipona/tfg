@@ -3,6 +3,7 @@ using PlayFab.ClientModels;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class UIRegisterManager : UIBase
 {
@@ -47,16 +48,39 @@ public class UIRegisterManager : UIBase
 
     private void OnRegisterSuccess(RegisterPlayFabUserResult obj)
     {
+        InitializeUserData();
+
         float r = 0.4f, g = 1f, b = 0.4f; // Green color
-        textMessage.color = new Color(r,g,b);
+        textMessage.color = new Color(r, g, b);
         var successMessage = "Succesfully registered!";
         textMessage.text = successMessage;
+
+        // Initialize player data
         Debug.Log(successMessage);
     }
 
     public void OnClickBack()
     {
         SceneManager.LoadScene("LoginMenu");
+    }
+
+    // From playfab https://docs.microsoft.com/en-us/gaming/playfab/features/data/playerdata/quickstart
+    private void InitializeUserData()
+    {
+        PlayFabClientAPI.UpdateUserData(new UpdateUserDataRequest()
+        {
+            Data = new Dictionary<string, string>() {
+            {"speed", "5"},
+            {"damage", "5"},
+            {"life", "10" }
+        }
+        },
+        result => Debug.Log("Successfully set user data"),
+        error =>
+        {
+            Debug.Log("Got error setting user data");
+            Debug.Log(error.GenerateErrorReport());
+        });
     }
 
 }
