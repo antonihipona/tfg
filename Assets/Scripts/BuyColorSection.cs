@@ -1,7 +1,7 @@
 ﻿using Boo.Lang;
 using PlayFab;
 using PlayFab.ClientModels;
-using System.Globalization;
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -18,7 +18,7 @@ public class BuyColorSection : MonoBehaviour
     private void OnEnable()
     {
         if (_currentSelectedColor != null)
-            text.text = "Price: " + _currentSelectedColor.sbPrice + " SB";
+            text.text = "Price: " + _currentSelectedColor.itemData.sbPrice + " SB";
         _uiCustomizationManager = FindObjectOfType<UICustomizationManager>();
         PlayFabClientAPI.GetCatalogItems(new GetCatalogItemsRequest(), AddColors, GetCatalogItemsError);
     }
@@ -29,7 +29,8 @@ public class BuyColorSection : MonoBehaviour
             _currentSelectedColor.SetSelected(false);
         _color.SetSelected(true);
         _currentSelectedColor = _color;
-        text.text = "Price: " + _color.sbPrice + " SB";
+
+        text.text = "Price: " + _color.itemData.sbPrice + " SB";
     }
 
     private void AddColors(GetCatalogItemsResult res)
@@ -42,8 +43,6 @@ public class BuyColorSection : MonoBehaviour
             if (_uiCustomizationManager.inventoryItemsIds.Contains(item.ItemId))
                 continue;
             var colorGameObject = colorPrefab;
-            colorGameObject.GetComponent<BuyableColor>().target = target;
-            colorGameObject.GetComponent<BuyableColor>().sbPrice = item.VirtualCurrencyPrices["SB"];
             switch (item.ItemId)
             {
                 case "color_red":
@@ -58,7 +57,14 @@ public class BuyColorSection : MonoBehaviour
                 default:
                     break;
             }
-            Instantiate(colorGameObject, transform);
+            var colorInstance = Instantiate(colorGameObject, transform);
+            var buyableColor = colorInstance.GetComponent<BuyableColor>();
+            buyableColor.target = target;
+            buyableColor.itemData = new BuyableColor.ItemData
+            {
+                sbPrice = item.VirtualCurrencyPrices["SB"],
+                itemId = item.ItemId
+            };
         }
     }
 
@@ -71,5 +77,37 @@ public class BuyColorSection : MonoBehaviour
     private void GetCatalogItemsError(PlayFabError error)
     {
         Debug.LogError("Could not get catalog items: " + error.ErrorMessage);
+    }
+
+    public void PurchaseSelectedColor()
+    {
+        if (_currentSelectedColor == null)
+            return;
+        var request = new PurchaseItemRequest
+        {
+            ItemId = _currentSelectedColor.itemData.itemId,
+            Price = (int)_currentSelectedColor.itemData.sbPrice,
+            VirtualCurrency = "SB"
+        };
+        PlayFabClientAPI.PurchaseItem(request, PurchaseSuccessCallback, PurchaseErrorCallback);
+    }
+
+    private void PurchaseSuccessCallback(PurchaseItemResult res)
+    {
+        AuthenticationManager.instance.UpdateUserInventory();
+        _uiCustomizationManager.inventoryItemsIds.Add(res.Items[0].ItemId);
+        RefreshContent();
+    }
+
+    private void PurchaseErrorCallback(PlayFabError error)
+    {
+        Debug.LogError("Failed to buy color: " + error.ErrorMessage);
+        RefreshContent();
+    }
+
+    private void RefreshContent()
+    {
+        gameObject.SetActive(false);
+        gameObject.SetActive(true);
     }
 }

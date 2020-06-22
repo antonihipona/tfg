@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using PlayFab.ClientModels;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
@@ -6,11 +7,12 @@ using UnityEngine.UI;
 
 public class BuyableColor : MonoBehaviour
 {
+    
     public Color color;
     public GameObject tick;
     public GameObject target;
 
-    public uint sbPrice;
+    public ItemData itemData;
     
     private Button _button;
     private BuyColorSection _colorSection;
@@ -42,6 +44,11 @@ public class BuyableColor : MonoBehaviour
         {
             tick.SetActive(false);
         }
+    }
 
+    public class ItemData
+    {
+        public uint sbPrice;
+        public string itemId;
     }
 }

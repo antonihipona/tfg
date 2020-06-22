@@ -6,6 +6,8 @@ using System.Collections.Generic;
 
 public class UICustomizationManager : MonoBehaviour
 {
+    public Text sbAmount;
+
     private enum ContentType { CustomizeColor, CustomizeStats, BuyColors }
     [Header("Navbar Buttons")]
     public Button customizeColorsButton;
@@ -19,6 +21,16 @@ public class UICustomizationManager : MonoBehaviour
 
     public HashSet<string> inventoryItemsIds;
 
+    private void OnEnable()
+    {
+        AuthenticationManager.OnInventoryUpdate += UpdateSB;
+    }
+
+    private void OnDisable()
+    {
+        AuthenticationManager.OnInventoryUpdate -= UpdateSB;
+    }
+
     private void Awake()
     {
         inventoryItemsIds = new HashSet<string>();
@@ -27,6 +39,7 @@ public class UICustomizationManager : MonoBehaviour
 
     private void Start()
     {
+        UpdateSB();
         customizeColorsButton.onClick.AddListener(() => ToggleCustomizeColors(ContentType.CustomizeColor));
         customizeStatsButton.onClick.AddListener(() => ToggleCustomizeColors(ContentType.CustomizeStats));
         buyColorsButton.onClick.AddListener(() => ToggleCustomizeColors(ContentType.BuyColors));
@@ -64,5 +77,10 @@ public class UICustomizationManager : MonoBehaviour
     public void GoToMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
+    }
+
+    private void UpdateSB()
+    {
+        sbAmount.text = AuthenticationManager.instance.virtualCurrency["SB"].ToString();
     }
 }

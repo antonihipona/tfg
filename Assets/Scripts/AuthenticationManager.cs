@@ -11,6 +11,9 @@ public class AuthenticationManager : MonoBehaviour
 
     //private string _playFabPlayerIdCache;
 
+    public delegate void UpdateInventoryAction();
+    public static event UpdateInventoryAction OnInventoryUpdate;
+
     public string Username { get; set; }
     public bool InRoom { get; set; }
     public Dictionary<string, int> virtualCurrency;
@@ -64,6 +67,12 @@ public class AuthenticationManager : MonoBehaviour
         {
             inventoryItems.Add(item);
         }
+        OnInventoryUpdate?.Invoke();
+    }
+
+    public void UpdateUserInventory()
+    {
+        PlayFabClientAPI.GetUserInventory(new GetUserInventoryRequest(), GetUserInventory, GetUserInventoryError);
     }
 
     public void LoadUserInventory()

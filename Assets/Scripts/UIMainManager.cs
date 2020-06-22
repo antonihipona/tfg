@@ -7,10 +7,20 @@ public class UIMainManager : UIBase
 {
     public Text sbAmount;
 
+    private void OnEnable()
+    {
+        AuthenticationManager.OnInventoryUpdate += UpdateSB;
+    }
+
+    private void OnDisable()
+    {
+        AuthenticationManager.OnInventoryUpdate -= UpdateSB;
+    }
+
     private void Start()
     {
         PhotonNetwork.ConnectUsingSettings();
-        sbAmount.text = AuthenticationManager.instance.virtualCurrency["SB"].ToString();
+        UpdateSB();
     }
     public void OnClickSearchMatch()
     {
@@ -31,5 +41,10 @@ public class UIMainManager : UIBase
     public void OnClickGameSettings()
     {
         SceneManager.LoadScene("GameSettingsMenu");
+    }
+
+    private void UpdateSB()
+    {
+        sbAmount.text = AuthenticationManager.instance.virtualCurrency["SB"].ToString();
     }
 }
