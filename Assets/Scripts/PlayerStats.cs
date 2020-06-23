@@ -314,8 +314,8 @@ public class PlayerStats : MonoBehaviourPunCallbacks
             speed = float.Parse(result.Data["speed"].Value);
             shootDamage = float.Parse(result.Data["damage"].Value);
             bombDamage = float.Parse(result.Data["damage"].Value);
-            maxLife = float.Parse(result.Data["life"].Value);
-            currentLife = float.Parse(result.Data["life"].Value);
+            maxLife = float.Parse(result.Data["life"].Value) * 2;
+            currentLife = float.Parse(result.Data["life"].Value) * 2;
         }, (error) => {
             Debug.Log("Got error retrieving user data:");
             Debug.Log(error.GenerateErrorReport());

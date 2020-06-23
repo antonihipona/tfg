@@ -462,7 +462,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 122651777}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1461228794}
+        m_MethodName: GetUserData
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &122651777
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5009,10 +5020,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 896639681}
   m_HandleRect: {fileID: 1871341896}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
-  m_WholeNumbers: 0
-  m_Value: 0
+  m_MinValue: 1
+  m_MaxValue: 10
+  m_WholeNumbers: 1
+  m_Value: 5
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -5293,10 +5304,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 1503042986}
   m_HandleRect: {fileID: 1891035081}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
-  m_WholeNumbers: 0
-  m_Value: 0
+  m_MinValue: 1
+  m_MaxValue: 10
+  m_WholeNumbers: 1
+  m_Value: 5
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -8276,7 +8287,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1139616106}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1461228794}
+        m_MethodName: SetUserData
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1139616106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10219,10 +10241,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 947192132}
   m_HandleRect: {fileID: 905032307}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
-  m_WholeNumbers: 0
-  m_Value: 0
+  m_MinValue: 1
+  m_MaxValue: 10
+  m_WholeNumbers: 1
+  m_Value: 5
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -11190,6 +11212,7 @@ GameObject:
   - component: {fileID: 1461228792}
   - component: {fileID: 1461228791}
   - component: {fileID: 1461228793}
+  - component: {fileID: 1461228794}
   m_Layer: 5
   m_Name: CustomizeStatsContent
   m_TagString: Untagged
@@ -11282,6 +11305,25 @@ MonoBehaviour:
   m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
+--- !u!114 &1461228794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461228789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d92d789b2f1fb0418fba8022d630144, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedText: {fileID: 1722868838}
+  speedSlider: {fileID: 864571844}
+  damageText: {fileID: 1437962825}
+  damageSlider: {fileID: 735848870}
+  lifeText: {fileID: 556429361}
+  lifeSlider: {fileID: 1392646625}
+  totalText: {fileID: 1970277315}
 --- !u!1 &1474244351
 GameObject:
   m_ObjectHideFlags: 0

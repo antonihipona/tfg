@@ -72,7 +72,7 @@ public class UIRegisterManager : UIBase
             Data = new Dictionary<string, string>() {
             {"speed", "5"},
             {"damage", "5"},
-            {"life", "10" }
+            {"life", "5" }
         }
         },
         result => Debug.Log("Successfully set user data"),
