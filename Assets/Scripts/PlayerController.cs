@@ -1,4 +1,6 @@
 ﻿using Photon.Pun;
+using PlayFab;
+using PlayFab.ClientModels;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,7 +13,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     public GameObject bulletPrefab;
     public GameObject bombPrefab;
 
-    private Color[] myColors;
+    //private Color[] myColors;
 
     private CustomGameManager gameManager;
     private PlayerStats playerStats;
@@ -48,7 +50,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
     void Start()
     {
-        SetPlayerColor();
+        GetUserData();
         playerStats = GetComponent<PlayerStats>();
         gameManager = FindObjectOfType<CustomGameManager>();
 
@@ -59,31 +61,51 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
-    private void SetPlayerColor()
+    private void SetPlayerColor(string turretColor, string bodyColor)
     {
         if (photonView.IsMine)
         {
-            myColors = new Color[4];
-            myColors[0] = Random.ColorHSV();
-            myColors[1] = Random.ColorHSV();
-            myColors[2] = Random.ColorHSV();
-            myColors[3] = Random.ColorHSV();
-            Vector3[] colors = new Vector3[4];
-            colors[0] = new Vector3(myColors[0].r, myColors[0].g, myColors[0].b);
-            colors[1] = new Vector3(myColors[1].r, myColors[1].g, myColors[1].b);
-            colors[2] = new Vector3(myColors[2].r, myColors[2].g, myColors[2].b);
-            colors[3] = new Vector3(myColors[3].r, myColors[3].g, myColors[3].b);
+            //myColors = new Color[4];
+            //myColors[0] = Random.ColorHSV();
+            //myColors[1] = Random.ColorHSV();
+            //myColors[2] = Random.ColorHSV();
+            //myColors[3] = Random.ColorHSV();
+            //Vector3[] colors = new Vector3[4];
+            //colors[0] = new Vector3(myColors[0].r, myColors[0].g, myColors[0].b);
+            //colors[1] = new Vector3(myColors[1].r, myColors[1].g, myColors[1].b);
+            //colors[2] = new Vector3(myColors[2].r, myColors[2].g, myColors[2].b);
+            //colors[3] = new Vector3(myColors[3].r, myColors[3].g, myColors[3].b);
 
-            photonView.RPC("ChangeColor", RpcTarget.AllBuffered, colors as object);
+            //photonView.RPC("ChangeColor", RpcTarget.AllBuffered, colors as object);
 
-            Renderer[] renderers = gameObject.GetComponentsInChildren<Renderer>();
-            for (int i = 0; i < renderers.Length; i++)
+            //Renderer[] renderers = gameObject.GetComponentsInChildren<Renderer>();
+            //for (int i = 0; i < renderers.Length; i++)
+            //{
+            //    foreach (Material mat in renderers[i].materials)
+            //    {
+            //        mat.color = myColors[i];
+            //    }
+            //}
+
+            var targetRenderers = turret.gameObject.GetComponentsInChildren<Renderer>();
+            foreach (var renderer in targetRenderers)
             {
-                foreach (Material mat in renderers[i].materials)
+                foreach (var material in renderer.materials)
                 {
-                    mat.color = myColors[i];
+                    material.color = CustomGameManager.MapIdToColor(turretColor);
                 }
             }
+
+            targetRenderers = chasis.gameObject.GetComponentsInChildren<Renderer>();
+            foreach (var renderer in targetRenderers)
+            {
+                foreach (var material in renderer.materials)
+                {
+                    material.color = CustomGameManager.MapIdToColor(bodyColor);
+                }
+            }
+
+            photonView.RPC("ChangeColor", RpcTarget.AllBuffered, turretColor, bodyColor);
         }
         Renderer[] renderers2 = gameObject.GetComponentsInChildren<Renderer>();
     }
@@ -184,20 +206,39 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     [PunRPC]
-    void ChangeColor(Vector3[] colors, PhotonMessageInfo info)
+    void ChangeColor(string turretColor, string bodyColor, PhotonMessageInfo info)
     {
         if (photonView.Owner.Equals(info.Sender))
         {
-            Renderer[] renderers = gameObject.GetComponentsInChildren<Renderer>();
-            for (int i = 0; i < renderers.Length; i++)
+            //Renderer[] renderers = gameObject.GetComponentsInChildren<Renderer>();
+            //for (int i = 0; i < renderers.Length; i++)
+            //{
+            //    foreach (Material mat in renderers[i].materials)
+            //    {
+            //        mat.color = new Color(colors[i].x, colors[i].y, colors[i].z, 1.0f);
+            //    }
+            //}
+
+            var targetRenderers = turret.gameObject.GetComponentsInChildren<Renderer>();
+            foreach (var renderer in targetRenderers)
             {
-                foreach (Material mat in renderers[i].materials)
+                foreach (var material in renderer.materials)
                 {
-                    mat.color = new Color(colors[i].x, colors[i].y, colors[i].z, 1.0f);
+                    material.color = CustomGameManager.MapIdToColor(turretColor);
+                }
+            }
+
+            targetRenderers = chasis.gameObject.GetComponentsInChildren<Renderer>();
+            foreach (var renderer in targetRenderers)
+            {
+                foreach (var material in renderer.materials)
+                {
+                    material.color = CustomGameManager.MapIdToColor(bodyColor);
                 }
             }
         }
     }
+
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
@@ -279,5 +320,21 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (!photonView.IsMine)
             gameManager.CheckGameEnded(true);
+    }
+
+    void GetUserData()
+    {
+        PlayFabClientAPI.GetUserData(new GetUserDataRequest()
+        {
+            PlayFabId = AuthenticationManager.instance.playFabPlayerId,
+            Keys = null
+        }, result => {
+            var _turretColor = result.Data["turret_color"].Value;
+            var _bodyColor = result.Data["body_color"].Value;
+            SetPlayerColor(_turretColor, _bodyColor);
+        }, (error) => {
+            Debug.Log("Got error retrieving user color data:");
+            Debug.Log(error.GenerateErrorReport());
+        });
     }
 }

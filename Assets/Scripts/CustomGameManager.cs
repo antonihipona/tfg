@@ -92,4 +92,22 @@ public class CustomGameManager : MonoBehaviourPunCallbacks
             uiGameManager.panel.SetActive(true);
         }
     }
+
+    public static Color MapIdToColor(string colorId)
+    {
+        Color res = Color.white;
+        switch (colorId)
+        {
+            case "color_red":
+                res = Color.red;
+                break;
+            case "color_blue":
+                res = Color.blue;
+                break;
+            case "color_green":
+                res = Color.green;
+                break;
+        }
+        return res;
+    }
 }

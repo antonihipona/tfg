@@ -2,6 +2,8 @@
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using PlayFab;
+using PlayFab.ClientModels;
 
 public class UICustomizationManager : MonoBehaviour
 {
@@ -19,6 +21,8 @@ public class UICustomizationManager : MonoBehaviour
     public GameObject buyColorsContent;
 
     public HashSet<string> inventoryItemsIds;
+
+
 
     private void OnEnable()
     {
@@ -81,5 +85,10 @@ public class UICustomizationManager : MonoBehaviour
     private void UpdateSB()
     {
         sbAmount.text = AuthenticationManager.instance.virtualCurrency["SB"].ToString();
+    }
+    public class ItemData
+    {
+        public uint sbPrice;
+        public string itemId;
     }
 }

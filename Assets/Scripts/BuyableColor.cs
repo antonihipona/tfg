@@ -8,7 +8,7 @@ public class BuyableColor : MonoBehaviour
     public GameObject tick;
     public GameObject target;
 
-    public ItemData itemData;
+    public UICustomizationManager.ItemData itemData;
     
     private Button _button;
     private BuyColorSection _colorSection;
@@ -42,9 +42,4 @@ public class BuyableColor : MonoBehaviour
         }
     }
 
-    public class ItemData
-    {
-        public uint sbPrice;
-        public string itemId;
-    }
 }

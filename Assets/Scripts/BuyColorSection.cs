@@ -41,24 +41,12 @@ public class BuyColorSection : MonoBehaviour
             if (_uiCustomizationManager.inventoryItemsIds.Contains(item.ItemId))
                 continue;
             var colorGameObject = colorPrefab;
-            switch (item.ItemId)
-            {
-                case "color_red":
-                    colorGameObject.GetComponent<BuyableColor>().color = Color.red;
-                    break;
-                case "color_blue":
-                    colorGameObject.GetComponent<BuyableColor>().color = Color.blue;
-                    break;
-                case "color_green":
-                    colorGameObject.GetComponent<BuyableColor>().color = Color.green;
-                    break;
-                default:
-                    break;
-            }
+            colorGameObject.GetComponent<BuyableColor>().color = CustomGameManager.MapIdToColor(item.ItemId);
+            
             var colorInstance = Instantiate(colorGameObject, transform);
             var buyableColor = colorInstance.GetComponent<BuyableColor>();
             buyableColor.target = target;
-            buyableColor.itemData = new BuyableColor.ItemData
+            buyableColor.itemData = new UICustomizationManager.ItemData
             {
                 sbPrice = item.VirtualCurrencyPrices["SB"],
                 itemId = item.ItemId
