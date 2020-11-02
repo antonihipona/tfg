@@ -39,6 +39,10 @@ public class ColorSection : MonoBehaviour
         var colorGO = Instantiate(colorGameObject, transform);
         var customizableColor = colorGO.GetComponent<CustomizableColor>();
         customizableColor.target = target;
+        customizableColor.itemData = new UICustomizationManager.ItemData
+        {
+            itemId = "color_white"
+        };
         SetColorActive(customizableColor, "color_white");
 
         for (int i = 0; i < res.Inventory.Count; i++)

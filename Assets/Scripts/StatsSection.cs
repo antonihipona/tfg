@@ -54,6 +54,7 @@ public class StatsSection : MonoBehaviour
 
             lifeText.text = $"{float.Parse(life) * 2}";
             lifeSlider.value = float.Parse(life);
+            RefreshTotal();
         }, (error) => {
             Debug.Log("Got error retrieving user data:");
             Debug.Log(error.GenerateErrorReport());

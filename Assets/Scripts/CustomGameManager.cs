@@ -107,6 +107,9 @@ public class CustomGameManager : MonoBehaviourPunCallbacks
             case "color_green":
                 res = Color.green;
                 break;
+            case "color_pink":
+                res = Color.magenta;
+                break;
         }
         return res;
     }
