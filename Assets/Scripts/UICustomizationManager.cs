@@ -26,12 +26,12 @@ public class UICustomizationManager : MonoBehaviour
 
     private void OnEnable()
     {
-        AuthenticationManager.OnInventoryUpdate += UpdateSB;
+        AuthenticationManager.OnInventoryUpdate += UpdateSBText;
     }
 
     private void OnDisable()
     {
-        AuthenticationManager.OnInventoryUpdate -= UpdateSB;
+        AuthenticationManager.OnInventoryUpdate -= UpdateSBText;
     }
 
     private void Awake()
@@ -42,7 +42,9 @@ public class UICustomizationManager : MonoBehaviour
 
     private void Start()
     {
-        UpdateSB();
+        PlayFabClientAPI.GetUserInventory(new GetUserInventoryRequest(),
+            UpdateSB,
+            AuthenticationManager.instance.GetUserInventoryError);
         customizeColorsButton.onClick.AddListener(() => ToggleCustomizeColors(ContentType.CustomizeColor));
         customizeStatsButton.onClick.AddListener(() => ToggleCustomizeColors(ContentType.CustomizeStats));
         buyColorsButton.onClick.AddListener(() => ToggleCustomizeColors(ContentType.BuyColors));
@@ -82,10 +84,17 @@ public class UICustomizationManager : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
-    private void UpdateSB()
+    private void UpdateSB(GetUserInventoryResult res)
+    {
+        AuthenticationManager.instance.virtualCurrency = res.VirtualCurrency;
+        UpdateSBText();
+    }
+
+    private void UpdateSBText()
     {
         sbAmount.text = AuthenticationManager.instance.virtualCurrency["SB"].ToString();
     }
+
     public class ItemData
     {
         public uint sbPrice;

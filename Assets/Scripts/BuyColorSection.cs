@@ -75,6 +75,8 @@ public class BuyColorSection : MonoBehaviour
             Price = (int)_currentSelectedColor.itemData.sbPrice,
             VirtualCurrency = "SB"
         };
+        _currentSelectedColor.gameObject.SetActive(false);
+        _currentSelectedColor = null;
         PlayFabClientAPI.PurchaseItem(request, PurchaseSuccessCallback, PurchaseErrorCallback);
     }
 

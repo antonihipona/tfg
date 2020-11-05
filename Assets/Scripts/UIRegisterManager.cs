@@ -70,10 +70,12 @@ public class UIRegisterManager : UIBase
         PlayFabClientAPI.UpdateUserData(new UpdateUserDataRequest()
         {
             Data = new Dictionary<string, string>() {
-            {"speed", "5"},
-            {"damage", "5"},
-            {"life", "5" }
-        }
+                {"speed", "5"},
+                {"damage", "5"},
+                {"life", "5" },
+                {"turret_color", "color_white"},
+                {"body_color", "color_white"}
+            }
         },
         result => Debug.Log("Successfully set user data"),
         error =>

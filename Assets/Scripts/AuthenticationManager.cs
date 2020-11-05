@@ -17,7 +17,7 @@ public class AuthenticationManager : MonoBehaviour
     public string Username { get; set; }
     public bool InRoom { get; set; }
     public Dictionary<string, int> virtualCurrency;
-    public List<ItemInstance> inventoryItems;
+    public HashSet<ItemInstance> inventoryItems;
 
     public string loginErrorMessage;
 
@@ -30,7 +30,7 @@ public class AuthenticationManager : MonoBehaviour
             instance = this;
             instance.InRoom = false;
             instance.virtualCurrency = new Dictionary<string, int>();
-            instance.inventoryItems = new List<ItemInstance>();
+            instance.inventoryItems = new HashSet<ItemInstance>();
         }
         else if (instance != this)
         {
@@ -61,7 +61,7 @@ public class AuthenticationManager : MonoBehaviour
         SceneManager.LoadScene("LoginMenu");
     }
 
-    private void GetUserInventory(GetUserInventoryResult res)
+    public void GetUserInventory(GetUserInventoryResult res)
     {
         inventoryItems.Clear();
         instance.virtualCurrency = res.VirtualCurrency;
@@ -81,7 +81,7 @@ public class AuthenticationManager : MonoBehaviour
     {
     }
 
-    private void GetUserInventoryError(PlayFabError error)
+    public void GetUserInventoryError(PlayFabError error)
     {
         Debug.LogError("Could not get player inventory" + error.ErrorMessage);
     }
