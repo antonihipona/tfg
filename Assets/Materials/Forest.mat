@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Sand
+  m_Name: Forest
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: _METALLICGLOSSMAP _NORMALMAP _PARALLAXMAP _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
   m_LightmapFlags: 4
@@ -20,7 +20,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: c80403391d1215a4f8b81451df867691, type: 3}
+        m_Texture: {fileID: 2800000, guid: 2fa2c4824a66bb142876c1bcdc160387, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -37,22 +37,22 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 0}
-        m_Scale: {x: 0.05, y: 0.05}
+        m_Scale: {x: 0.08, y: 0.08}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 472a81560294f9047940174b9b14d8e4, type: 3}
-        m_Scale: {x: 0.05, y: 0.05}
+        m_Texture: {fileID: 2800000, guid: 9ac2e98b4da21d64090515cfa87f929c, type: 3}
+        m_Scale: {x: 0.08, y: 0.08}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 2800000, guid: 4eaaf2970cab8804988d2d5660a2ce09, type: 3}
+        m_Texture: {fileID: 2800000, guid: 4e341730fdcf0554ebfce3a49bac38a7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
-        m_Texture: {fileID: 2800000, guid: 30531c83e6076d14ebfc8a8889fa63ef, type: 3}
+        m_Texture: {fileID: 2800000, guid: 8bf36c0e667716443844ceb7973d39dd, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
-        m_Texture: {fileID: 2800000, guid: e401b70e538390d46a5820cbb7f04d50, type: 3}
+        m_Texture: {fileID: 2800000, guid: 30c8d15938490ab44a17f72169e8c174, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:

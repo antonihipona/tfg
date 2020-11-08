@@ -15,9 +15,6 @@ EditorBuildSettings:
     path: Assets/Scenes/CreateMatchMenu.unity
     guid: 3ec467b1b2addc347a3892ae1d2f7d72
   - enabled: 1
-    path: Assets/Scenes/Game.unity
-    guid: 23cbded5bc14524468a7227d139ea6b2
-  - enabled: 1
     path: Assets/Scenes/GameSettingsMenu.unity
     guid: 145af139df44860459e5215f87c66d83
   - enabled: 1
@@ -35,4 +32,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CustomizationScreen.unity
     guid: e710088a32b6657478f178cd7c620214
+  - enabled: 1
+    path: Assets/Scenes/MapDesert.unity
+    guid: 23cbded5bc14524468a7227d139ea6b2
+  - enabled: 1
+    path: Assets/Scenes/MapForest.unity
+    guid: cef32dc6b3195b84da9014105f1f4a58
+  - enabled: 1
+    path: Assets/Scenes/MapSnow.unity
+    guid: 1ca3cd8cbc1272344b395e7df09bd040
   m_configObjects: {}

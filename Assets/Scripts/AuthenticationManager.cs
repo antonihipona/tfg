@@ -77,9 +77,6 @@ public class AuthenticationManager : MonoBehaviour
         PlayFabClientAPI.GetUserInventory(new GetUserInventoryRequest(), GetUserInventory, GetUserInventoryError);
     }
 
-    public void LoadUserInventory()
-    {
-    }
 
     public void GetUserInventoryError(PlayFabError error)
     {

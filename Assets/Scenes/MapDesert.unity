@@ -446,6 +446,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -519,6 +520,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.41960785}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -592,6 +594,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.41960785}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -745,9 +748,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
-  m_CookingOptions: 14
+  m_CookingOptions: 30
   m_Mesh: {fileID: 783054186}
 --- !u!114 &168515694
 MonoBehaviour:
@@ -1240,6 +1243,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.41960785}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1292,9 +1296,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
-  m_CookingOptions: 14
+  m_CookingOptions: 30
   m_Mesh: {fileID: 1195260027}
 --- !u!114 &297168616
 MonoBehaviour:
@@ -1529,7 +1533,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a441cf554851a594a8549170c05cf7a9, type: 2}
+  - {fileID: 2100000, guid: 433f53d21f6da1749a5d84ec62898948, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1637,9 +1641,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
-  m_CookingOptions: 14
+  m_CookingOptions: 30
   m_Mesh: {fileID: 3768139}
 --- !u!114 &323044219
 MonoBehaviour:
@@ -1934,9 +1938,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
-  m_CookingOptions: 14
+  m_CookingOptions: 30
   m_Mesh: {fileID: 1233316824}
 --- !u!114 &456352909
 MonoBehaviour:
@@ -2171,7 +2175,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a441cf554851a594a8549170c05cf7a9, type: 2}
+  - {fileID: 2100000, guid: 433f53d21f6da1749a5d84ec62898948, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2429,9 +2433,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
-  m_CookingOptions: 14
+  m_CookingOptions: 30
   m_Mesh: {fileID: 1883589358}
 --- !u!114 &471349195
 MonoBehaviour:
@@ -2666,7 +2670,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a441cf554851a594a8549170c05cf7a9, type: 2}
+  - {fileID: 2100000, guid: 433f53d21f6da1749a5d84ec62898948, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2761,9 +2765,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
-  m_CookingOptions: 14
+  m_CookingOptions: 30
   m_Mesh: {fileID: 1936645730}
 --- !u!114 &558091993
 MonoBehaviour:
@@ -3146,7 +3150,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 36020573f222c374a97da048bae159a4, type: 2}
+  - {fileID: 2100000, guid: 433f53d21f6da1749a5d84ec62898948, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3299,6 +3303,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.392}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -3444,9 +3449,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
-  m_CookingOptions: 14
+  m_CookingOptions: 30
   m_Mesh: {fileID: 459754502}
 --- !u!114 &747766293
 MonoBehaviour:
@@ -3681,7 +3686,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8cf0267237e2ec8428d7643eee3cf86e, type: 2}
+  - {fileID: 2100000, guid: 433f53d21f6da1749a5d84ec62898948, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3968,9 +3973,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
-  m_CookingOptions: 14
+  m_CookingOptions: 30
   m_Mesh: {fileID: 1419984107}
 --- !u!114 &840169318
 MonoBehaviour:
@@ -4300,6 +4305,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -4511,6 +4517,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -4992,6 +4999,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 1, b: 0.74696636, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -5065,6 +5073,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -5142,6 +5151,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.41960785}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -5193,9 +5203,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
-  m_CookingOptions: 14
+  m_CookingOptions: 30
   m_Mesh: {fileID: 191722022}
 --- !u!114 &1048688409
 MonoBehaviour:
@@ -5526,6 +5536,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -5738,6 +5749,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -6079,6 +6091,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.41960785}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -6489,9 +6502,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
-  m_CookingOptions: 14
+  m_CookingOptions: 30
   m_Mesh: {fileID: 925521426}
 --- !u!114 &1283684780
 MonoBehaviour:
@@ -6822,6 +6835,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -6895,6 +6909,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -7225,6 +7240,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -7476,9 +7492,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
-  m_CookingOptions: 14
+  m_CookingOptions: 30
   m_Mesh: {fileID: 1896409896}
 --- !u!114 &1590653438
 MonoBehaviour:
@@ -7607,24 +7623,24 @@ MonoBehaviour:
   - m_Vertices: 060000001200000017000000
   m_SharedTextures: []
   m_Positions:
-  - {x: -0.0000001788113, y: 1, z: 2.0000014}
-  - {x: -1.9999998, y: 1, z: 2.0000017}
+  - {x: 0.00000020861911, y: 0, z: 2.0000014}
+  - {x: -1.9999998, y: 0, z: 2.0000017}
   - {x: -2, y: 0, z: 4}
   - {x: -0, y: 0, z: 4}
   - {x: -1.9999995, y: 2, z: 4}
   - {x: -0.0000001788113, y: 2, z: 2.0000014}
   - {x: 0, y: 2, z: 4}
   - {x: -1.9999998, y: 2, z: 2.0000017}
-  - {x: -0.0000001788113, y: 1, z: 2.0000014}
-  - {x: -1.9999998, y: 1, z: 2.0000017}
+  - {x: 0.00000020861911, y: 0, z: 2.0000014}
+  - {x: -1.9999998, y: 0, z: 2.0000017}
   - {x: -0.0000001788113, y: 2, z: 2.0000014}
   - {x: -1.9999998, y: 2, z: 2.0000017}
-  - {x: -1.9999998, y: 1, z: 2.0000017}
+  - {x: -1.9999998, y: 0, z: 2.0000017}
   - {x: -2, y: 0, z: 4}
   - {x: -1.9999998, y: 2, z: 2.0000017}
   - {x: -1.9999995, y: 2, z: 4}
   - {x: -0, y: 0, z: 4}
-  - {x: -0.0000001788113, y: 1, z: 2.0000014}
+  - {x: 0.00000020861911, y: 0, z: 2.0000014}
   - {x: 0, y: 2, z: 4}
   - {x: -0.0000001788113, y: 2, z: 2.0000014}
   - {x: -2, y: 0, z: 4}
@@ -7632,24 +7648,24 @@ MonoBehaviour:
   - {x: -1.9999995, y: 2, z: 4}
   - {x: 0, y: 2, z: 4}
   m_Textures0:
-  - {x: 0.0000001788113, y: 1.3416415}
-  - {x: 1.9999998, y: 1.3416418}
-  - {x: 2, y: 3.5777082}
-  - {x: 0, y: 3.5777082}
+  - {x: -0.00000020861911, y: 2.0000014}
+  - {x: 1.9999998, y: 2.0000017}
+  - {x: 2, y: 4}
+  - {x: 0, y: 4}
   - {x: -1.9999995, y: 4}
   - {x: -0.0000001788113, y: 2.0000014}
   - {x: 0, y: 4}
   - {x: -1.9999998, y: 2.0000017}
-  - {x: -0.00000041723013, y: 1}
-  - {x: -2, y: 1}
-  - {x: -0.00000041723013, y: 2}
+  - {x: -0.000000029799637, y: -4.618534e-14}
+  - {x: -2, y: -4.618534e-14}
+  - {x: -0.00000041723007, y: 2}
   - {x: -2, y: 2}
-  - {x: -2.000002, y: 1}
+  - {x: -2.000002, y: 0}
   - {x: -4.0000005, y: 0}
   - {x: -2.000002, y: 2}
   - {x: -4.0000005, y: 2}
   - {x: 4, y: 0}
-  - {x: 2.0000014, y: 1}
+  - {x: 2.0000014, y: 0}
   - {x: 4, y: 2}
   - {x: 2.0000014, y: 2}
   - {x: 2, y: 0}
@@ -7659,25 +7675,25 @@ MonoBehaviour:
   m_Textures2: []
   m_Textures3: []
   m_Tangents:
-  - {x: -1, y: 0.000000053312064, z: -0.000000047019384, w: -1}
-  - {x: -1, y: 0.00000010662413, z: -0.00000009403877, w: -1}
-  - {x: -1, y: 0.000000053312064, z: -0.000000047019384, w: -1}
+  - {x: -1, y: 0, z: 0, w: -1}
+  - {x: -1, y: 0, z: 0, w: -1}
+  - {x: -1, y: 0, z: 0, w: -1}
   - {x: -1, y: 0, z: 0, w: -1}
   - {x: 1, y: 0, z: 0, w: -1}
   - {x: 1, y: 0, z: 0, w: -1}
   - {x: 1, y: 0, z: 0, w: -1}
   - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: -0.00000011920932, w: -1}
-  - {x: 1, y: 0, z: -0.00000011920932, w: -1}
-  - {x: 1, y: 0, z: -0.00000011920932, w: -1}
+  - {x: 1, y: 0, z: -0.00000011920929, w: -1}
+  - {x: 1, y: 0, z: -0.0000001192093, w: -1}
+  - {x: 1, y: 0, z: -0.0000001192093, w: -1}
   - {x: 1, y: 0, z: -0.00000011920932, w: -1}
   - {x: 0.00000011920939, y: 0, z: -1, w: -1}
   - {x: 0, y: 0, z: -1, w: -1}
   - {x: 0, y: 0, z: -1, w: -1}
   - {x: -0.00000011920939, y: 0, z: -1, w: -1}
-  - {x: 0.00000008940572, y: 0, z: 1, w: -1}
-  - {x: 0.00000008940572, y: 0, z: 1, w: -1}
-  - {x: 0.00000008940572, y: 0, z: 1, w: -1}
+  - {x: -0.000000104309635, y: 0, z: 1, w: -1}
+  - {x: -0.000000007451959, y: 0, z: 1, w: -1}
+  - {x: -0.000000007451959, y: 0, z: 1, w: -1}
   - {x: 0.00000008940572, y: 0, z: 1, w: -1}
   - {x: -1, y: 0, z: 0, w: -1}
   - {x: -1, y: 0, z: 0, w: -1}
@@ -7713,7 +7729,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a441cf554851a594a8549170c05cf7a9, type: 2}
+  - {fileID: 2100000, guid: 433f53d21f6da1749a5d84ec62898948, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7829,6 +7845,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.41960785}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -7945,9 +7962,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
-  m_CookingOptions: 14
+  m_CookingOptions: 30
   m_Mesh: {fileID: 1250459743}
 --- !u!114 &1808280601
 MonoBehaviour:
@@ -8330,7 +8347,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 36020573f222c374a97da048bae159a4, type: 2}
+  - {fileID: 2100000, guid: 433f53d21f6da1749a5d84ec62898948, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -8567,7 +8584,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh80182
+  m_Name: pb_Mesh45182
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -8578,8 +8595,8 @@ Mesh:
     firstVertex: 0
     vertexCount: 24
     localAABB:
-      m_Center: {x: -1, y: 1, z: 3.0000007}
-      m_Extent: {x: 1, y: 1, z: 0.9999993}
+      m_Center: {x: -0.9999999, y: 1, z: 3.0000007}
+      m_Extent: {x: 1.0000001, y: 1, z: 0.9999993}
   m_Shapes:
     vertices: []
     shapes: []
@@ -8658,7 +8675,7 @@ Mesh:
       format: 0
       dimension: 0
     m_DataSize: 1152
-    _typelessdata: 000000c000000000000080403bf9e4b22cf964bf37f9e4be000080bf3cf964335cf249b3000080bf000000402cf9644047ff3fb40000803f060000403bf9e4b22cf964bf37f9e4be000080bf3cf964335cf249b3000080bf47ff3f34e9baab3f000000800000000000008040000000002bf964bf36f9e4be000080bf0000000000000000000080bf000000002cf96440feffffbf0000803f070000403bf964b32cf964bf38f9e4be000080bf3cf9e4335cf2c9b3000080bffeffff3febbaab3f47ff3fb40000004006000040000000000000803f000000000000803f0000000000000000000080bf47ff3fb406000040feffffbf0000004007000040000000000000803f000000000000803f0000000000000000000080bffeffffbf07000040fcffffbf0000004000008040000000000000803f000000000000803f0000000000000000000080bffcffffbf00008040000000000000004000008040000000000000803f000000000000803f0000000000000000000080bf000000000000804047ff3fb40000803f06000040020000b400000000000080bf0000803f00000000020000b4000080bfacffdfb40000803ffeffffbf0000803f07000040020000b400000000000080bf0000803f00000000020000b4000080bf000000c00000803f47ff3fb40000004006000040020000b400000000000080bf0000803f00000000020000b4000080bfacffdfb400000040feffffbf0000004007000040020000b400000000000080bf0000803f00000000020000b4000080bf000000c000000040feffffbf0000803f07000040000080bf00000000070000b40700003400000000000080bf000080bf080000c00000803f000000c00000000000008040000080bf00000034000000000000000000000000000080bf000080bf010080c000000000feffffbf0000004007000040000080bf00000034000000000000000000000000000080bf000080bf080000c000000040fcffffbf0000004000008040000080bf0000803407000034070000b400000000000080bf000080bf010080c0000000400000008000000000000080400000803f0000000050ffbfb350ffbf33000000000000803f000080bf000080400000000047ff3fb40000803f060000400000803f0000000050ffbfb350ffbf33000000000000803f000080bf060000400000803f0000000000000040000080400000803f0000000050ffbfb350ffbf33000000000000803f000080bf000080400000004047ff3fb400000040060000400000803f0000000050ffbfb350ffbf33000000000000803f000080bf0600004000000040000000c0000000000000804000000000000000000000803f000080bf0000000000000000000080bf000000400000000000000080000000000000804000000000000000000000803f000080bf0000000000000000000080bf0000000000000000fcffffbf000000400000804000000000000000000000803f000080bf0000000000000000000080bffcffff3f0000004000000000000000400000804000000000000000000000803f000080bf0000000000000000000080bf0000000000000040
+    _typelessdata: 000000c0000000000000804000000000000080bf00000000000080bf0000000000000000000080bf0000004000008040c9006034000000000600004000000000000080bf00000000000080bf0000000000000000000080bfc90060b40600004000000080000000000000804000000000000080bf00000000000080bf0000000000000000000080bf0000000000008040feffffbf000000000700004000000000000080bf00000000000080bf0000000000000000000080bffeffff3f0700004047ff3fb40000004006000040000000000000803f000000000000803f0000000000000000000080bf47ff3fb406000040feffffbf0000004007000040000000000000803f000000000000803f0000000000000000000080bffeffffbf07000040fcffffbf0000004000008040000000000000803f000000000000803f0000000000000000000080bffcffffbf00008040000000000000004000008040000000000000803f000000000000803f0000000000000000000080bf0000000000008040c90060340000000006000040000000b40800d0a8000080bf0000803f00000000000000b4000080bf18faffb2120050a9feffffbf0000000007000040010000b4080050a8000080bf0000803f00000000010000b4000080bf000000c0120050a947ff3fb40000004006000040010000b4080050a8000080bf0000803f00000000010000b4000080bfaaffdfb400000040feffffbf0000004007000040020000b400000000000080bf0000803f00000000020000b4000080bf000000c000000040feffffbf0000000007000040000080bf00000000070000b40700003400000000000080bf000080bf080000c000000000000000c00000000000008040000080bf00000034000000000000000000000000000080bf000080bf010080c000000000feffffbf0000004007000040000080bf00000034000000000000000000000000000080bf000080bf080000c000000040fcffffbf0000004000008040000080bf0000803407000034070000b400000000000080bf000080bf010080c0000000400000008000000000000080400000803f00000000d400e033d400e0b3000000000000803f000080bf0000804000000000c900603400000000060000400000803f0800d03310060032100600b2000000000000803f000080bf06000040000000000000000000000040000080400000803f0800d03310060032100600b2000000000000803f000080bf000080400000004047ff3fb400000040060000400000803f0800503450ffbfb350ffbf33000000000000803f000080bf0600004000000040000000c0000000000000804000000000000000000000803f000080bf0000000000000000000080bf000000400000000000000080000000000000804000000000000000000000803f000080bf0000000000000000000080bf0000000000000000fcffffbf000000400000804000000000000000000000803f000080bf0000000000000000000080bffcffff3f0000004000000000000000400000804000000000000000000000803f000080bf0000000000000000000080bf0000000000000040
   m_CompressedMesh:
     m_Vertices:
       m_NumItems: 0
@@ -8712,8 +8729,8 @@ Mesh:
       m_BitSize: 0
     m_UVInfo: 0
   m_LocalAABB:
-    m_Center: {x: -1, y: 1, z: 3.0000007}
-    m_Extent: {x: 1, y: 1, z: 0.9999993}
+    m_Center: {x: -0.9999999, y: 1, z: 3.0000007}
+    m_Extent: {x: 1.0000001, y: 1, z: 0.9999993}
   m_MeshUsageFlags: 0
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
@@ -8777,6 +8794,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -9234,9 +9252,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
-  m_CookingOptions: 14
+  m_CookingOptions: 30
   m_Mesh: {fileID: 2131711201}
 --- !u!114 &1977618692
 MonoBehaviour:
@@ -9619,7 +9637,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 36020573f222c374a97da048bae159a4, type: 2}
+  - {fileID: 2100000, guid: 433f53d21f6da1749a5d84ec62898948, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9883,6 +9901,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -9935,9 +9954,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
-  m_CookingOptions: 14
+  m_CookingOptions: 30
   m_Mesh: {fileID: 1927672917}
 --- !u!114 &2073641280
 MonoBehaviour:
@@ -10320,7 +10339,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 36020573f222c374a97da048bae159a4, type: 2}
+  - {fileID: 2100000, guid: 433f53d21f6da1749a5d84ec62898948, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -10468,6 +10487,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
