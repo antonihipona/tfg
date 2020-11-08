@@ -19,6 +19,7 @@ public class CustomGameManager : MonoBehaviourPunCallbacks
     private UIGameManager uiGameManager;
     void Start()
     {
+        PlayAudio();
         uiGameManager = FindObjectOfType<UIGameManager>();
         spawnTime = PhotonNetwork.Time + 5;
         spawned = false;
@@ -112,5 +113,23 @@ public class CustomGameManager : MonoBehaviourPunCallbacks
                 break;
         }
         return res;
+    }
+
+    private void PlayAudio()
+    {
+        var mapType = (MapType)PhotonNetwork.CurrentRoom.CustomProperties["mapType"];
+
+        switch (mapType)
+        {
+            case MapType.Desert:
+                AudioManager.Instance.PlayDesertTheme();
+                break;
+            case MapType.Forest:
+                AudioManager.Instance.PlayForestTheme();
+                break;
+            case MapType.Snow:
+                AudioManager.Instance.PlaySnowTheme();
+                break;
+        }
     }
 }

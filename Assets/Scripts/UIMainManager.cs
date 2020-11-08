@@ -20,6 +20,7 @@ public class UIMainManager : UIBase
     private void Start()
     {
         PhotonNetwork.ConnectUsingSettings();
+        AudioManager.Instance.PlayMainTheme();
         UpdateSB();
     }
     public void OnClickSearchMatch()
