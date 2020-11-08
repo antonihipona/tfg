@@ -9,15 +9,21 @@ public class UIGameSettingsManager : UIBase
     public Toggle toggleFullscreen;
     public TMPro.TMP_Dropdown dropdownResolution;
 
+    public Slider audioSlider;
 
     void Start()
     {
+        // Fullscreen
         toggleFullscreen.isOn = Screen.fullScreen;
+
+        // Resolutions
         dropdownResolution.ClearOptions();
         List<string> options = new List<string>();
         foreach (Resolution res in Screen.resolutions)
         {
-            if (res.width > 600 && res.width / 16 * 9 == res.height)
+            float aspect = (float)res.width / (float)res.height;
+            float minAspect = 16f / 9f;
+            if (aspect >= minAspect)
             {
                 string option = res.width + "x" + res.height;
                 if (!options.Contains(option))
@@ -27,6 +33,10 @@ public class UIGameSettingsManager : UIBase
         }
         dropdownResolution.AddOptions(options);
         dropdownResolution.value = options.IndexOf(Screen.width + "x" + Screen.height);
+
+        // Audio
+        audioSlider.value = AudioManager.Instance.GetVolume();
+        audioSlider.onValueChanged.AddListener(UpdateAudioVolume);
     }
 
     public void OnToggleFullscreen()
@@ -44,6 +54,14 @@ public class UIGameSettingsManager : UIBase
 
     public void OnClickBack()
     {
-        SceneManager.LoadScene("MainMenu");
+        if (AuthenticationManager.instance.playFabPlayerId == null || AuthenticationManager.instance.playFabPlayerId == "")
+            SceneManager.LoadScene("LoginMenu");
+        else
+            SceneManager.LoadScene("MainMenu");
+    }
+
+    private void UpdateAudioVolume(float value)
+    {
+        AudioManager.Instance.SetVolume(value);
     }
 }

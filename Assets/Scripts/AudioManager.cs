@@ -21,7 +21,8 @@ public class AudioManager : MonoBehaviour
         {
             _audioSource = GetComponent<AudioSource>();
             Instance = this;
-        }else
+        }
+        else
         {
             if (Instance != this)
                 Destroy(this);
@@ -30,6 +31,7 @@ public class AudioManager : MonoBehaviour
 
     public void PlayMainTheme()
     {
+        if (_audioSource.clip != null && _audioSource.clip.Equals(MainTheme)) return;
         _audioSource.clip = MainTheme;
         _audioSource.Play();
     }
@@ -56,5 +58,10 @@ public class AudioManager : MonoBehaviour
     public void SetVolume(float volume)
     {
         _audioSource.volume = volume;
+    }
+
+    public float GetVolume()
+    {
+        return _audioSource.volume;
     }
 }

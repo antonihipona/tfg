@@ -17,8 +17,6 @@ public class UILoginManager : UIBase
     {
         DisplayErrors(AuthenticationManager.instance.loginErrorMessage);
     }
-
-
     public void OnClickLogin()
     {
         var request = new LoginWithPlayFabRequest
@@ -32,8 +30,6 @@ public class UILoginManager : UIBase
         AuthenticationManager.instance.Username = inputUsername.text;
     }
 
-    
-
     public void OnClickRegister()
     {
         inputUsername.enabled = false;
@@ -44,5 +40,9 @@ public class UILoginManager : UIBase
     public void DisplayErrors(string errors)
     {
         errorText.text = errors;
+    }
+    public void OnClickGameSettings()
+    {
+        SceneManager.LoadScene("GameSettingsMenu");
     }
 }
