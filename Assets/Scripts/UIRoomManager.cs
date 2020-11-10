@@ -22,7 +22,7 @@ public class UIRoomManager : MonoBehaviourPunCallbacks
         TMPro.TextMeshProUGUI matchName = Instantiate(textPrefab);
         TMPro.TextMeshProUGUI maxPlayers = Instantiate(textPrefab);
         TMPro.TextMeshProUGUI mapType = Instantiate(textPrefab);
-        matchName.text = "Match name:" + room.Name;
+        matchName.text = "Match name: " + room.Name;
         maxPlayers.text = "Players: " + room.MaxPlayers;
         mapType.text = "Map type: " + (MapType)room.CustomProperties["mapType"];
         matchName.transform.SetParent(dataGroup.transform, false);

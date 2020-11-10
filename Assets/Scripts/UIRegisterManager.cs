@@ -43,6 +43,8 @@ public class UIRegisterManager : UIBase
         }
         else
             textMessage.text = error.ErrorMessage;
+        if (textMessage.text.Length != 0)
+            textMessage.gameObject.SetActive(true);
         Debug.LogError(error.GenerateErrorReport());
     }
 

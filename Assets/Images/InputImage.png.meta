@@ -1,0 +1,224 @@
+fileFormatVersion: 2
+guid: 147fdaa554bcb72489d4a622abd97b21
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3442866795365657484
+    second: InputImage_0
+  - first:
+      213: 7915364737361777600
+    second: InputImage_1
+  - first:
+      213: -914391733450588862
+    second: InputImage_2
+  - first:
+      213: -3000525146965223434
+    second: InputImage_3
+  - first:
+      213: -893409558900600872
+    second: InputImage_4
+  - first:
+      213: 1931069328699667345
+    second: InputImage_5
+  - first:
+      213: -2252776481821401647
+    second: InputImage_6
+  - first:
+      213: -6667705229106743203
+    second: InputImage_7
+  - first:
+      213: -8908646041813670126
+    second: InputImage_8
+  - first:
+      213: 2182026735539964424
+    second: InputImage_9
+  - first:
+      213: 2140660497884965685
+    second: InputImage_10
+  - first:
+      213: 3769027554253344900
+    second: InputImage_11
+  - first:
+      213: -1695464773451873683
+    second: InputImage_12
+  - first:
+      213: -6533356639854104366
+    second: InputImage_13
+  - first:
+      213: 5598001111799373249
+    second: InputImage_14
+  - first:
+      213: 741620427520833475
+    second: InputImage_15
+  - first:
+      213: 6523312957285025560
+    second: InputImage_16
+  - first:
+      213: 6995263386460907275
+    second: InputImage_17
+  - first:
+      213: 98745548704953618
+    second: InputImage_18
+  - first:
+      213: 7547347311164195224
+    second: InputImage_19
+  - first:
+      213: 5944044691755663714
+    second: InputImage_20
+  - first:
+      213: 8169099699868888105
+    second: InputImage_21
+  - first:
+      213: -2334176689236236969
+    second: InputImage_22
+  - first:
+      213: 3232329038177620818
+    second: InputImage_23
+  - first:
+      213: 1961362923395031610
+    second: InputImage_24
+  - first:
+      213: 5791512107964296188
+    second: InputImage_25
+  - first:
+      213: 4770628584352852394
+    second: InputImage_26
+  - first:
+      213: 5694990264873239588
+    second: InputImage_27
+  - first:
+      213: 5348701487658465292
+    second: InputImage_28
+  - first:
+      213: 319834711329081792
+    second: InputImage_29
+  - first:
+      213: 1789632624402384532
+    second: InputImage_30
+  - first:
+      213: 5313609487325925552
+    second: InputImage_31
+  - first:
+      213: -1177819321818320083
+    second: InputImage_0
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 512
+  spriteBorder: {x: 68, y: 68, z: 68, w: 68}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: InputImage_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 128, y: 128, z: 128, w: 128}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4741e3504ea7830d0800000000000000
+      internalID: -3442866795365657484
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

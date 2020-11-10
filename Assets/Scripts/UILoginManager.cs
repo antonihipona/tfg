@@ -39,6 +39,7 @@ public class UILoginManager : UIBase
 
     public void DisplayErrors(string errors)
     {
+        if (errors.Length != 0) errorText.gameObject.SetActive(true);
         errorText.text = errors;
     }
     public void OnClickGameSettings()

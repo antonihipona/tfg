@@ -14,11 +14,14 @@ public class UICreateMatch : UIBase
 
     public void OnClickCreateMatch()
     {
+        textError.gameObject.SetActive(false);
         inputRoomName.enabled = false;
         string errors = CheckInputs(inputRoomName.text);
+        if (errors.Length != 0) textError.gameObject.SetActive(true);
         textError.text = errors;
-        if (errors.Equals(""))
+        if (errors.Length == 0)
             PhotonNetworkManager.instance.CreateRoom(inputRoomName.text, (MapType)dropdownMapType.value, (byte)(dropdownNumberOfPlayers.value + 2));
+        if (inputRoomName.text.Length != 0) inputRoomName.enabled = true;
     }
 
     private string CheckInputs(string text)

@@ -72,7 +72,10 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks, IInRoomCallbacks
     {
         UICreateMatch uiLoginManager = FindObjectOfType<UICreateMatch>();
         if (uiLoginManager != null)
+        {
+            uiLoginManager.textError.gameObject.SetActive(true);
             uiLoginManager.textError.text = message;
+        }
         Debug.LogError("PUN: OnCreateRoomFailed() called by PUN. " + message);
     }
 
