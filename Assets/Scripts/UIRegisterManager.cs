@@ -17,6 +17,7 @@ public class UIRegisterManager : UIBase
         inputPassword.enabled = false;
         var request = new RegisterPlayFabUserRequest
         {
+            DisplayName = inputUsername.text,
             Username = inputUsername.text,
             Password = inputPassword.text,
             RequireBothUsernameAndEmail = false,

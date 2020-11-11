@@ -44,6 +44,11 @@ public class UIMainManager : UIBase
         SceneManager.LoadScene("GameSettingsMenu");
     }
 
+    public void OnClickRanking()
+    {
+        SceneManager.LoadScene("RankingMenu");
+    }
+
     private void UpdateSB()
     {
         sbAmount.text = AuthenticationManager.instance.virtualCurrency["SB"].ToString();

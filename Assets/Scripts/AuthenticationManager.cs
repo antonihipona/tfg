@@ -103,4 +103,29 @@ public class AuthenticationManager : MonoBehaviour
         Debug.LogError("Could not add player currency" + error.ErrorMessage);
     }
 
+
+    // source https://docs.microsoft.com/en-us/gaming/playfab/features/social/tournaments-leaderboards/quickstart
+    public void AddLeaderboardPoints(int playerScore)
+    {
+        PlayFabClientAPI.UpdatePlayerStatistics(new UpdatePlayerStatisticsRequest
+        {
+            Statistics = new List<StatisticUpdate> {
+            new StatisticUpdate {
+                StatisticName = "Points",
+                Value = playerScore
+            }
+        }
+        }, result => OnStatisticsUpdated(result), FailureCallback);
+    }
+
+    private void OnStatisticsUpdated(UpdatePlayerStatisticsResult updateResult)
+    {
+        Debug.Log("Successfully submitted high score");
+    }
+
+    private void FailureCallback(PlayFabError error)
+    {
+        Debug.LogWarning("Something went wrong with your API call. Here's some debug information:");
+        Debug.LogError(error.GenerateErrorReport());
+    }
 }

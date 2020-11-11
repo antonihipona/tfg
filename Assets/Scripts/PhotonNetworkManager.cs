@@ -119,6 +119,7 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks, IInRoomCallbacks
             {
                 TMPro.TextMeshProUGUI username = Instantiate(manager.textPrefab);
                 username.text = player.NickName;
+                if (player.IsMasterClient) username.text += " (room owner)";
                 username.transform.SetParent(manager.playersGroup.transform, false);
             }
         }
