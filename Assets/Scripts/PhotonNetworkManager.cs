@@ -27,7 +27,7 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     public void CreateRoom(string text, MapType mapType, byte playerNumber)
     {
-        Debug.Log(mapType + " " + playerNumber);
+        Debug.Log("Created room: Map: " + mapType + ", Players: " + playerNumber);
         if (PhotonNetwork.IsConnected)
         {
             Hashtable customProperties = new Hashtable();
