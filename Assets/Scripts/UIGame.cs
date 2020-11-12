@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using Photon.Pun;
 
-public class UIGameManager : UIBase
+public class UIGame : UIBase
 {
     public GameObject panel;
     public Text endText;
@@ -18,10 +18,10 @@ public class UIGameManager : UIBase
     public GameObject shootSpeedPowerUp;
     public GameObject invisibilityPowerUp;
 
-    private CustomGameManager gameManager;
+    private GameController gameManager;
     private PlayerController playerController;
     private void Start() {
-        gameManager = FindObjectOfType<CustomGameManager>();
+        gameManager = FindObjectOfType<GameController>();
     }
 
     void Update()

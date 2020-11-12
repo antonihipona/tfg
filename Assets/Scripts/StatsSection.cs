@@ -38,7 +38,7 @@ public class StatsSection : MonoBehaviour
     {
         PlayFabClientAPI.GetUserData(new GetUserDataRequest()
         {
-            PlayFabId = AuthenticationManager.instance.playFabPlayerId,
+            PlayFabId = AuthenticationManager.Instance.playFabPlayerId,
             Keys = null
         }, result => {
             var speed = result.Data["speed"].Value;

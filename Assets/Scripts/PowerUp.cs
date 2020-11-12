@@ -10,11 +10,11 @@ public class PowerUp : MonoBehaviour
     public bool isActive;
 
     private SpriteRenderer spriteRenderer;
-    private PowerUpManager powerUpManager;
+    private PowerUpController powerUpManager;
     private Collider powerUpCollider;
     private void Start()
     {
-        powerUpManager = FindObjectOfType<PowerUpManager>();
+        powerUpManager = FindObjectOfType<PowerUpController>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         powerUpCollider = GetComponent<Collider>();
     }

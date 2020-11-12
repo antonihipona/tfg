@@ -71,7 +71,7 @@ public class PlayerUI : MonoBehaviour
         if (playerNameText != null)
         {
             var playerName = target.photonView.Owner.NickName;
-            if (AuthenticationManager.instance.Username.Equals(playerName))
+            if (AuthenticationManager.Instance.Username.Equals(playerName))
                 playerNameText.color = Color.green;
             else
                 playerNameText.color = Color.red;

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
-public class UIRegisterManager : UIBase
+public class UIRegister : UIBase
 {
     public TMPro.TMP_InputField inputUsername;
     public TMPro.TMP_InputField inputPassword;

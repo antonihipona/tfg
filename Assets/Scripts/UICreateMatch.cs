@@ -20,7 +20,7 @@ public class UICreateMatch : UIBase
         if (errors.Length != 0) textError.gameObject.SetActive(true);
         textError.text = errors;
         if (errors.Length == 0)
-            PhotonNetworkManager.instance.CreateRoom(inputRoomName.text, (MapType)dropdownMapType.value, (byte)(dropdownNumberOfPlayers.value + 2));
+            PhotonNetworkManager.Instance.CreateRoom(inputRoomName.text, (MapType)dropdownMapType.value, (byte)(dropdownNumberOfPlayers.value + 2));
         if (inputRoomName.text.Length != 0) inputRoomName.enabled = true;
     }
 

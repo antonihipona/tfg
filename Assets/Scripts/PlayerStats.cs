@@ -52,8 +52,8 @@ public class PlayerStats : MonoBehaviourPunCallbacks
     private float invisibilityPowerUpTimer;
     #endregion
 
-    private CustomGameManager gameManager;
-    private UIGameManager uiGameManager;
+    private GameController gameManager;
+    private UIGame uiGameManager;
     private MeshRenderer[] meshes;
 
     private void Start()
@@ -67,8 +67,8 @@ public class PlayerStats : MonoBehaviourPunCallbacks
         originalShootSpeed = bulletSpeed;
         // -----------
 
-        gameManager = FindObjectOfType<CustomGameManager>();
-        uiGameManager = FindObjectOfType<UIGameManager>();
+        gameManager = FindObjectOfType<GameController>();
+        uiGameManager = FindObjectOfType<UIGame>();
         meshes = GetComponentsInChildren<MeshRenderer>();
         currentLife = maxLife;
     }
@@ -169,7 +169,7 @@ public class PlayerStats : MonoBehaviourPunCallbacks
         if (!this.IsDead())
         {
             this.RemoveHealth(damage);
-            UIDamageManager.instance.InstantiateDamage(damage, this.transform.position);
+            UIDamageManager.Instance.InstantiateDamage(damage, this.transform.position);
         }
         if (this.IsDead())
             this.Die(direction);
@@ -308,7 +308,7 @@ public class PlayerStats : MonoBehaviourPunCallbacks
     {
         PlayFabClientAPI.GetUserData(new GetUserDataRequest()
         {
-            PlayFabId = AuthenticationManager.instance.playFabPlayerId,
+            PlayFabId = AuthenticationManager.Instance.playFabPlayerId,
             Keys = null
         }, result => {
             speed = float.Parse(result.Data["speed"].Value);

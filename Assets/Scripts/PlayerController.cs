@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 
     //private Color[] myColors;
 
-    private CustomGameManager gameManager;
+    private GameController gameManager;
     private PlayerStats playerStats;
 
     private Vector3 networkPosition;
@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     {
         GetUserData();
         playerStats = GetComponent<PlayerStats>();
-        gameManager = FindObjectOfType<CustomGameManager>();
+        gameManager = FindObjectOfType<GameController>();
 
         if (PlayerUIPrefab != null)
         {
@@ -92,7 +92,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             {
                 foreach (var material in renderer.materials)
                 {
-                    material.color = CustomGameManager.MapIdToColor(turretColor);
+                    material.color = GameController.MapIdToColor(turretColor);
                 }
             }
 
@@ -101,7 +101,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             {
                 foreach (var material in renderer.materials)
                 {
-                    material.color = CustomGameManager.MapIdToColor(bodyColor);
+                    material.color = GameController.MapIdToColor(bodyColor);
                 }
             }
 
@@ -224,7 +224,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             {
                 foreach (var material in renderer.materials)
                 {
-                    material.color = CustomGameManager.MapIdToColor(turretColor);
+                    material.color = GameController.MapIdToColor(turretColor);
                 }
             }
 
@@ -233,7 +233,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             {
                 foreach (var material in renderer.materials)
                 {
-                    material.color = CustomGameManager.MapIdToColor(bodyColor);
+                    material.color = GameController.MapIdToColor(bodyColor);
                 }
             }
         }
@@ -326,7 +326,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     {
         PlayFabClientAPI.GetUserData(new GetUserDataRequest()
         {
-            PlayFabId = AuthenticationManager.instance.playFabPlayerId,
+            PlayFabId = AuthenticationManager.Instance.playFabPlayerId,
             Keys = null
         }, result => {
             var _turretColor = result.Data["turret_color"].Value;

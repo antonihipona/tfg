@@ -4,14 +4,13 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class UISearchMatchManager : UIBase
+public class UISearchMatch : UIBase
 {
     public TMPro.TMP_InputField inputSearch;
     public TMPro.TextMeshProUGUI textPrefab;
     public VerticalLayoutGroup listContent;
     public Button btnJoinPrefab;
     public HorizontalLayoutGroup horizontalLayoutGroupPrefab;
-
 
     public void Start()
     {
@@ -29,7 +28,7 @@ public class UISearchMatchManager : UIBase
             Destroy(child.gameObject);
         }
         // Add content
-        foreach (RoomInfo room in PhotonNetworkManager.instance.roomList)
+        foreach (RoomInfo room in PhotonNetworkManager.Instance.roomList)
         {
             if (!room.Name.Contains(filter))
                 continue;

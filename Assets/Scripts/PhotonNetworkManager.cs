@@ -10,18 +10,18 @@ public enum MapType : int { Desert, Snow, Forest };
 
 public class PhotonNetworkManager : MonoBehaviourPunCallbacks, IInRoomCallbacks
 {
-    public static PhotonNetworkManager instance;
+    public static PhotonNetworkManager Instance;
     public List<RoomInfo> roomList;
 
     void Awake()
     {
-        if (instance != null)
+        if (Instance != null)
         {
             Destroy(this.gameObject);
             return;
         }
-        instance = this;
-        instance.roomList = new List<RoomInfo>();
+        Instance = this;
+        Instance.roomList = new List<RoomInfo>();
         DontDestroyOnLoad(this.gameObject);
     }
 
@@ -53,13 +53,13 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks, IInRoomCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("PUN: Successfully connected to Master!");
-        if (!AuthenticationManager.instance.InRoom)
+        if (!AuthenticationManager.Instance.InRoom)
         {
             SceneManager.LoadScene("MainMenu");
         }
         else
         {
-            AuthenticationManager.instance.InRoom = false;
+            AuthenticationManager.Instance.InRoom = false;
         }
     }
 
@@ -81,15 +81,20 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     public override void OnJoinedRoom()
     {
-        AuthenticationManager.instance.InRoom = true;
+        AuthenticationManager.Instance.InRoom = true;
         Debug.Log("PUN: OnJoinedRoom() called by PUN. Now this client is in a room.");
         SceneManager.LoadScene("RoomMenu");
+    }
+
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    {
+        Debug.LogError("PUN: OnJoinRoomFailed called by PUN. " + message);
     }
 
     public override void OnLeftRoom()
     {
         roomList.Clear();
-        AuthenticationManager.instance.InRoom = false;
+        AuthenticationManager.Instance.InRoom = false;
         Debug.Log("PUN: Room left");
         SceneManager.LoadScene("MainMenu");
     }
@@ -97,14 +102,14 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks, IInRoomCallbacks
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         UpdateCachedRoomList(roomList);
-        UISearchMatchManager manager = FindObjectOfType<UISearchMatchManager>();
+        UISearchMatch manager = FindObjectOfType<UISearchMatch>();
         if (manager != null)
             manager.UpdateUI();
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        UIRoomManager manager = FindObjectOfType<UIRoomManager>();
+        UIRoom manager = FindObjectOfType<UIRoom>();
         if (manager != null)
         {
             Player[] players = PhotonNetwork.PlayerList;
@@ -127,7 +132,7 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        UIRoomManager manager = FindObjectOfType<UIRoomManager>();
+        UIRoom manager = FindObjectOfType<UIRoom>();
         if (manager != null)
         {
             Player[] players = PhotonNetwork.PlayerList;
@@ -157,15 +162,15 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks, IInRoomCallbacks
             // Remove room from cached room list if it got closed, became invisible or was marked as removed
             if (!room.IsOpen || !room.IsVisible || room.RemovedFromList || room.PlayerCount == 0)
             {
-                if (instance.roomList.Contains(room))
+                if (Instance.roomList.Contains(room))
                 {
-                    instance.roomList.Remove(room);
+                    Instance.roomList.Remove(room);
                 }
                 continue;
             }
-            if (instance.roomList.Contains(room))
-                instance.roomList.Remove(room);
-            instance.roomList.Add(room);
+            if (Instance.roomList.Contains(room))
+                Instance.roomList.Remove(room);
+            Instance.roomList.Add(room);
         }
     }
 }

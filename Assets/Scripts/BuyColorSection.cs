@@ -11,13 +11,13 @@ public class BuyColorSection : MonoBehaviour
     public GameObject target;
 
     private BuyableColor _currentSelectedColor;
-    private UICustomizationManager _uiCustomizationManager;
+    private UICustomization _uiCustomizationManager;
 
     private void OnEnable()
     {
         if (_currentSelectedColor != null)
             text.text = "Price: " + _currentSelectedColor.itemData.sbPrice + " SB";
-        _uiCustomizationManager = FindObjectOfType<UICustomizationManager>();
+        _uiCustomizationManager = FindObjectOfType<UICustomization>();
         PlayFabClientAPI.GetCatalogItems(new GetCatalogItemsRequest(), AddColors, GetCatalogItemsError);
     }
 
@@ -41,12 +41,12 @@ public class BuyColorSection : MonoBehaviour
             if (_uiCustomizationManager.inventoryItemsIds.Contains(item.ItemId))
                 continue;
             var colorGameObject = colorPrefab;
-            colorGameObject.GetComponent<BuyableColor>().color = CustomGameManager.MapIdToColor(item.ItemId);
+            colorGameObject.GetComponent<BuyableColor>().color = GameController.MapIdToColor(item.ItemId);
             
             var colorInstance = Instantiate(colorGameObject, transform);
             var buyableColor = colorInstance.GetComponent<BuyableColor>();
             buyableColor.target = target;
-            buyableColor.itemData = new UICustomizationManager.ItemData
+            buyableColor.itemData = new UICustomization.ItemData
             {
                 sbPrice = item.VirtualCurrencyPrices["SB"],
                 itemId = item.ItemId
@@ -82,7 +82,7 @@ public class BuyColorSection : MonoBehaviour
 
     private void PurchaseSuccessCallback(PurchaseItemResult res)
     {
-        AuthenticationManager.instance.UpdateUserInventory();
+        AuthenticationManager.Instance.UpdateUserInventory();
         _uiCustomizationManager.inventoryItemsIds.Add(res.Items[0].ItemId);
         RefreshContent();
     }

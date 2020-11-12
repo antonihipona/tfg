@@ -5,9 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 
-public class PowerUpManager : MonoBehaviourPunCallbacks
+public class PowerUpController : MonoBehaviourPunCallbacks
 {
-
     [Header("Images for power-ups")]
     public Sprite speedPowerUpSprite;
     public Sprite fireRatePowerUpSprite;

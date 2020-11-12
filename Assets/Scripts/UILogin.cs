@@ -6,16 +6,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class UILoginManager : UIBase
+public class UILogin : UIBase
 {
-
     public TMPro.TMP_InputField inputUsername;
     public TMPro.TMP_InputField inputPassword;
     public Text errorText;
 
     private void Start()
     {
-        DisplayErrors(AuthenticationManager.instance.loginErrorMessage);
+        DisplayErrors(AuthenticationManager.Instance.loginErrorMessage);
     }
     public void OnClickLogin()
     {
@@ -26,8 +25,8 @@ public class UILoginManager : UIBase
             TitleId = PlayFabSettings.TitleId
         };
         SceneManager.LoadScene("ConnectingScreen");
-        PlayFabClientAPI.LoginWithPlayFab(request, AuthenticationManager.instance.OnLoginSuccess, AuthenticationManager.instance.OnLoginFailure);
-        AuthenticationManager.instance.Username = inputUsername.text;
+        PlayFabClientAPI.LoginWithPlayFab(request, AuthenticationManager.Instance.OnLoginSuccess, AuthenticationManager.Instance.OnLoginFailure);
+        AuthenticationManager.Instance.Username = inputUsername.text;
     }
 
     public void OnClickRegister()

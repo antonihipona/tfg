@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using PlayFab;
 using PlayFab.ClientModels;
 
-public class UICustomizationManager : MonoBehaviour
+public class UICustomization : MonoBehaviour
 {
     public Text sbAmount;
 
@@ -44,7 +44,7 @@ public class UICustomizationManager : MonoBehaviour
     {
         PlayFabClientAPI.GetUserInventory(new GetUserInventoryRequest(),
             UpdateSB,
-            AuthenticationManager.instance.GetUserInventoryError);
+            AuthenticationManager.Instance.GetUserInventoryError);
         customizeColorsButton.onClick.AddListener(() => ToggleCustomizeColors(ContentType.CustomizeColor));
         customizeStatsButton.onClick.AddListener(() => ToggleCustomizeColors(ContentType.CustomizeStats));
         buyColorsButton.onClick.AddListener(() => ToggleCustomizeColors(ContentType.BuyColors));
@@ -86,13 +86,13 @@ public class UICustomizationManager : MonoBehaviour
 
     private void UpdateSB(GetUserInventoryResult res)
     {
-        AuthenticationManager.instance.virtualCurrency = res.VirtualCurrency;
+        AuthenticationManager.Instance.virtualCurrency = res.VirtualCurrency;
         UpdateSBText();
     }
 
     private void UpdateSBText()
     {
-        sbAmount.text = AuthenticationManager.instance.virtualCurrency["SB"].ToString();
+        sbAmount.text = AuthenticationManager.Instance.virtualCurrency["SB"].ToString();
     }
 
     public class ItemData

@@ -5,16 +5,17 @@ using UnityEngine.UI;
 
 public class UIDamageManager : MonoBehaviour
 {
-    public static UIDamageManager instance;
+    // We need to make this a singleton in order to fake a static prefab reference
+    public static UIDamageManager Instance;
 
     public GameObject damageText;
 
     private void Awake()
     {
-        if (instance != null && instance != this)
-            Destroy(instance);
+        if (Instance != null && Instance != this)
+            Destroy(Instance);
         else
-            instance = this;
+            Instance = this;
     }
     
     public void InstantiateDamage(float damage, Vector3 position)

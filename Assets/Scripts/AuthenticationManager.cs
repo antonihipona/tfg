@@ -7,7 +7,7 @@ using Photon.Pun;
 
 public class AuthenticationManager : MonoBehaviour
 {
-    public static AuthenticationManager instance;
+    public static AuthenticationManager Instance;
 
     public string playFabPlayerId;
 
@@ -25,14 +25,14 @@ public class AuthenticationManager : MonoBehaviour
     {
         DontDestroyOnLoad(this.gameObject);
 
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
-            instance.InRoom = false;
-            instance.virtualCurrency = new Dictionary<string, int>();
-            instance.inventoryItems = new HashSet<ItemInstance>();
+            Instance = this;
+            Instance.InRoom = false;
+            Instance.virtualCurrency = new Dictionary<string, int>();
+            Instance.inventoryItems = new HashSet<ItemInstance>();
         }
-        else if (instance != this)
+        else if (Instance != this)
         {
             Destroy(this);
         }
@@ -40,7 +40,7 @@ public class AuthenticationManager : MonoBehaviour
 
     public void OnLoginSuccess(LoginResult result)
     {
-        instance.playFabPlayerId = result.PlayFabId;
+        Instance.playFabPlayerId = result.PlayFabId;
         Debug.Log("Login success.");
         PlayFabClientAPI.GetUserInventory(new GetUserInventoryRequest(), GetUserInventory, GetUserInventoryError);
         PhotonNetwork.AutomaticallySyncScene = true;
@@ -64,7 +64,7 @@ public class AuthenticationManager : MonoBehaviour
     public void GetUserInventory(GetUserInventoryResult res)
     {
         inventoryItems.Clear();
-        instance.virtualCurrency = res.VirtualCurrency;
+        Instance.virtualCurrency = res.VirtualCurrency;
         foreach (var item in res.Inventory)
         {
             inventoryItems.Add(item);
@@ -95,7 +95,7 @@ public class AuthenticationManager : MonoBehaviour
 
     private void AddCurrencySuccess(ModifyUserVirtualCurrencyResult result)
     {
-        instance.virtualCurrency["SB"] = result.Balance;
+        Instance.virtualCurrency["SB"] = result.Balance;
     }
 
     private void AddCurrencyError(PlayFabError error)

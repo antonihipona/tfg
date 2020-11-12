@@ -3,7 +3,7 @@ using Photon.Pun;
 using UnityEngine.SceneManagement;
 
 
-public class UIMainManager : UIBase
+public class UIMain : UIBase
 {
     public Text sbAmount;
 
@@ -51,6 +51,6 @@ public class UIMainManager : UIBase
 
     private void UpdateSB()
     {
-        sbAmount.text = AuthenticationManager.instance.virtualCurrency["SB"].ToString();
+        sbAmount.text = AuthenticationManager.Instance.virtualCurrency["SB"].ToString();
     }
 }

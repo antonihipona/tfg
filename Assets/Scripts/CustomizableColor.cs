@@ -7,7 +7,7 @@ public class CustomizableColor : MonoBehaviour
     public GameObject tick;
     public GameObject target;
 
-    public UICustomizationManager.ItemData itemData;
+    public UICustomization.ItemData itemData;
 
     private Button _button;
     private ColorSection _colorSection;

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class UIGameSettingsManager : UIBase
+public class UIGameSettings : UIBase
 {
     public Toggle toggleFullscreen;
     public TMPro.TMP_Dropdown dropdownResolution;
@@ -54,7 +54,7 @@ public class UIGameSettingsManager : UIBase
 
     public void OnClickBack()
     {
-        if (AuthenticationManager.instance.playFabPlayerId == null || AuthenticationManager.instance.playFabPlayerId == "")
+        if (AuthenticationManager.Instance.playFabPlayerId == null || AuthenticationManager.Instance.playFabPlayerId == "")
             SceneManager.LoadScene("LoginMenu");
         else
             SceneManager.LoadScene("MainMenu");

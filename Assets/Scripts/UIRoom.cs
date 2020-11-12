@@ -1,14 +1,9 @@
 ﻿using Photon.Pun;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using PlayFab;
-using PlayFab.ClientModels;
 using Photon.Realtime;
 
-public class UIRoomManager : MonoBehaviourPunCallbacks
+public class UIRoom : MonoBehaviourPunCallbacks
 {
     public TMPro.TextMeshProUGUI textPrefab;
 

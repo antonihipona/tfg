@@ -10,14 +10,14 @@ public class ColorSection : MonoBehaviour
     public GameObject colorPrefab;
     public GameObject target;
     private CustomizableColor _currentSelectedColor;
-    private UICustomizationManager _uiCustomizationManager;
+    private UICustomization _uiCustomizationManager;
 
     private string _turretColor;
     private string _bodyColor;
 
     private void OnEnable()
     {
-        _uiCustomizationManager = FindObjectOfType<UICustomizationManager>();
+        _uiCustomizationManager = FindObjectOfType<UICustomization>();
         GetUserData();
     }
 
@@ -39,7 +39,7 @@ public class ColorSection : MonoBehaviour
         var colorGO = Instantiate(colorGameObject, transform);
         var customizableColor = colorGO.GetComponent<CustomizableColor>();
         customizableColor.target = target;
-        customizableColor.itemData = new UICustomizationManager.ItemData
+        customizableColor.itemData = new UICustomization.ItemData
         {
             itemId = "color_white"
         };
@@ -51,11 +51,11 @@ public class ColorSection : MonoBehaviour
             _uiCustomizationManager.inventoryItemsIds.Add(item.ItemId);
 
             colorGameObject = colorPrefab;
-            colorGameObject.GetComponent<CustomizableColor>().color = CustomGameManager.MapIdToColor(item.ItemId);
+            colorGameObject.GetComponent<CustomizableColor>().color = GameController.MapIdToColor(item.ItemId);
             colorGO = Instantiate(colorGameObject, transform);
             customizableColor = colorGO.GetComponent<CustomizableColor>();
             customizableColor.target = target;
-            customizableColor.itemData = new UICustomizationManager.ItemData
+            customizableColor.itemData = new UICustomization.ItemData
             {
                 itemId = item.ItemId
             };
@@ -93,7 +93,7 @@ public class ColorSection : MonoBehaviour
     {
         PlayFabClientAPI.GetUserData(new GetUserDataRequest()
         {
-            PlayFabId = AuthenticationManager.instance.playFabPlayerId,
+            PlayFabId = AuthenticationManager.Instance.playFabPlayerId,
             Keys = null
         }, result =>
         {

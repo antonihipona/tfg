@@ -1,13 +1,8 @@
 ﻿using Photon.Pun;
-using PlayFab;
-using PlayFab.ClientModels;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class CustomGameManager : MonoBehaviourPunCallbacks
+public class GameController : MonoBehaviourPunCallbacks
 {
-
     public GameObject playerPrefab;
     public GameObject[] spawnPoints;
     public TMPro.TextMeshProUGUI textCountdown;
@@ -18,11 +13,12 @@ public class CustomGameManager : MonoBehaviourPunCallbacks
     private double spawnTime;
     private bool spawned;
     private int deadPlayerNumber = 0;
-    private UIGameManager uiGameManager;
+    private UIGame uiGameManager;
+    
     void Start()
     {
         PlayAudio();
-        uiGameManager = FindObjectOfType<UIGameManager>();
+        uiGameManager = FindObjectOfType<UIGame>();
         spawnTime = PhotonNetwork.Time + 5;
         spawned = false;
         gameStarted = false;
@@ -85,8 +81,8 @@ public class CustomGameManager : MonoBehaviourPunCallbacks
                 PlayerStats playerStats = localPlayer.GetComponent<PlayerStats>();
                 if (!playerStats.IsDead())
                 {
-                    AuthenticationManager.instance.AddSBCurrency(50);
-                    AuthenticationManager.instance.AddLeaderboardPoints(10);
+                    AuthenticationManager.Instance.AddSBCurrency(50);
+                    AuthenticationManager.Instance.AddLeaderboardPoints(10);
                     float r = 0.4f, g = 1f, b = 0.4f; // Green color
                     uiGameManager.endText.color = new Color(r, g, b);
                     uiGameManager.endText.text = "VICTORY";
