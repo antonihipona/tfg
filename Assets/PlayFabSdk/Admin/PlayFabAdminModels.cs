@@ -12,6 +12,10 @@ namespace PlayFab.AdminModels
     public class AbortTaskInstanceRequest : PlayFabRequestCommon
     {
         /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
+        /// <summary>
         /// ID of a task instance that is being aborted.
         /// </summary>
         public string TaskInstanceId;
@@ -125,6 +129,10 @@ namespace PlayFab.AdminModels
         /// </summary>
         public string Body;
         /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
+        /// <summary>
         /// Language of the news item.
         /// </summary>
         public string Language;
@@ -150,6 +158,10 @@ namespace PlayFab.AdminModels
         /// Default body text of the news.
         /// </summary>
         public string Body;
+        /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
         /// <summary>
         /// Time this news was published. If not set, defaults to now.
         /// </summary>
@@ -177,6 +189,10 @@ namespace PlayFab.AdminModels
     [Serializable]
     public class AddPlayerTagRequest : PlayFabRequestCommon
     {
+        /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
         /// <summary>
         /// Unique PlayFab assigned ID of the user on whom the operation will be performed.
         /// </summary>
@@ -211,6 +227,10 @@ namespace PlayFab.AdminModels
         /// developer comment(s) for this build
         /// </summary>
         public string Comment;
+        /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
         /// <summary>
         /// path to the game server executable. Defaults to gameserver.exe
         /// </summary>
@@ -281,6 +301,10 @@ namespace PlayFab.AdminModels
         /// Any increase over this value will be discarded.
         /// </summary>
         public int Amount;
+        /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
         /// <summary>
         /// PlayFab unique identifier of the user whose virtual currency balance is to be increased.
         /// </summary>
@@ -398,6 +422,10 @@ namespace PlayFab.AdminModels
         /// List of ban requests to be applied. Maximum 100.
         /// </summary>
         public List<BanRequest> Bans;
+        /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
     }
 
     [Serializable]
@@ -1010,6 +1038,10 @@ namespace PlayFab.AdminModels
     public class CreateActionsOnPlayerSegmentTaskRequest : PlayFabRequestCommon
     {
         /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
+        /// <summary>
         /// Description the task
         /// </summary>
         public string Description;
@@ -1039,6 +1071,10 @@ namespace PlayFab.AdminModels
     public class CreateCloudScriptTaskRequest : PlayFabRequestCommon
     {
         /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
+        /// <summary>
         /// Description the task
         /// </summary>
         public string Description;
@@ -1067,6 +1103,10 @@ namespace PlayFab.AdminModels
     [Serializable]
     public class CreateInsightsScheduledScalingTaskRequest : PlayFabRequestCommon
     {
+        /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
         /// <summary>
         /// Description the task
         /// </summary>
@@ -1160,6 +1200,10 @@ namespace PlayFab.AdminModels
         /// the aggregation method to use in updating the statistic (defaults to last)
         /// </summary>
         public StatisticAggregationMethod? AggregationMethod;
+        /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
         /// <summary>
         /// unique name of the statistic
         /// </summary>
@@ -1462,6 +1506,10 @@ namespace PlayFab.AdminModels
         /// </summary>
         public string CatalogVersion;
         /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
+        /// <summary>
         /// unqiue identifier for the store which is to be deleted
         /// </summary>
         public string StoreId;
@@ -1484,6 +1532,23 @@ namespace PlayFab.AdminModels
         /// Specify either the task ID or the name of task to be deleted.
         /// </summary>
         public NameIdentifier Identifier;
+    }
+
+    /// <summary>
+    /// Will delete all the title data associated with the given override label.
+    /// </summary>
+    [Serializable]
+    public class DeleteTitleDataOverrideRequest : PlayFabRequestCommon
+    {
+        /// <summary>
+        /// Name of the override.
+        /// </summary>
+        public string OverrideLabel;
+    }
+
+    [Serializable]
+    public class DeleteTitleDataOverrideResult : PlayFabResultCommon
+    {
     }
 
     /// <summary>
@@ -2140,7 +2205,16 @@ namespace PlayFab.AdminModels
         InsightsManagementSetStorageRetentionBelowMinimum,
         InsightsManagementSetStorageRetentionAboveMaximum,
         AppleNotEnabledForTitle,
-        InsightsManagementNewActiveEventArchiveLimitInvalid,
+        InsightsManagementNewActiveEventExportLimitInvalid,
+        InsightsManagementSetPerformanceRateLimited,
+        PartyRequestsThrottledFromRateLimiter,
+        XboxServiceTooManyRequests,
+        NintendoSwitchNotEnabledForTitle,
+        RequestMultiplayerServersThrottledFromRateLimiter,
+        TitleDataOverrideNotFound,
+        DuplicateKeys,
+        WasNotCreatedWithCloudRoot,
+        LegacyMultiplayerServersDeprecated,
         MatchmakingEntityInvalid,
         MatchmakingPlayerAttributesInvalid,
         MatchmakingQueueNotFound,
@@ -2175,7 +2249,6 @@ namespace PlayFab.AdminModels
         CatalogSearchParameterInvalid,
         CatalogFeatureDisabled,
         CatalogConfigInvalid,
-        CatalogUnauthorized,
         CatalogItemTypeInvalid,
         CatalogBadRequest,
         CatalogTooManyRequests,
@@ -2197,6 +2270,12 @@ namespace PlayFab.AdminModels
         ExportCouldNotCreate,
         ExportNoBackingDatabaseFound,
         ExportCouldNotDelete,
+        ExportCannotDetermineEventQuery,
+        ExportInvalidQuerySchemaModification,
+        ExportQuerySchemaMissingRequiredColumns,
+        ExportCannotParseQuery,
+        ExportControlCommandsNotAllowed,
+        ExportQueryMissingTableReference,
         TitleNotEnabledForParty,
         PartyVersionNotFound,
         MultiplayerServerBuildReferencedByMatchmakingQueue,
@@ -2214,7 +2293,27 @@ namespace PlayFab.AdminModels
         ExperimentationTreatmentAssignmentDisabled,
         ExperimentationInvalidDuration,
         ExperimentationMaxExperimentsReached,
+        ExperimentationExperimentSchedulingInProgress,
+        ExperimentationInvalidEndDate,
+        ExperimentationInvalidStartDate,
+        ExperimentationMaxDurationExceeded,
+        ExperimentationExclusionGroupNotFound,
+        ExperimentationExclusionGroupInsufficientCapacity,
+        ExperimentationExclusionGroupCannotDelete,
+        ExperimentationExclusionGroupInvalidTrafficAllocation,
         MaxActionDepthExceeded,
+        TitleNotOnUpdatedPricingPlan,
+        SegmentManagementTitleNotInFlight,
+        SegmentManagementNoExpressionTree,
+        SegmentManagementTriggerActionCountOverLimit,
+        SegmentManagementSegmentCountOverLimit,
+        SegmentManagementInvalidSegmentId,
+        SegmentManagementInvalidInput,
+        SegmentManagementInvalidSegmentName,
+        DeleteSegmentRateLimitExceeded,
+        CreateSegmentRateLimitExceeded,
+        UpdateSegmentRateLimitExceeded,
+        GetSegmentsRateLimitExceeded,
         SnapshotNotFound
     }
 
@@ -2376,7 +2475,8 @@ namespace PlayFab.AdminModels
     public class GetContentUploadUrlResult : PlayFabResultCommon
     {
         /// <summary>
-        /// URL for uploading content via HTTP PUT method. The URL will expire in approximately one hour.
+        /// URL for uploading content via HTTP PUT method. The URL requires the 'x-ms-blob-type' header to have the value
+        /// 'BlockBlob'. The URL will expire in approximately one hour.
         /// </summary>
         public string URL;
     }
@@ -2558,6 +2658,10 @@ namespace PlayFab.AdminModels
     public class GetPlayerProfileRequest : PlayFabRequestCommon
     {
         /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
+        /// <summary>
         /// Unique PlayFab assigned ID of the user on whom the operation will be performed.
         /// </summary>
         public string PlayFabId;
@@ -2623,6 +2727,10 @@ namespace PlayFab.AdminModels
         /// </summary>
         public string ContinuationToken;
         /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
+        /// <summary>
         /// Maximum number of profiles to load. Default is 1,000. Maximum is 10,000.
         /// </summary>
         public uint? MaxBatchSize;
@@ -2657,6 +2765,10 @@ namespace PlayFab.AdminModels
     [Serializable]
     public class GetPlayersSegmentsRequest : PlayFabRequestCommon
     {
+        /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
         /// <summary>
         /// Unique PlayFab assigned ID of the user on whom the operation will be performed.
         /// </summary>
@@ -2695,6 +2807,10 @@ namespace PlayFab.AdminModels
     public class GetPlayerStatisticVersionsRequest : PlayFabRequestCommon
     {
         /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
+        /// <summary>
         /// unique name of the statistic
         /// </summary>
         public string StatisticName;
@@ -2725,6 +2841,10 @@ namespace PlayFab.AdminModels
     [Serializable]
     public class GetPlayerTagsRequest : PlayFabRequestCommon
     {
+        /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
         /// <summary>
         /// Optional namespace to filter results by
         /// </summary>
@@ -2776,8 +2896,8 @@ namespace PlayFab.AdminModels
     /// <summary>
     /// This API is designed to return publisher-specific values which can be read, but not written to, by the client. This data
     /// is shared across all titles assigned to a particular publisher, and can be used for cross-game coordination. Only titles
-    /// assigned to a publisher can use this API. For more information email devrel@playfab.com. This AdminAPI call for getting
-    /// title data guarantees no delay in between update and retrieval of newly set data.
+    /// assigned to a publisher can use this API. For more information email helloplayfab@microsoft.com. This AdminAPI call for
+    /// getting title data guarantees no delay in between update and retrieval of newly set data.
     /// </summary>
     [Serializable]
     public class GetPublisherDataRequest : PlayFabRequestCommon
@@ -3026,8 +3146,9 @@ namespace PlayFab.AdminModels
     /// <summary>
     /// This API method is designed to return title specific values which can be read by the client. For example, a developer
     /// could choose to store values which modify the user experience, such as enemy spawn rates, weapon strengths, movement
-    /// speeds, etc. This allows a developer to update the title without the need to create,test, and ship a new build. Note
-    /// that due to caching, there may up to a minute delay in between updating title data and a query returning the newest
+    /// speeds, etc. This allows a developer to update the title without the need to create, test, and ship a new build. If an
+    /// override label is specified in the request, the overrides are applied automatically and returned with the title data.
+    /// Note that due to caching, there may up to a minute delay in between updating title data and a query returning the newest
     /// value.
     /// </summary>
     [Serializable]
@@ -3037,6 +3158,11 @@ namespace PlayFab.AdminModels
         /// Specific keys to search for in the title data (leave null to get all keys)
         /// </summary>
         public List<string> Keys;
+        /// <summary>
+        /// Optional field that specifies the name of an override. This value is ignored when used by the game client; otherwise,
+        /// the overrides are applied automatically to the title data.
+        /// </summary>
+        public string OverrideLabel;
     }
 
     [Serializable]
@@ -3117,6 +3243,10 @@ namespace PlayFab.AdminModels
     [Serializable]
     public class GetUserInventoryRequest : PlayFabRequestCommon
     {
+        /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
         /// <summary>
         /// Unique PlayFab assigned ID of the user on whom the operation will be performed.
         /// </summary>
@@ -3244,6 +3374,10 @@ namespace PlayFab.AdminModels
         /// </summary>
         public string CatalogVersion;
         /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
+        /// <summary>
         /// Array of items to grant and the users to whom the items are to be granted.
         /// </summary>
         public List<ItemGrant> ItemGrants;
@@ -3277,6 +3411,10 @@ namespace PlayFab.AdminModels
         /// </summary>
         public string CatalogVersion;
         /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
+        /// <summary>
         /// The item which needs more availability.
         /// </summary>
         public string ItemId;
@@ -3302,6 +3440,10 @@ namespace PlayFab.AdminModels
     [Serializable]
     public class IncrementPlayerStatisticVersionRequest : PlayFabRequestCommon
     {
+        /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
         /// <summary>
         /// unique name of the statistic
         /// </summary>
@@ -3540,7 +3682,8 @@ namespace PlayFab.AdminModels
         NintendoSwitch,
         FacebookInstantGames,
         OpenIdConnect,
-        Apple
+        Apple,
+        NintendoSwitchAccount
     }
 
     [Serializable]
@@ -3663,6 +3806,10 @@ namespace PlayFab.AdminModels
         /// developer comment(s) for this build
         /// </summary>
         public string Comment;
+        /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
         /// <summary>
         /// path to the game server executable. Defaults to gameserver.exe
         /// </summary>
@@ -4333,6 +4480,10 @@ namespace PlayFab.AdminModels
     public class RemovePlayerTagRequest : PlayFabRequestCommon
     {
         /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
+        /// <summary>
         /// Unique PlayFab assigned ID of the user on whom the operation will be performed.
         /// </summary>
         public string PlayFabId;
@@ -4387,6 +4538,10 @@ namespace PlayFab.AdminModels
         /// </summary>
         public string CharacterId;
         /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
+        /// <summary>
         /// Unique PlayFab assigned ID of the user on whom the operation will be performed.
         /// </summary>
         public string PlayFabId;
@@ -4404,6 +4559,10 @@ namespace PlayFab.AdminModels
     [Serializable]
     public class ResetPasswordRequest : PlayFabRequestCommon
     {
+        /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
         /// <summary>
         /// The new password for the player.
         /// </summary>
@@ -4426,6 +4585,10 @@ namespace PlayFab.AdminModels
     [Serializable]
     public class ResetUserStatisticsRequest : PlayFabRequestCommon
     {
+        /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
         /// <summary>
         /// Unique PlayFab assigned ID of the user on whom the operation will be performed.
         /// </summary>
@@ -4629,6 +4792,10 @@ namespace PlayFab.AdminModels
     public class RunTaskRequest : PlayFabRequestCommon
     {
         /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
+        /// <summary>
         /// Provide either the task ID or the task name to run a task.
         /// </summary>
         public NameIdentifier Identifier;
@@ -4721,6 +4888,10 @@ namespace PlayFab.AdminModels
     public class SendAccountRecoveryEmailRequest : PlayFabRequestCommon
     {
         /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
+        /// <summary>
         /// User email address attached to their account
         /// </summary>
         public string Email;
@@ -4765,6 +4936,10 @@ namespace PlayFab.AdminModels
     public class SetPublishedRevisionRequest : PlayFabRequestCommon
     {
         /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
+        /// <summary>
         /// Revision to make the current published revision
         /// </summary>
         public int Revision;
@@ -4784,7 +4959,7 @@ namespace PlayFab.AdminModels
     /// is shared across all titles assigned to a particular publisher, and can be used for cross-game coordination. Only titles
     /// assigned to a publisher can use this API. This operation is additive. If a Key does not exist in the current dataset, it
     /// will be added with the specified Value. If it already exists, the Value for that key will be overwritten with the new
-    /// Value. For more information email devrel@playfab.com
+    /// Value. For more information email helloplayfab@microsoft.com
     /// </summary>
     [Serializable]
     public class SetPublisherDataRequest : PlayFabRequestCommon
@@ -4802,6 +4977,29 @@ namespace PlayFab.AdminModels
 
     [Serializable]
     public class SetPublisherDataResult : PlayFabResultCommon
+    {
+    }
+
+    /// <summary>
+    /// Will set the given key values in the specified override or the primary title data based on whether the label is provided
+    /// or not.
+    /// </summary>
+    [Serializable]
+    public class SetTitleDataAndOverridesRequest : PlayFabRequestCommon
+    {
+        /// <summary>
+        /// List of titleData key-value pairs to set/delete. Use an empty value to delete an existing key; use a non-empty value to
+        /// create/update a key.
+        /// </summary>
+        public List<TitleDataKeyValue> KeyValues;
+        /// <summary>
+        /// Name of the override.
+        /// </summary>
+        public string OverrideLabel;
+    }
+
+    [Serializable]
+    public class SetTitleDataAndOverridesResult : PlayFabResultCommon
     {
     }
 
@@ -5055,6 +5253,10 @@ namespace PlayFab.AdminModels
         /// </summary>
         public int Amount;
         /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
+        /// <summary>
         /// PlayFab unique identifier of the user whose virtual currency balance is to be decreased.
         /// </summary>
         public string PlayFabId;
@@ -5080,6 +5282,10 @@ namespace PlayFab.AdminModels
         /// UTC timestamp when the task completed.
         /// </summary>
         public DateTime? CompletedAt;
+        /// <summary>
+        /// Error message for last processing attempt, if an error occured.
+        /// </summary>
+        public string ErrorMessage;
         /// <summary>
         /// Estimated time remaining in seconds.
         /// </summary>
@@ -5131,6 +5337,20 @@ namespace PlayFab.AdminModels
         PendingSteam,
         ActivatedSteam,
         RevokedSteam
+    }
+
+    [Serializable]
+    public class TitleDataKeyValue : PlayFabBaseModel
+    {
+        /// <summary>
+        /// Key we want to set a value on (note, this is additive - will only replace an existing key's value if they are the same
+        /// name.) Keys are trimmed of whitespace. Keys may not begin with the '!' character.
+        /// </summary>
+        public string Key;
+        /// <summary>
+        /// New value to set. Set to null to remove a value
+        /// </summary>
+        public string Value;
     }
 
     /// <summary>
@@ -5209,6 +5429,10 @@ namespace PlayFab.AdminModels
         /// </summary>
         public string CatalogVersion;
         /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
+        /// <summary>
         /// Should this catalog be set as the default catalog. Defaults to true. If there is currently no default catalog, this will
         /// always set it.
         /// </summary>
@@ -5223,6 +5447,10 @@ namespace PlayFab.AdminModels
     [Serializable]
     public class UpdateCloudScriptRequest : PlayFabRequestCommon
     {
+        /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
         /// <summary>
         /// PlayFab user ID of the developer initiating the request.
         /// </summary>
@@ -5345,7 +5573,7 @@ namespace PlayFab.AdminModels
     /// <summary>
     /// Updates permissions for your title. Policies affect what is allowed to happen on your title. Your policy is a collection
     /// of statements that, together, govern particular area for your title. Today, the only allowed policy is called
-    /// 'ApiPolicy' and it governs what calls players are allowed to make.
+    /// 'ApiPolicy' and it governs what api calls are allowed.
     /// </summary>
     [Serializable]
     public class UpdatePolicyRequest : PlayFabRequestCommon
@@ -5389,6 +5617,10 @@ namespace PlayFab.AdminModels
         /// </summary>
         public string CatalogVersion;
         /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
+        /// <summary>
         /// array of random result tables to make available (Note: specifying an existing TableId will result in overwriting that
         /// table, while any others will be added to the available set)
         /// </summary>
@@ -5420,6 +5652,10 @@ namespace PlayFab.AdminModels
         /// </summary>
         public string CatalogVersion;
         /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
+        /// <summary>
         /// Additional data about the store
         /// </summary>
         public StoreMarketingModel MarketingData;
@@ -5447,6 +5683,10 @@ namespace PlayFab.AdminModels
     [Serializable]
     public class UpdateTaskRequest : PlayFabRequestCommon
     {
+        /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
         /// <summary>
         /// Description the task
         /// </summary>
@@ -5486,6 +5726,10 @@ namespace PlayFab.AdminModels
     public class UpdateUserDataRequest : PlayFabRequestCommon
     {
         /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
+        /// <summary>
         /// Key-value pairs to be written to the custom data. Note that keys are trimmed of whitespace, are limited in size, and may
         /// not begin with a '!' character or be null.
         /// </summary>
@@ -5524,6 +5768,10 @@ namespace PlayFab.AdminModels
     public class UpdateUserInternalDataRequest : PlayFabRequestCommon
     {
         /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
+        /// <summary>
         /// Key-value pairs to be written to the custom data. Note that keys are trimmed of whitespace, are limited in size, and may
         /// not begin with a '!' character or be null.
         /// </summary>
@@ -5547,6 +5795,10 @@ namespace PlayFab.AdminModels
     [Serializable]
     public class UpdateUserTitleDisplayNameRequest : PlayFabRequestCommon
     {
+        /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
         /// <summary>
         /// New title display name for the user - must be between 3 and 25 characters
         /// </summary>
@@ -5573,6 +5825,10 @@ namespace PlayFab.AdminModels
         /// User Android device information, if an Android device has been linked
         /// </summary>
         public UserAndroidDeviceInfo AndroidDeviceInfo;
+        /// <summary>
+        /// Sign in with Apple account information, if an Apple account has been linked
+        /// </summary>
+        public UserAppleIdInfo AppleAccountInfo;
         /// <summary>
         /// Timestamp indicating when the user account was created
         /// </summary>
@@ -5607,6 +5863,10 @@ namespace PlayFab.AdminModels
         public UserKongregateInfo KongregateInfo;
         /// <summary>
         /// Nintendo Switch account information, if a Nintendo Switch account has been linked
+        /// </summary>
+        public UserNintendoSwitchAccountIdInfo NintendoSwitchAccountInfo;
+        /// <summary>
+        /// Nintendo Switch device information, if a Nintendo Switch device has been linked
         /// </summary>
         public UserNintendoSwitchDeviceIdInfo NintendoSwitchDeviceIdInfo;
         /// <summary>
@@ -5658,6 +5918,15 @@ namespace PlayFab.AdminModels
         /// Android device ID
         /// </summary>
         public string AndroidDeviceId;
+    }
+
+    [Serializable]
+    public class UserAppleIdInfo : PlayFabBaseModel
+    {
+        /// <summary>
+        /// Apple subject ID
+        /// </summary>
+        public string AppleSubjectId;
     }
 
     [Serializable]
@@ -5776,6 +6045,15 @@ namespace PlayFab.AdminModels
     }
 
     [Serializable]
+    public class UserNintendoSwitchAccountIdInfo : PlayFabBaseModel
+    {
+        /// <summary>
+        /// Nintendo Switch account subject ID
+        /// </summary>
+        public string NintendoSwitchAccountSubjectId;
+    }
+
+    [Serializable]
     public class UserNintendoSwitchDeviceIdInfo : PlayFabBaseModel
     {
         /// <summary>
@@ -5824,7 +6102,9 @@ namespace PlayFab.AdminModels
         ServerCustomId,
         NintendoSwitchDeviceId,
         FacebookInstantGamesId,
-        OpenIdConnect
+        OpenIdConnect,
+        Apple,
+        NintendoSwitchAccount
     }
 
     [Serializable]

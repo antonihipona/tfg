@@ -129,6 +129,17 @@ namespace PlayFab
         }
 
         /// <summary>
+        /// Creates a multiplayer server build with the server running as a process.
+        /// </summary>
+        public void CreateBuildWithProcessBasedServer(CreateBuildWithProcessBasedServerRequest request, Action<CreateBuildWithProcessBasedServerResponse> resultCallback, Action<PlayFabError> errorCallback, object customData = null, Dictionary<string, string> extraHeaders = null)
+        {
+            var context = (request == null ? null : request.AuthenticationContext) ?? authenticationContext;
+            var callSettings = apiSettings ?? PlayFabSettings.staticSettings;
+            if (!context.IsEntityLoggedIn()) throw new PlayFabException(PlayFabExceptionCode.NotLoggedIn,"Must be logged in to call this method");
+            PlayFabHttp.MakeApiCall("/MultiplayerServer/CreateBuildWithProcessBasedServer", request, AuthType.EntityToken, resultCallback, errorCallback, customData, extraHeaders, context, callSettings, this);
+        }
+
+        /// <summary>
         /// Create a matchmaking ticket as a client.
         /// </summary>
         public void CreateMatchmakingTicket(CreateMatchmakingTicketRequest request, Action<CreateMatchmakingTicketResult> resultCallback, Action<PlayFabError> errorCallback, object customData = null, Dictionary<string, string> extraHeaders = null)
@@ -209,6 +220,17 @@ namespace PlayFab
         }
 
         /// <summary>
+        /// Removes a multiplayer server build's region.
+        /// </summary>
+        public void DeleteBuildRegion(DeleteBuildRegionRequest request, Action<EmptyResponse> resultCallback, Action<PlayFabError> errorCallback, object customData = null, Dictionary<string, string> extraHeaders = null)
+        {
+            var context = (request == null ? null : request.AuthenticationContext) ?? authenticationContext;
+            var callSettings = apiSettings ?? PlayFabSettings.staticSettings;
+            if (!context.IsEntityLoggedIn()) throw new PlayFabException(PlayFabExceptionCode.NotLoggedIn,"Must be logged in to call this method");
+            PlayFabHttp.MakeApiCall("/MultiplayerServer/DeleteBuildRegion", request, AuthType.EntityToken, resultCallback, errorCallback, customData, extraHeaders, context, callSettings, this);
+        }
+
+        /// <summary>
         /// Deletes a multiplayer server game certificate.
         /// </summary>
         public void DeleteCertificate(DeleteCertificateRequest request, Action<EmptyResponse> resultCallback, Action<PlayFabError> errorCallback, object customData = null, Dictionary<string, string> extraHeaders = null)
@@ -217,6 +239,17 @@ namespace PlayFab
             var callSettings = apiSettings ?? PlayFabSettings.staticSettings;
             if (!context.IsEntityLoggedIn()) throw new PlayFabException(PlayFabExceptionCode.NotLoggedIn,"Must be logged in to call this method");
             PlayFabHttp.MakeApiCall("/MultiplayerServer/DeleteCertificate", request, AuthType.EntityToken, resultCallback, errorCallback, customData, extraHeaders, context, callSettings, this);
+        }
+
+        /// <summary>
+        /// Deletes a container image repository.
+        /// </summary>
+        public void DeleteContainerImageRepository(DeleteContainerImageRequest request, Action<EmptyResponse> resultCallback, Action<PlayFabError> errorCallback, object customData = null, Dictionary<string, string> extraHeaders = null)
+        {
+            var context = (request == null ? null : request.AuthenticationContext) ?? authenticationContext;
+            var callSettings = apiSettings ?? PlayFabSettings.staticSettings;
+            if (!context.IsEntityLoggedIn()) throw new PlayFabException(PlayFabExceptionCode.NotLoggedIn,"Must be logged in to call this method");
+            PlayFabHttp.MakeApiCall("/MultiplayerServer/DeleteContainerImageRepository", request, AuthType.EntityToken, resultCallback, errorCallback, customData, extraHeaders, context, callSettings, this);
         }
 
         /// <summary>
@@ -294,6 +327,17 @@ namespace PlayFab
             var callSettings = apiSettings ?? PlayFabSettings.staticSettings;
             if (!context.IsEntityLoggedIn()) throw new PlayFabException(PlayFabExceptionCode.NotLoggedIn,"Must be logged in to call this method");
             PlayFabHttp.MakeApiCall("/Match/GetMatch", request, AuthType.EntityToken, resultCallback, errorCallback, customData, extraHeaders, context, callSettings, this);
+        }
+
+        /// <summary>
+        /// SDK support is limited to C# and Java for this API. Get a matchmaking queue configuration.
+        /// </summary>
+        public void GetMatchmakingQueue(GetMatchmakingQueueRequest request, Action<GetMatchmakingQueueResult> resultCallback, Action<PlayFabError> errorCallback, object customData = null, Dictionary<string, string> extraHeaders = null)
+        {
+            var context = (request == null ? null : request.AuthenticationContext) ?? authenticationContext;
+            var callSettings = apiSettings ?? PlayFabSettings.staticSettings;
+            if (!context.IsEntityLoggedIn()) throw new PlayFabException(PlayFabExceptionCode.NotLoggedIn,"Must be logged in to call this method");
+            PlayFabHttp.MakeApiCall("/Match/GetMatchmakingQueue", request, AuthType.EntityToken, resultCallback, errorCallback, customData, extraHeaders, context, callSettings, this);
         }
 
         /// <summary>
@@ -486,6 +530,17 @@ namespace PlayFab
         }
 
         /// <summary>
+        /// SDK support is limited to C# and Java for this API. List all matchmaking queue configs.
+        /// </summary>
+        public void ListMatchmakingQueues(ListMatchmakingQueuesRequest request, Action<ListMatchmakingQueuesResult> resultCallback, Action<PlayFabError> errorCallback, object customData = null, Dictionary<string, string> extraHeaders = null)
+        {
+            var context = (request == null ? null : request.AuthenticationContext) ?? authenticationContext;
+            var callSettings = apiSettings ?? PlayFabSettings.staticSettings;
+            if (!context.IsEntityLoggedIn()) throw new PlayFabException(PlayFabExceptionCode.NotLoggedIn,"Must be logged in to call this method");
+            PlayFabHttp.MakeApiCall("/Match/ListMatchmakingQueues", request, AuthType.EntityToken, resultCallback, errorCallback, customData, extraHeaders, context, callSettings, this);
+        }
+
+        /// <summary>
         /// List all matchmaking ticket Ids the user is a member of.
         /// </summary>
         public void ListMatchmakingTicketsForPlayer(ListMatchmakingTicketsForPlayerRequest request, Action<ListMatchmakingTicketsForPlayerResult> resultCallback, Action<PlayFabError> errorCallback, object customData = null, Dictionary<string, string> extraHeaders = null)
@@ -514,22 +569,12 @@ namespace PlayFab
         {
             var context = (request == null ? null : request.AuthenticationContext) ?? authenticationContext;
             var callSettings = apiSettings ?? PlayFabSettings.staticSettings;
-            if (!context.IsEntityLoggedIn()) throw new PlayFabException(PlayFabExceptionCode.NotLoggedIn,"Must be logged in to call this method");
-            PlayFabHttp.MakeApiCall("/MultiplayerServer/ListPartyQosServers", request, AuthType.EntityToken, resultCallback, errorCallback, customData, extraHeaders, context, callSettings, this);
+            PlayFabHttp.MakeApiCall("/MultiplayerServer/ListPartyQosServers", request, AuthType.None, resultCallback, errorCallback, customData, extraHeaders, context, callSettings, this);
         }
 
         /// <summary>
-        /// Lists quality of service servers.
-        /// </summary>
-        public void ListQosServers(ListQosServersRequest request, Action<ListQosServersResponse> resultCallback, Action<PlayFabError> errorCallback, object customData = null, Dictionary<string, string> extraHeaders = null)
-        {
-            var context = (request == null ? null : request.AuthenticationContext) ?? authenticationContext;
-            var callSettings = apiSettings ?? PlayFabSettings.staticSettings;
-            PlayFabHttp.MakeApiCall("/MultiplayerServer/ListQosServers", request, AuthType.None, resultCallback, errorCallback, customData, extraHeaders, context, callSettings, this);
-        }
-
-        /// <summary>
-        /// Lists quality of service servers.
+        /// Lists quality of service servers for the title. By default, servers are only returned for regions where a Multiplayer
+        /// Servers build has been deployed.
         /// </summary>
         public void ListQosServersForTitle(ListQosServersForTitleRequest request, Action<ListQosServersForTitleResponse> resultCallback, Action<PlayFabError> errorCallback, object customData = null, Dictionary<string, string> extraHeaders = null)
         {
@@ -562,6 +607,17 @@ namespace PlayFab
         }
 
         /// <summary>
+        /// SDK support is limited to C# and Java for this API. Remove a matchmaking queue config.
+        /// </summary>
+        public void RemoveMatchmakingQueue(RemoveMatchmakingQueueRequest request, Action<RemoveMatchmakingQueueResult> resultCallback, Action<PlayFabError> errorCallback, object customData = null, Dictionary<string, string> extraHeaders = null)
+        {
+            var context = (request == null ? null : request.AuthenticationContext) ?? authenticationContext;
+            var callSettings = apiSettings ?? PlayFabSettings.staticSettings;
+            if (!context.IsEntityLoggedIn()) throw new PlayFabException(PlayFabExceptionCode.NotLoggedIn,"Must be logged in to call this method");
+            PlayFabHttp.MakeApiCall("/Match/RemoveMatchmakingQueue", request, AuthType.EntityToken, resultCallback, errorCallback, customData, extraHeaders, context, callSettings, this);
+        }
+
+        /// <summary>
         /// Request a multiplayer server session. Accepts tokens for title and if game client access is enabled, allows game client
         /// to request a server with player entity token.
         /// </summary>
@@ -582,6 +638,17 @@ namespace PlayFab
             var callSettings = apiSettings ?? PlayFabSettings.staticSettings;
             if (!context.IsEntityLoggedIn()) throw new PlayFabException(PlayFabExceptionCode.NotLoggedIn,"Must be logged in to call this method");
             PlayFabHttp.MakeApiCall("/MultiplayerServer/RolloverContainerRegistryCredentials", request, AuthType.EntityToken, resultCallback, errorCallback, customData, extraHeaders, context, callSettings, this);
+        }
+
+        /// <summary>
+        /// SDK support is limited to C# and Java for this API. Create or update a matchmaking queue configuration.
+        /// </summary>
+        public void SetMatchmakingQueue(SetMatchmakingQueueRequest request, Action<SetMatchmakingQueueResult> resultCallback, Action<PlayFabError> errorCallback, object customData = null, Dictionary<string, string> extraHeaders = null)
+        {
+            var context = (request == null ? null : request.AuthenticationContext) ?? authenticationContext;
+            var callSettings = apiSettings ?? PlayFabSettings.staticSettings;
+            if (!context.IsEntityLoggedIn()) throw new PlayFabException(PlayFabExceptionCode.NotLoggedIn,"Must be logged in to call this method");
+            PlayFabHttp.MakeApiCall("/Match/SetMatchmakingQueue", request, AuthType.EntityToken, resultCallback, errorCallback, customData, extraHeaders, context, callSettings, this);
         }
 
         /// <summary>
@@ -615,6 +682,17 @@ namespace PlayFab
             var callSettings = apiSettings ?? PlayFabSettings.staticSettings;
             if (!context.IsEntityLoggedIn()) throw new PlayFabException(PlayFabExceptionCode.NotLoggedIn,"Must be logged in to call this method");
             PlayFabHttp.MakeApiCall("/MultiplayerServer/UpdateBuildAlias", request, AuthType.EntityToken, resultCallback, errorCallback, customData, extraHeaders, context, callSettings, this);
+        }
+
+        /// <summary>
+        /// Updates a multiplayer server build's region. If the region is not yet created, it will be created
+        /// </summary>
+        public void UpdateBuildRegion(UpdateBuildRegionRequest request, Action<EmptyResponse> resultCallback, Action<PlayFabError> errorCallback, object customData = null, Dictionary<string, string> extraHeaders = null)
+        {
+            var context = (request == null ? null : request.AuthenticationContext) ?? authenticationContext;
+            var callSettings = apiSettings ?? PlayFabSettings.staticSettings;
+            if (!context.IsEntityLoggedIn()) throw new PlayFabException(PlayFabExceptionCode.NotLoggedIn,"Must be logged in to call this method");
+            PlayFabHttp.MakeApiCall("/MultiplayerServer/UpdateBuildRegion", request, AuthType.EntityToken, resultCallback, errorCallback, customData, extraHeaders, context, callSettings, this);
         }
 
         /// <summary>

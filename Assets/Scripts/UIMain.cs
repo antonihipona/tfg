@@ -19,7 +19,8 @@ public class UIMain : UIBase
 
     private void Start()
     {
-        PhotonNetwork.ConnectUsingSettings();
+        if (PhotonNetwork.NetworkClientState == Photon.Realtime.ClientState.Disconnected)
+            PhotonNetwork.ConnectUsingSettings();
         AudioManager.Instance.PlayMainTheme();
         UpdateSB();
     }

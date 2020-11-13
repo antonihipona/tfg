@@ -56,9 +56,22 @@ namespace Photon.Realtime
 
         #if SUPPORTED_UNITY
 
+        #if UNITY_2019_4_OR_NEWER
+
+        /// <summary>
+        /// Resets statics for Domain Reload
+        /// </summary>
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        static void StaticReset()
+        {
+            AppQuits = false;
+        }
+
+        #endif
+
         /// <summary>Keeps the ConnectionHandler, even if a new scene gets loaded.</summary>
         public bool ApplyDontDestroyOnLoad = true;
-        
+
         /// <summary>Indicates that the app is closing. Set in OnApplicationQuit().</summary>
         [NonSerialized]
         public static bool AppQuits;

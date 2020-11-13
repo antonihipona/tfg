@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ColorSection : MonoBehaviour
 {
-    public string name;
+    public string sectionName;
 
     public GameObject colorPrefab;
     public GameObject target;
@@ -78,11 +78,11 @@ public class ColorSection : MonoBehaviour
 
     private void SetColorActive(CustomizableColor color, string colorName)
     {
-        if (name == "turret" && _turretColor == colorName)
+        if (sectionName == "turret" && _turretColor == colorName)
         {
             ChangeSelected(color);
         }
-        else if (name == "body" && _bodyColor == colorName)
+        else if (sectionName == "body" && _bodyColor == colorName)
         {
             ChangeSelected(color);
         }
@@ -111,7 +111,7 @@ public class ColorSection : MonoBehaviour
     public void SetUserColors()
     {
         UpdateUserDataRequest request = null;
-        if (name == "turret")
+        if (sectionName == "turret")
         {
             request = new UpdateUserDataRequest()
             {
@@ -120,7 +120,7 @@ public class ColorSection : MonoBehaviour
                 }
             };
         }
-        else if (name == "body")
+        else if (sectionName == "body")
         {
             request = new UpdateUserDataRequest()
             {

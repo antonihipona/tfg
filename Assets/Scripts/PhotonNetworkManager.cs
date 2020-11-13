@@ -101,6 +101,7 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
+        Debug.Log("Room list updated!");
         UpdateCachedRoomList(roomList);
         UISearchMatch manager = FindObjectOfType<UISearchMatch>();
         if (manager != null)
