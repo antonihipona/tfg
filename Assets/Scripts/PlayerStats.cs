@@ -30,8 +30,8 @@ public class PlayerStats : MonoBehaviourPunCallbacks
     #endregion
 
     #region Power Ups Multipliers
-    private float speedMultiplier = 1.4f;
-    private float rotationSpeedMultiplier = 1.4f;
+    private float speedExtra = 3f;
+    private float rotationSpeedMultiplier = 1.5f;
     private float fireRateMultiplier = 2f;
     private float shootSpeedMultiplier = 1.4f;
     #endregion
@@ -60,11 +60,6 @@ public class PlayerStats : MonoBehaviourPunCallbacks
     {
         // Update stats
         GetUserData();
-        // Back-up stats
-        originalSpeed = speed;
-        originalRotationSpeed = rotationSpeed;
-        originalFireRate = shootCooldown;
-        originalShootSpeed = bulletSpeed;
         // -----------
 
         gameManager = FindObjectOfType<GameController>();
@@ -234,7 +229,7 @@ public class PlayerStats : MonoBehaviourPunCallbacks
                 speedPowerUpTimer = speedPowerUpDuration;
                 if (!SpeedPowerUpActive())
                 {
-                    speed *= speedMultiplier;
+                    speed += speedExtra;
                     rotationSpeed *= rotationSpeedMultiplier;
                 }
                 break;
@@ -311,11 +306,17 @@ public class PlayerStats : MonoBehaviourPunCallbacks
             PlayFabId = AuthenticationManager.Instance.playFabPlayerId,
             Keys = null
         }, result => {
+            // User stats
             speed = float.Parse(result.Data["speed"].Value);
             shootDamage = float.Parse(result.Data["damage"].Value);
             bombDamage = float.Parse(result.Data["damage"].Value);
             maxLife = float.Parse(result.Data["life"].Value) * 2;
             currentLife = float.Parse(result.Data["life"].Value) * 2;
+            // Back-up stats
+            originalSpeed = speed;
+            originalRotationSpeed = rotationSpeed;
+            originalFireRate = shootCooldown;
+            originalShootSpeed = bulletSpeed;
         }, (error) => {
             Debug.Log("Got error retrieving user data:");
             Debug.Log(error.GenerateErrorReport());

@@ -3,9 +3,11 @@ using PlayFab.ClientModels;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum SectionType { Body, Turret};
+
 public class ColorSection : MonoBehaviour
 {
-    public string sectionName;
+    public SectionType Section;
 
     public GameObject colorPrefab;
     public GameObject target;
@@ -78,11 +80,11 @@ public class ColorSection : MonoBehaviour
 
     private void SetColorActive(CustomizableColor color, string colorName)
     {
-        if (sectionName == "turret" && _turretColor == colorName)
+        if (Section == SectionType.Turret && _turretColor == colorName)
         {
             ChangeSelected(color);
         }
-        else if (sectionName == "body" && _bodyColor == colorName)
+        else if (Section == SectionType.Body && _bodyColor == colorName)
         {
             ChangeSelected(color);
         }
@@ -111,7 +113,7 @@ public class ColorSection : MonoBehaviour
     public void SetUserColors()
     {
         UpdateUserDataRequest request = null;
-        if (sectionName == "turret")
+        if (Section == SectionType.Turret)
         {
             request = new UpdateUserDataRequest()
             {
@@ -120,7 +122,7 @@ public class ColorSection : MonoBehaviour
                 }
             };
         }
-        else if (sectionName == "body")
+        else if (Section == SectionType.Body)
         {
             request = new UpdateUserDataRequest()
             {

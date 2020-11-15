@@ -23,6 +23,7 @@ public class UIGameSettings : UIBase
         {
             float aspect = (float)res.width / (float)res.height;
             float minAspect = 16f / 9f;
+            Debug.Log($"{res.width}x{res.height}: {aspect >= minAspect}");
             if (aspect >= minAspect)
             {
                 string option = res.width + "x" + res.height;

@@ -2943,7 +2943,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 194c8ec4392132f4397b5754a918b670, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: turret
+  Section: 1
   colorPrefab: {fileID: 6587132393667944508, guid: 398a342f32fa17d4d9e160d78dcaede3,
     type: 3}
   target: {fileID: 2134660168}
@@ -3326,7 +3326,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 194c8ec4392132f4397b5754a918b670, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: body
+  Section: 0
   colorPrefab: {fileID: 6587132393667944508, guid: 398a342f32fa17d4d9e160d78dcaede3,
     type: 3}
   target: {fileID: 125235641}
