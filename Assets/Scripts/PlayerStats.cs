@@ -199,6 +199,8 @@ public class PlayerStats : MonoBehaviourPunCallbacks
         float r = 1f, g = 0.4f, b = 0.4f; // Red color
         uiGameManager.endText.color = new Color(r, g, b);
         uiGameManager.endText.text = "DEFEAT";
+        if (photonView.IsMine)
+            uiGameManager.panel.SetActive(true);
         Destroy(gameObject);
         gameManager.IncreaseDeadPlayers();
     }

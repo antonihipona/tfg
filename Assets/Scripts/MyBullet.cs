@@ -18,7 +18,6 @@ public class MyBullet : MonoBehaviourPunCallbacks, IPunObservable
     double currentPacketTime = 0;
     double lastPacketTime = 0;
     Vector3 positionAtLastPacket = Vector3.zero;
-    Quaternion networkRotationAtLastPacket = Quaternion.identity;
     void Start()
     {
         Destroy(gameObject, 2f);
@@ -72,7 +71,6 @@ public class MyBullet : MonoBehaviourPunCallbacks, IPunObservable
             lastPacketTime = currentPacketTime;
             currentPacketTime = info.SentServerTime;
             positionAtLastPacket = transform.position;
-            networkRotationAtLastPacket = transform.rotation;
         }
     }
 }

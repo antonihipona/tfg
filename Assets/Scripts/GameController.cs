@@ -74,11 +74,15 @@ public class GameController : MonoBehaviourPunCallbacks
             playersInRoom -= 1;
         if (deadPlayerNumber == playersInRoom - 1)
         {
-            gameEnded = true;
+            var bullets = FindObjectsOfType<MyBullet>();
+            foreach (var bullet in bullets)
+                Destroy(bullet.gameObject);
 
+            gameEnded = true;
             if (localPlayer != null)
             {
                 PlayerStats playerStats = localPlayer.GetComponent<PlayerStats>();
+                // We found the winner
                 if (!playerStats.IsDead())
                 {
                     AuthenticationManager.Instance.AddSBCurrency(50);
