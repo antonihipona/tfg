@@ -65,28 +65,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (photonView.IsMine)
         {
-            //myColors = new Color[4];
-            //myColors[0] = Random.ColorHSV();
-            //myColors[1] = Random.ColorHSV();
-            //myColors[2] = Random.ColorHSV();
-            //myColors[3] = Random.ColorHSV();
-            //Vector3[] colors = new Vector3[4];
-            //colors[0] = new Vector3(myColors[0].r, myColors[0].g, myColors[0].b);
-            //colors[1] = new Vector3(myColors[1].r, myColors[1].g, myColors[1].b);
-            //colors[2] = new Vector3(myColors[2].r, myColors[2].g, myColors[2].b);
-            //colors[3] = new Vector3(myColors[3].r, myColors[3].g, myColors[3].b);
-
-            //photonView.RPC("ChangeColor", RpcTarget.AllBuffered, colors as object);
-
-            //Renderer[] renderers = gameObject.GetComponentsInChildren<Renderer>();
-            //for (int i = 0; i < renderers.Length; i++)
-            //{
-            //    foreach (Material mat in renderers[i].materials)
-            //    {
-            //        mat.color = myColors[i];
-            //    }
-            //}
-
             var targetRenderers = turret.gameObject.GetComponentsInChildren<Renderer>();
             foreach (var renderer in targetRenderers)
             {
@@ -210,15 +188,6 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (photonView.Owner.Equals(info.Sender))
         {
-            //Renderer[] renderers = gameObject.GetComponentsInChildren<Renderer>();
-            //for (int i = 0; i < renderers.Length; i++)
-            //{
-            //    foreach (Material mat in renderers[i].materials)
-            //    {
-            //        mat.color = new Color(colors[i].x, colors[i].y, colors[i].z, 1.0f);
-            //    }
-            //}
-
             var targetRenderers = turret.gameObject.GetComponentsInChildren<Renderer>();
             foreach (var renderer in targetRenderers)
             {

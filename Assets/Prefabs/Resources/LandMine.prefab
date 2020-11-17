@@ -9,12 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3972401994175781517}
-  - component: {fileID: 7741230034854616443}
   - component: {fileID: 1343673860312073651}
+  - component: {fileID: 7741230034854616443}
   - component: {fileID: 2847291624884823313}
   - component: {fileID: -7430078138488699659}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: LandMine
   m_TagString: Land Mine
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35,20 +35,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7741230034854616443
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8937843241078279095}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12fd4d0c789a6f84c8285d657d1e1247, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myPlayerStats: {fileID: 0}
-  explosionPrefab: {fileID: 151086, guid: ee49a9a8678ecf8468eb488e1ac8d42b, type: 3}
 --- !u!114 &1343673860312073651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,6 +50,7 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
+  observableSearch: 0
   Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
@@ -71,6 +58,20 @@ MonoBehaviour:
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &7741230034854616443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8937843241078279095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12fd4d0c789a6f84c8285d657d1e1247, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myPlayerStats: {fileID: 0}
+  explosionPrefab: {fileID: 151086, guid: ee49a9a8678ecf8468eb488e1ac8d42b, type: 3}
 --- !u!135 &2847291624884823313
 SphereCollider:
   m_ObjectHideFlags: 0

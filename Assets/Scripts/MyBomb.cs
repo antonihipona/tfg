@@ -5,7 +5,7 @@ using Photon.Pun;
 
 public class MyBomb : MonoBehaviourPunCallbacks, IPunObservable
 {
-    public PlayerStats myPlayerStats;
+    [HideInInspector] public PlayerStats myPlayerStats;
     public GameObject explosionPrefab;
 
     private float activateCooldown = 2f;

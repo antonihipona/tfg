@@ -22,10 +22,6 @@ public class PowerUpController : MonoBehaviourPunCallbacks
             StartCoroutine("SpawnRandomPowerUp");
     }
 
-    void Update()
-    {
-    }
-
     IEnumerator SpawnRandomPowerUp()
     {
         yield return new WaitForSeconds(10f);
@@ -51,7 +47,6 @@ public class PowerUpController : MonoBehaviourPunCallbacks
     void SpawnPowerUp(int index, int typeIndex, PhotonMessageInfo info)
     {
         PowerUp p = powerUps[index];
-
         var values = Enum.GetValues(typeof(PowerUpType));
         PowerUpType powerUp = (PowerUpType)values.GetValue(typeIndex);
         powerUps[index].Spawn(powerUp);

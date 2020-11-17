@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class MyBullet : MonoBehaviourPunCallbacks, IPunObservable
 {
-    public PlayerStats myPlayerStats;
+    [HideInInspector] public PlayerStats myPlayerStats;
     public GameObject explosionPrefab;
 
     private float speed;
